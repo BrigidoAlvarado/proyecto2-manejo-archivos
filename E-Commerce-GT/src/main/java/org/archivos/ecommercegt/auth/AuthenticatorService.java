@@ -22,11 +22,11 @@ public class AuthenticatorService {
     public AuthenticationResponse register(RegisterRequest request) {
 
         var user = User.builder()
-                .name(request.getName())
+                .name( request.getName() )
                 .password( passwordEncoder.encode(request.getPassword()) )
-                .email(request.getEmail())
+                .email( request.getEmail() )
                 .role( request.getRole() )
-                .enabled(true)
+                .enabled( true)
                 .build();
 
         userRepository.save(user);
