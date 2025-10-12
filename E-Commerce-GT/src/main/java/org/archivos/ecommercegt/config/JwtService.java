@@ -3,11 +3,14 @@ package org.archivos.ecommercegt.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.archivos.ecommercegt.models.Role;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -15,14 +18,14 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "QZGr2cjssStmGenfAeHLmClDUaQzsad/7ojCnqxNFWQ=";
-    public static final long EXPIRATION_PERIOD = 1000L * 60 * 60 * 24;
+    public static final long EXPIRATION_PERIOD = 1000L  * 60 * 20;
 
     public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(Map.of(), userDetails);
+        return generateToken( new HashMap<>(), userDetails);
     }
 
     public String generateToken(
@@ -31,6 +34,13 @@ public class JwtService {
     ) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + EXPIRATION_PERIOD);
+
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElse(Role.COMMON.name());
+
+        extraClaims.put("role", role);
 
         return Jwts.builder()
                 .claims(extraClaims)
