@@ -1,8 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup, ReactiveFormsModule, FormBuilder, Validators, FormsModule} from "@angular/forms";
+import {
+  FormGroup,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ValidatorFn,
+  AbstractControl, ValidationErrors
+} from "@angular/forms";
 import { User } from "../../../entities/user";
-import { AuthService } from "../../../services/auth.service";
+import { AuthService } from "../../../services/auth/auth.service";
 import {NgIf} from "@angular/common";
+import {MessageService} from "../../../services/message.service";
+import {AppConfig} from "../../../config/app.constants";
 
 @Component({
   selector: 'app-register',
@@ -16,23 +26,24 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   submitting = false;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(private fb: FormBuilder, private auth: AuthService, private message: MessageService) {}
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(6)]],
-      confirmPassword: [null, [Validators.required, Validators.minLength(6)]],
+    this.registerForm = this.fb.nonNullable.group({
+      name:            ['', [Validators.required]],
+      email:           ['', [Validators.required, Validators.email]],
+      password:        ['', [Validators.required, Validators.minLength(3)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(3)]],
     }, { validators: this.passwordMatchValidator });
   }
 
-  // Validador para comprobar que password y confirmPassword coincidan
-  passwordMatchValidator(group: FormGroup) {
-    const pass = group.get('password')?.value;
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const group = control as FormGroup;
+    const password = group.get('password')?.value;
     const confirm = group.get('confirmPassword')?.value;
-    return pass === confirm ? null : { notMatching: true };
-  }
+
+    return password && confirm && password !== confirm ? { notMatching: true } : null;
+  };
 
   submit(): void {
     if (this.registerForm.valid) {
@@ -43,30 +54,30 @@ export class RegisterComponent implements OnInit {
         name: data.name,
         email: data.email,
         password: data.password,
-        role: "COMMON",
+        role: AppConfig.ROLES.COMMON,
         enabled: true
       };
 
       this.auth.register(user).subscribe({
         next: res => {
+          this.auth.saveToken(res.token);
           console.log('Registro exitoso', res);
           this.submitting = false;
+          this.message.success('Registro exitoso');
           this.registerForm.reset();
-          alert('Registro completado con éxito');
         },
         error: err => {
           console.error('Error al registrar', err);
           this.submitting = false;
-          alert('Ocurrió un error al registrar el usuario');
+          this.message.error('Ocurrio un error al crear el nuevo registro');
         }
       });
     } else {
       this.registerForm.markAllAsTouched();
-      alert('Formulario inválido. Revisa los campos.');
+      this.message.error('Formulario ivalido, revise los campos');
     }
   }
 
-  // Función para mostrar si un campo es inválido y fue tocado
   isInvalid(field: string): boolean {
     const control = this.registerForm.get(field);
     return !!(control && control.invalid && (control.touched || control.dirty));

@@ -1,1 +1,18 @@
-<p>login works!</p>
+<div class="d-flex justify-content-center align-items-center">
+  <form class="p-4 border shadow" [formGroup]="loginForm" (ngSubmit)="submit()" >
+
+    <h1 class="text-primary bg-2">Iniciar Sesion</h1>
+
+    <div class="mb-2">
+      <label class="form-label" for="email" >Correo Electronio</label>
+      <input class="form-control" type="email" id="email"  formControlName="email" required>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label" for="password" >Contraseña</label>
+      <input class="form-control" type="password" id="password" formControlName="password" required>
+    </div>
+
+    <button class="btn btn-primary w-100">Iniciar Sesion</button>
+  </form>
+</div>
