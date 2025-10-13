@@ -13,10 +13,6 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
 
       if (err.error && err.error.message) {
         errorMessage = err.error.message;
-      } else if (err.status === 401) {
-        errorMessage = 'No autorizado. Revisa tus credenciales';
-      } else if (err.status === 403) {
-        errorMessage = 'Acceso prohibido';
       }
 
       messageService.error(errorMessage);

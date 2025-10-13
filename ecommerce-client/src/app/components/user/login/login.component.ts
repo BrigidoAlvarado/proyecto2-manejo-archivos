@@ -30,13 +30,18 @@ export class LoginComponent implements OnInit {
 
   submit() {
     if (this.loginForm.valid) {
+
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           console.log('login successfully');
           this.authService.saveToken( res.token);
           this.message.info('Bienvenido ' + this.authService.decodeToken()?.sub);
+        },
+        error: err => {
+          console.error('error al iniciar sesion:'+err);
         }
       })
+
     } else {
       this.message.error('Formulario invalido por favor revise los campos');
     }
