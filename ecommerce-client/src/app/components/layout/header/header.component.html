@@ -1,16 +1,53 @@
-
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+<header
+  class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
   <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-    <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-    <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-    <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-    <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-    <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+
+    @if (auth.isLoggedIn()) {
+      @if (auth.decodeToken()?.role === AppConfig.ROLES.ADMIN) {
+
+        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+
+      } @else if (auth.decodeToken()?.role === AppConfig.ROLES.COMMON) {
+
+        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Productos</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+
+      } @else if (auth.decodeToken()?.role === AppConfig.ROLES.MODERATOR){
+
+        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+
+      } @else if (auth.decodeToken()?.role === AppConfig.ROLES.LOGISTIC){
+
+        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+
+      }
+    }
+
+
   </ul>
 
   <div class="col-md-3 text-end mx-4">
-    <a routerLink="register" type="button" class="btn btn-outline-primary me-2">Registrarse</a>
-    <a routerLink="login"    type="button" class="btn btn-primary">Iniciar Sesion</a>
+    @if (auth.isLoggedIn()) {
+      <a routerLink="logout" type="button" class="btn btn-outline-primary">Cerrar Sesion</a>
+    } @else {
+      <a routerLink="register" type="button" class="btn btn-outline-primary me-2">Registrarse</a>
+      <a routerLink="login" type="button" class="btn btn-primary">Iniciar Sesion</a>
+    }
   </div>
 </header>

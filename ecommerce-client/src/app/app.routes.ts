@@ -5,6 +5,7 @@ import {ModeratorHomeComponent} from "./components/moderator-home/moderator-home
 import {AdminHomeComponent} from "./components/admin-home/admin-home.component";
 import {LogisticHomeComponent} from "./components/logistic-home/logistic-home.component";
 import {CommonHomeComponent} from "./components/common-home/common-home.component";
+import {LogoutComponent} from "./components/user/logout/logout.component";
 
 export const routes: Routes = [
   {
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent
   },
   // MODERADOR
   {

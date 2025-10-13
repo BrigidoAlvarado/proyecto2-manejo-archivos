@@ -6,7 +6,6 @@ import {jwtDecode} from "jwt-decode";
 import {Router} from "@angular/router";
 import {JwtToken} from "../../entities/jwt-token";
 import {AppConfig} from "../../config/app.constants";
-import {routes} from "../../app.routes";
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +62,8 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const token = this.getToken();
-    return !!token && this.isTokenExpired();
+
+    return !!token && !this.isTokenExpired();
   }
 
   redirectToHomeByRole() {

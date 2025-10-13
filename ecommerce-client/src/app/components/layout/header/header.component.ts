@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {RouterLink} from "@angular/router";
+import {AuthService} from "../../../services/auth/auth.service";
+import {appConfig} from "../../../app.config";
+import {AppConfig} from "../../../config/app.constants";
 
 @Component({
   selector: 'app-header',
@@ -12,4 +15,8 @@ import {RouterLink} from "@angular/router";
 })
 export class HeaderComponent {
 
+  constructor(public auth: AuthService) {
+  }
+
+  protected readonly AppConfig = AppConfig;
 }
