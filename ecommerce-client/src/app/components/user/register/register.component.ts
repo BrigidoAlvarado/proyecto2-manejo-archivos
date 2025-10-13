@@ -67,9 +67,9 @@ export class RegisterComponent implements OnInit {
           this.auth.saveToken(res.token);
         },
         error: err => {
+
           console.error('Error al registrar', err);
           this.submitting = false;
-          this.message.error('Ocurrio un error al crear el nuevo registro');
         }
       });
     } else {

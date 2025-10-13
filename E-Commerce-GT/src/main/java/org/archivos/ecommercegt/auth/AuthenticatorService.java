@@ -24,6 +24,12 @@ public class AuthenticatorService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "El correo ya se encuentra registrado"
+            );
+        }
+
         var user = User.builder()
                 .name(request.getName())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -33,10 +39,6 @@ public class AuthenticatorService {
                         .build())
                 .enabled(true)
                 .build();
-
-        System.out.println("\nUser::class");
-        System.out.println(user + "\n");
-
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -58,7 +60,7 @@ public class AuthenticatorService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(
                                 HttpStatus.CONFLICT,
-                                "El correo ya se encuentra registrado"
+                                "Correo Electronico o contraseña invalidos"
                         )
                 );
 
