@@ -60,13 +60,14 @@ public class AuthenticatorService {
             );
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Correo Electronico o contraseña invalidos"
+                    HttpStatus.UNAUTHORIZED,
+                    "Correo Electronico o contraseña invalidos"
             );
         }
 
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(
-                                HttpStatus.CONFLICT,
+                                HttpStatus.UNAUTHORIZED,
                                 "Correo Electronico o contraseña invalidos"
                         )
                 );
