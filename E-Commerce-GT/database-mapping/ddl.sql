@@ -12,7 +12,7 @@ create table _user (
     email varchar(50) unique not null ,
     password text not null ,
     name varchar(50) not null ,
-    enable boolean not null ,
+    enabled boolean not null default true,
     role varchar(50) not null,
 
     constraint fk_role_in_user
@@ -147,7 +147,7 @@ create table category(
 );
 
 create table product_category(
-    id serial not null ,
+    id serial primary key ,
     category varchar(50) not null ,
     product int not null ,
 

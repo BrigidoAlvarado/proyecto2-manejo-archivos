@@ -60,11 +60,11 @@ export class RegisterComponent implements OnInit {
 
       this.auth.register(user).subscribe({
         next: res => {
-          this.auth.saveToken(res.token);
           console.log('Registro exitoso', res);
           this.submitting = false;
           this.message.success('Registro exitoso');
           this.registerForm.reset();
+          this.auth.saveToken(res.token);
         },
         error: err => {
           console.error('Error al registrar', err);

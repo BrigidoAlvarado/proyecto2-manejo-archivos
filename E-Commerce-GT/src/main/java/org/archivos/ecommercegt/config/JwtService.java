@@ -3,7 +3,7 @@ package org.archivos.ecommercegt.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.archivos.ecommercegt.models.Role;
+import org.archivos.ecommercegt.models.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

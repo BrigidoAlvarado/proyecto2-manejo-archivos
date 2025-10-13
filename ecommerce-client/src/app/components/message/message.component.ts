@@ -5,10 +5,10 @@ import {MessageService} from "../../services/message.service";
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [],
   templateUrl: './message.component.html',
-  styleUrl: './message.component.scss'
+  styleUrls: ['./message.component.scss']
 })
+
 export class MessageComponent implements OnInit {
 
   messages: Message[] = [];

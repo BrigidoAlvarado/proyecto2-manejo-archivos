@@ -21,18 +21,22 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String email;
     private String password;
-    private boolean enabled;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Builder.Default
+    private boolean enabled = true;
+
+    @ManyToOne
+    @JoinColumn(name = "role", referencedColumnName = "name")
+    private Roletype role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of( new SimpleGrantedAuthority(role.name() ) );
+        return List.of( new SimpleGrantedAuthority(role.getName()) );
     }
 
     @Override

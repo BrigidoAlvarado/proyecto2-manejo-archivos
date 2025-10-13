@@ -19,7 +19,7 @@ export class MessageService {
   }
 
   error( message: string ) {
-    this.messageSubject.error({type: 'error', message});
+    this.messageSubject.next({type: 'danger', message});
   }
 
   info( message: string ) {

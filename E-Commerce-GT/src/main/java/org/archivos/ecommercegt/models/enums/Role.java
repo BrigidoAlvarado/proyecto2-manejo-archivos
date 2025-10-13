@@ -1,4 +1,4 @@
-package org.archivos.ecommercegt.models;
+package org.archivos.ecommercegt.models.enums;
 
 public enum Role {
     MODERATOR,
