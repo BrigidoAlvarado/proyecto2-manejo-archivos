@@ -15,7 +15,20 @@
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.COMMON) {
 
         <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Productos</a></li>
+        <li>
+          <div class="btn-group">
+            <button type="button" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
+              Productos
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="product/new">Nuevo Producto</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
         <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
         <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
@@ -44,7 +57,7 @@
 
   <div class="col-md-3 text-end mx-4">
     @if (auth.isLoggedIn()) {
-      <a routerLink="logout" type="button" class="btn btn-outline-primary">Cerrar Sesion</a>
+      <a routerLink="logout" type="button" class="btn btn-primary">Cerrar Sesion</a>
     } @else {
       <a routerLink="register" type="button" class="btn btn-outline-primary me-2">Registrarse</a>
       <a routerLink="login" type="button" class="btn btn-primary">Iniciar Sesion</a>

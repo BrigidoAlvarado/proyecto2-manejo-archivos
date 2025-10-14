@@ -1,0 +1,81 @@
+<div class="d-flex justify-content-center align-items-center">
+
+  <form class="p-4 border shadow"
+        [formGroup]="productForm"
+        (ngSubmit)="submit()"
+        enctype="multipart/form-data">
+
+    <h1>Nuevo Producto</h1>
+
+    <div class="mb-3">
+      <label class="form-label" for="name">Nombre</label>
+      <input class="form-control" type="text" id="name" formControlName="name">
+
+      @if (isInvalid('name')){
+        <div class="text-danger small">
+          <strong> Nombre invalido</strong>
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="description">Description</label>
+      <input class="form-control" type="text" id="description" formControlName="description">
+
+      @if (isInvalid('description')){
+        <div class="text-danger small">
+          <strong> Description invalida</strong>
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="price">Precio</label>
+      <input class="form-control" type="number" id="price" formControlName="price">
+
+      @if (isInvalid('price')){
+        <div class="text-danger small">
+          <strong> Precio invalido min 1</strong>
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="stock">Existencias</label>
+      <input class="form-control" type="number" id="stock" formControlName="stock">
+
+      @if (isInvalid('stock')){
+        <div class="text-danger small">
+          <strong> Stock invalido min 0</strong>
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="is_new">Estado</label>
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" id="new" value="true" formControlName="isNew" checked>
+        <label class="form-check-label" for="new">Nuevo</label>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="radio" id="used" value="false" formControlName="isNew">
+        <label class="form-check-label" for="used">Usado</label>
+      </div>
+
+      @if (isInvalid('isNew')){
+        <div class="text-danger small">
+          <strong> Estado ivalido</strong>
+        </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="image">Imagen</label>
+      <input class="form-control" type="file" id="image" accept="image/jpeg" (change)="onFileSelected($event)">
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Guardar Producto</button>
+  </form>
+</div>

@@ -17,6 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
+    public static final String BASE_URL = "/api/v1";
+
     private final UserRepository userRepository;
 
     @Bean

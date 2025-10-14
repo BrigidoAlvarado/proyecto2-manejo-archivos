@@ -94,6 +94,7 @@ create table product(
     price float not null ,
     stock int not null ,
     is_new boolean not null ,
+    is_approved boolean not null default false,
     _user varchar(50) not null ,
 
     constraint fk_user_in_product

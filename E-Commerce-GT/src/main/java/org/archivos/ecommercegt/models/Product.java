@@ -3,8 +3,11 @@ package org.archivos.ecommercegt.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -32,7 +35,11 @@ public class Product {
     private Integer stock;
 
     @Column(name = "is_new", nullable = false)
-    private Boolean isNew = false;
+    private Boolean isNew;
+
+    @ColumnDefault("false")
+    @Column(name = "is_approved")
+    private boolean isApproved;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

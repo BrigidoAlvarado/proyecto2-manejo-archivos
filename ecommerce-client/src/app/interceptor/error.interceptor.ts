@@ -11,6 +11,10 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
 
       let errorMessage = 'Ocurrio un error en el servidor';
 
+      if (err.status === 401) {
+        errorMessage = 'No tienes acceso';
+      }
+
       if (err.error && err.error.message) {
         errorMessage = err.error.message;
       }

@@ -6,6 +6,7 @@ import {AdminHomeComponent} from "./components/admin-home/admin-home.component";
 import {LogisticHomeComponent} from "./components/logistic-home/logistic-home.component";
 import {CommonHomeComponent} from "./components/common-home/common-home.component";
 import {LogoutComponent} from "./components/user/logout/logout.component";
+import {NewProductComponent} from "./components/product/new-product/new-product.component";
 
 export const routes: Routes = [
   {
@@ -39,6 +40,11 @@ export const routes: Routes = [
   {
     path: 'common/home',
     component: CommonHomeComponent,
+  },
+  // PRODUCTOS
+  {
+    path: 'product/new',
+    component: NewProductComponent,
   },
   // EXTRAS
   {
