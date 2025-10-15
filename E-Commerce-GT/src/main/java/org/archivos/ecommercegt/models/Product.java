@@ -14,6 +14,16 @@ import java.time.Instant;
 @Entity
 @Table(name = "product")
 public class Product {
+
+    public Product() {}
+
+    public Product(Integer id, String name, User user) {
+        this.id = id;
+        this.name = name;
+       this.user = user;
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

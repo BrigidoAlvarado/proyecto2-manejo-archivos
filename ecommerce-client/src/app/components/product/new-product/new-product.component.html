@@ -1,81 +1,97 @@
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <form
+    class="p-4 p-md-5 bg-white rounded-4 shadow-sm w-100"
+    style="max-width: 480px;"
+    [formGroup]="productForm"
+    (ngSubmit)="submit()"
+    enctype="multipart/form-data">
 
-  <form class="p-4 border shadow"
-        [formGroup]="productForm"
-        (ngSubmit)="submit()"
-        enctype="multipart/form-data">
+    <h2 class="text-center mb-4 fw-semibold">Nuevo Producto</h2>
 
-    <h1>Nuevo Producto</h1>
-
+    <!-- Nombre -->
     <div class="mb-3">
-      <label class="form-label" for="name">Nombre</label>
-      <input class="form-control" type="text" id="name" formControlName="name">
-
-      @if (isInvalid('name')){
-        <div class="text-danger small">
-          <strong> Nombre invalido</strong>
-        </div>
+      <label class="form-label fw-medium" for="name">Nombre</label>
+      <input class="form-control form-control-sm" type="text" id="name" formControlName="name" placeholder="Ej. Camiseta básica">
+      @if (isInvalid('name')) {
+        <small class="text-danger">Nombre inválido</small>
       }
     </div>
 
+    <!-- Descripción -->
     <div class="mb-3">
-      <label class="form-label" for="description">Description</label>
-      <input class="form-control" type="text" id="description" formControlName="description">
-
-      @if (isInvalid('description')){
-        <div class="text-danger small">
-          <strong> Description invalida</strong>
-        </div>
+      <label class="form-label fw-medium" for="description">Descripción</label>
+      <textarea class="form-control form-control-sm" id="description" formControlName="description" rows="2" placeholder="Breve descripción..."></textarea>
+      @if (isInvalid('description')) {
+        <small class="text-danger">Descripción inválida</small>
       }
     </div>
 
-    <div class="mb-3">
-      <label class="form-label" for="price">Precio</label>
-      <input class="form-control" type="number" id="price" formControlName="price">
-
-      @if (isInvalid('price')){
-        <div class="text-danger small">
-          <strong> Precio invalido min 1</strong>
-        </div>
-      }
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" for="stock">Existencias</label>
-      <input class="form-control" type="number" id="stock" formControlName="stock">
-
-      @if (isInvalid('stock')){
-        <div class="text-danger small">
-          <strong> Stock invalido min 0</strong>
-        </div>
-      }
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" for="is_new">Estado</label>
-
-      <div class="form-check">
-        <input class="form-check-input" type="radio" id="new" value="true" formControlName="isNew" checked>
-        <label class="form-check-label" for="new">Nuevo</label>
+    <!-- Precio y Stock en una fila -->
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label fw-medium" for="price">Precio</label>
+        <input class="form-control form-control-sm" type="number" id="price" formControlName="price" placeholder="0.00">
+        @if (isInvalid('price')) {
+          <small class="text-danger">Mínimo 1</small>
+        }
       </div>
 
-      <div class="form-check">
-        <input class="form-check-input" type="radio" id="used" value="false" formControlName="isNew">
-        <label class="form-check-label" for="used">Usado</label>
+      <div class="col">
+        <label class="form-label fw-medium" for="stock">Existencias</label>
+        <input class="form-control form-control-sm" type="number" id="stock" formControlName="stock" placeholder="0">
+        @if (isInvalid('stock')) {
+          <small class="text-danger">Mínimo 0</small>
+        }
+      </div>
+    </div>
+
+    <!-- Estado -->
+    <div class="mb-3">
+      <label class="form-label fw-medium d-block mb-1">Estado</label>
+      <div class="d-flex gap-3">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="new" value="true" formControlName="isNew" checked>
+          <label class="form-check-label" for="new">Nuevo</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="used" value="false" formControlName="isNew">
+          <label class="form-check-label" for="used">Usado</label>
+        </div>
       </div>
 
-      @if (isInvalid('isNew')){
-        <div class="text-danger small">
-          <strong> Estado ivalido</strong>
-        </div>
+      @if (isInvalid('isNew')) {
+        <small class="text-danger">Seleccione un estado</small>
       }
     </div>
 
+    <!-- Categorías -->
     <div class="mb-3">
-      <label class="form-label" for="image">Imagen</label>
-      <input class="form-control" type="file" id="image" accept="image/jpeg" (change)="onFileSelected($event)">
+      <label class="form-label fw-medium d-block mb-1">Categorías</label>
+      <div class="d-flex flex-wrap gap-2">
+        @for (category of categories; track $index) {
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [id]="category"
+              [value]="category"
+              (change)="onCategoryChange($event)">
+            <label class="form-check-label" [for]="category">{{ category }}</label>
+          </div>
+        }
+      </div>
     </div>
 
-    <button type="submit" class="btn btn-primary w-100">Guardar Producto</button>
+    <!-- Imagen -->
+    <div class="mb-4">
+      <label class="form-label fw-medium" for="image">Imagen</label>
+      <input class="form-control form-control-sm" type="file" id="image" accept="image/png, image/jpeg" (change)="onFileSelected($event)">
+    </div>
+
+    <!-- Botón -->
+    <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">
+      Guardar Producto
+    </button>
   </form>
 </div>

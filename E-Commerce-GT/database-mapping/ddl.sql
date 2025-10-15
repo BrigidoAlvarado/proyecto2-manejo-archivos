@@ -155,13 +155,13 @@ create table product_category(
     constraint fk_category_in_product_category
                              foreign key (category)
                              references category(name)
-                             on delete restrict
+                             on delete cascade
                              on update cascade ,
 
     constraint fk_product_in_product_category
                              foreign key (product)
                              references product(id)
-                             on delete restrict
+                             on delete cascade
                              on update cascade
 );
 

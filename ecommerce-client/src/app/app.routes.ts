@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import {RegisterComponent} from "./components/user/register/register.component";
 import {LoginComponent} from "./components/user/login/login.component";
-import {ModeratorHomeComponent} from "./components/moderator-home/moderator-home.component";
-import {AdminHomeComponent} from "./components/admin-home/admin-home.component";
-import {LogisticHomeComponent} from "./components/logistic-home/logistic-home.component";
+import {ModeratorHomeComponent} from "./components/roles/moderator-home/moderator-home.component";
+import {AdminHomeComponent} from "./components/roles/admin-home/admin-home.component";
+import {LogisticHomeComponent} from "./components/roles/logistic-home/logistic-home.component";
 import {CommonHomeComponent} from "./components/common-home/common-home.component";
 import {LogoutComponent} from "./components/user/logout/logout.component";
 import {NewProductComponent} from "./components/product/new-product/new-product.component";
+import {CreateUserComponent} from "./components/user/create-user/create-user.component";
+import {ApproveProductComponent} from "./components/product/approve-product/approve-product.component";
 
 export const routes: Routes = [
   {
@@ -26,10 +28,18 @@ export const routes: Routes = [
     path: 'moderator/home',
     component: ModeratorHomeComponent,
   },
+  {
+    path: 'moderator/product/approve',
+    component: ApproveProductComponent
+  },
   // ADMINISTRADOR
   {
     path: 'admin/home',
     component: AdminHomeComponent,
+  },
+  {
+    path: 'admin/user/new',
+    component: CreateUserComponent
   },
   // LOGISTICA
   {

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MessageService} from "../../../services/message.service";
-import {Product} from "../../../entities/product";
+import {Product} from "../../../entities/product/product";
 import {ProductService} from "../../../services/product/product.service";
+import {CategoryService} from "../../../services/category/category.service";
 
 @Component({
   selector: 'app-new-product',
@@ -15,15 +16,30 @@ export class NewProductComponent implements OnInit {
 
   productForm!: FormGroup;
   selectedImage?: File;
+  categories: string[] = [];
+  selectedCategories: string[] = [];
 
+  // Iniciar Servicios
   constructor(
     private fb: FormBuilder,
     private message: MessageService,
     private productService: ProductService,
+    private categoryService: CategoryService,
   ) {
   }
 
+  // Iniciar los filtros del form, traer las categorias
   ngOnInit() {
+
+    this.categoryService.get().subscribe({
+      next: categoriesFound => {
+        this.categories = categoriesFound
+      },
+      error: () => {
+        this.message.error('Category not found');
+      }
+    });
+
     this.productForm = this.fb.nonNullable.group({
       name: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(1)]],
       description: ['', Validators.required],
@@ -33,6 +49,7 @@ export class NewProductComponent implements OnInit {
     })
   }
 
+  // Enviar el formulario
   submit() {
 
     if (this.productForm.invalid) {
@@ -51,11 +68,10 @@ export class NewProductComponent implements OnInit {
     }
 
     product.isNew = this.productForm.get('isNew')?.value === 'true'
-
-    console.log('el valor de isNew es', product.isNew)
+    product.categories = this.selectedCategories
 
     this.productService.post(product).subscribe({
-      next: (res) => {
+      next: () => {
 
         this.message.success('se registro el producto exitosamente');
         console.log('se registro el producto exitosamente');
@@ -68,12 +84,14 @@ export class NewProductComponent implements OnInit {
     })
   }
 
+  // Validar si el campo es valido
   isInvalid(controlName: string): boolean {
     const control = this.productForm.get(controlName)
     return !!(control && control.touched && control.invalid);
   }
 
-  onFileSelected(event: any) {
+  // Guardar el archivo seleccionado
+  onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (!file) return
 
@@ -84,5 +102,20 @@ export class NewProductComponent implements OnInit {
     }
 
     this.selectedImage = file;
+  }
+
+  // Guardar las categorias seleccionadas
+  onCategoryChange(event: Event): void {
+
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+
+    if (input.checked) {
+      this.selectedCategories.push(value);
+    } else {
+      this.selectedCategories.filter(
+        cat => cat !== value
+      )
+    }
   }
 }

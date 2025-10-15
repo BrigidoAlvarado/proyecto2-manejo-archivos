@@ -5,5 +5,6 @@ export interface Product {
   price: number;
   stock: number;
   isNew: boolean;
+  categories: string[];
   image?: File;
 }
