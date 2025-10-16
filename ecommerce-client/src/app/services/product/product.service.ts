@@ -4,6 +4,7 @@ import {AppConfig} from "../../config/app.constants";
 import {Product} from "../../entities/product/product";
 import {Observable} from "rxjs";
 import {BasicProduct} from "../../entities/product/basic-Product";
+import {ProductResponse} from "../../entities/product/product-response";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,13 @@ export class ProductService {
 
   getNoApproved(): Observable<BasicProduct[]> {
     return this.http.get<BasicProduct[]>(`${this.apiUrl}/noApproved`);
+  }
+
+  getById(id: number): Observable<ProductResponse>{
+    return this.http.get<ProductResponse>(`${this.apiUrl}/display/${id}`);
+  }
+
+  approve(id: number): Observable<any>{
+    return this.http.patch<any>(`${this.apiUrl}/approve/${id}`, {});
   }
 }

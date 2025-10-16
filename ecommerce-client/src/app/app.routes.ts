@@ -9,6 +9,7 @@ import {LogoutComponent} from "./components/user/logout/logout.component";
 import {NewProductComponent} from "./components/product/new-product/new-product.component";
 import {CreateUserComponent} from "./components/user/create-user/create-user.component";
 import {ApproveProductComponent} from "./components/product/approve-product/approve-product.component";
+import {DisplayProductComponent} from "./components/product/display-product/display-product.component";
 
 export const routes: Routes = [
   {
@@ -50,6 +51,10 @@ export const routes: Routes = [
   {
     path: 'common/home',
     component: CommonHomeComponent,
+  },
+  {
+    path: 'product/display/:id',
+    component: DisplayProductComponent,
   },
   // PRODUCTOS
   {

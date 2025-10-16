@@ -64,6 +64,7 @@ export class CreateUserComponent implements OnInit {
       this.auth.register(this.createUserForm.value).subscribe({
         next: () => {
           this.message.success('Nuevo usuario registrado')
+          this.createUserForm.reset();
         },
         error: err => {
           console.error(err);

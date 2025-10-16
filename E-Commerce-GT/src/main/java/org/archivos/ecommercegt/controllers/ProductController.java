@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.BasicProduct;
 import org.archivos.ecommercegt.dto.ProductRequest;
+import org.archivos.ecommercegt.dto.ProductResponse;
+import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -47,5 +49,17 @@ public class ProductController {
     @GetMapping("/noApproved")
     public ResponseEntity<List<BasicProduct>> getNoApprovedProducts(){
         return ResponseEntity.ok(productService.findAllNoApproved());
+    }
+
+    @GetMapping("/display/{id}")
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable int id){
+        ProductResponse productResp = productService.getProductById(id);
+        return ResponseEntity.ok(productResp);
+    }
+
+    @PatchMapping("/approve/{id}")
+    public ResponseEntity<?> approveProduct(@PathVariable int id){
+        productService.approveProduct(id);
+        return ResponseEntity.ok().build();
     }
 }

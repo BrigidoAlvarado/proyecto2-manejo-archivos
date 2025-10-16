@@ -22,6 +22,5 @@ public class ProductRequest {
 
     public void setCategories(String categories) {
         this.categories = Arrays.asList(categories.split(","));
-        System.out.println("se recibieron estas categorias: " + this.categories);
     }
 }

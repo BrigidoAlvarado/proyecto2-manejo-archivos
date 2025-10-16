@@ -9,5 +9,3 @@ insert into category (name) values ('Tecnología'),
                                    ('Personal'),
                                    ('Decoración'),
                                    ('Entretenimiento');
-
-insert into _user ( email, password, name, enabled, role) values ('admin@mail.com', '$2a$10$YIEet3q9dyYCDOSUxHd8yOIbFBpt9Diquy2i3OCaANy0zs3SZXO.K', 'admin', false, 'ADMIN')

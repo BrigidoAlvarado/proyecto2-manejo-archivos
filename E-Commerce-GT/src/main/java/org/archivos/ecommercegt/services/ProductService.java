@@ -3,6 +3,8 @@ package org.archivos.ecommercegt.services;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.BasicProduct;
 import org.archivos.ecommercegt.dto.ProductRequest;
+import org.archivos.ecommercegt.dto.ProductResponse;
+import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ProductRepository;
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -47,6 +51,8 @@ public class ProductService {
 
         try {
             product.setImage(imageFile.getBytes());
+            // todo DELETE PRINT
+            System.out.println("Se cargo la imagen al producto");
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer la imagen", e);
         }
@@ -61,10 +67,39 @@ public class ProductService {
         return productRepository.findAllNoApproved();
     }
 
-    public Product getProductById(int id) {
-        return productRepository
+    public ProductResponse getProductById(int id) {
+        Product product = productRepository
                 .findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+        List<String> categories = product.getCategories()
+                .stream()
+                .map(Category::getName)
+                .toList();
+
+        String imageBase64 =  "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(product.getImage());
+
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name( product.getName())
+                .description( product.getDescription())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .image( imageBase64 )
+                .categories( categories )
+                .build();
+    }
+
+    public void approveProduct(int id) {
+        Product product = productRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+        product.setApproved( true );
+
+        System.out.println("se aprobo el producto");
+
+        productRepository.save(product);
     }
 }

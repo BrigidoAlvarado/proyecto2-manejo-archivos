@@ -58,6 +58,8 @@ export class RegisterComponent implements OnInit {
         enabled: true
       };
 
+      console.log('los datos del usuario son:', user)
+
       this.auth.register(user).subscribe({
         next: res => {
           console.log('Registro exitoso', res);

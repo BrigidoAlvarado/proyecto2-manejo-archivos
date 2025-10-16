@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +23,6 @@ public class Product {
         this.name = name;
        this.user = user;
     }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,8 +51,15 @@ public class Product {
     @Column(name = "is_approved")
     private boolean isApproved;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "product"),
+            inverseJoinColumns = @JoinColumn( name = "category")
+    )
+    private List<Category> categories;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "_user", nullable = false, referencedColumnName = "email")
     private User user;
 

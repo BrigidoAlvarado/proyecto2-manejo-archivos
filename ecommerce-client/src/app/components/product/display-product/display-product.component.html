@@ -1,0 +1,47 @@
+@if (product) {
+  <div class="container mt-4">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+
+      <div class="position-relative" style="width: 100%; height: 300px;">
+        <img [src]="product.image"
+             class="position-absolute w-100 h-100 object-fit-cover"
+             alt="{{ product.name }}">
+      </div>
+
+      <div class="card-body">
+
+        <h3 class="card-title d-flex justify-content-between align-items-center">
+          {{ product.name }}
+          <span class="badge" [ngClass]="product.isNew ? 'bg-success' : 'bg-secondary'">
+          {{ product.isNew ? 'Nuevo' : 'Usado' }}
+        </span>
+        </h3>
+
+        <p class="card-text text-muted">{{ product.description }}</p>
+
+        <div class="d-flex justify-content-between mb-2">
+          <div>
+            <strong>Precio:</strong> Q{{ product.price }}
+          </div>
+          <div>
+            <strong>Stock:</strong> {{ product.stock }}
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <strong>Categorías: </strong>
+          @for (category of product.categories; track $index) {
+            <span class="badge bg-primary me-1">
+          {{ category }}
+        </span>
+          }
+        </div>
+        <a class="btn btn-outline-primary" routerLink="/moderator/product/approve">Regresar</a>
+      </div>
+    </div>
+  </div>
+
+} @else {
+  <label><strong>Vista no diponible</strong></label>
+}
