@@ -67,6 +67,9 @@
 
   <div class="col-md-3 text-end mx-4">
     @if (auth.isLoggedIn()) {
+      @if (auth.decodeToken()?.role === 'COMMON') {
+        <a class="btn btn-outline-primary mx-2" routerLink="/common/shopping-cart"><i class="bi bi-cart">Carrito de compras</i></a>
+      }
       <a routerLink="logout" type="button" class="btn btn-primary">Cerrar Sesion</a>
     } @else {
       <a routerLink="register" type="button" class="btn btn-outline-primary me-2">Registrarse</a>
