@@ -1,6 +1,7 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
+import org.archivos.ecommercegt.dto.BasicCatalogProduct;
 import org.archivos.ecommercegt.dto.BasicProduct;
 import org.archivos.ecommercegt.dto.ProductRequest;
 import org.archivos.ecommercegt.dto.ProductResponse;
@@ -101,5 +102,27 @@ public class ProductService {
         System.out.println("se aprobo el producto");
 
         productRepository.save(product);
+    }
+
+    public List<BasicCatalogProduct> getAllBasicApprovedProducts() {
+        List<Product> products = productRepository.findByIsApprovedTrueAndStockGreaterThan(0);
+        List<BasicCatalogProduct> basicProducts = new ArrayList<>();
+
+        for (Product product : products) {
+
+            String imageBase64 = getImageBase64(product);
+
+            basicProducts.add( BasicCatalogProduct.builder()
+                    .id( product.getId() )
+                    .name( product.getName() )
+                    .price( product.getPrice() )
+                    .image( imageBase64 )
+                    .build());
+        }
+        return basicProducts;
+    }
+
+    private String getImageBase64(Product product) {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(product.getImage());
     }
 }

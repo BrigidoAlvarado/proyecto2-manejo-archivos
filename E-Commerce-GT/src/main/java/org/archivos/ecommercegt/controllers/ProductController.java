@@ -2,6 +2,7 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
+import org.archivos.ecommercegt.dto.BasicCatalogProduct;
 import org.archivos.ecommercegt.dto.BasicProduct;
 import org.archivos.ecommercegt.dto.ProductRequest;
 import org.archivos.ecommercegt.dto.ProductResponse;
@@ -21,6 +22,23 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+
+    @GetMapping("/noApproved")
+    public ResponseEntity<List<BasicProduct>> getNoApprovedProducts(){
+        return ResponseEntity.ok(productService.findAllNoApproved());
+    }
+
+    @GetMapping("/display/{id}")
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable int id){
+        ProductResponse productResp = productService.getProductById(id);
+        return ResponseEntity.ok(productResp);
+    }
+
+    @GetMapping("/approved/available")
+    public ResponseEntity<List<BasicCatalogProduct>> getAllBasicApprovedProducts(){
+        List<BasicCatalogProduct> products = productService.getAllBasicApprovedProducts();
+        return ResponseEntity.ok( products );
+    }
 
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<?> create(
@@ -44,17 +62,6 @@ public class ProductController {
             ex.printStackTrace();
             return ResponseEntity.internalServerError().body("Error al guardar el producto");
         }
-    }
-
-    @GetMapping("/noApproved")
-    public ResponseEntity<List<BasicProduct>> getNoApprovedProducts(){
-        return ResponseEntity.ok(productService.findAllNoApproved());
-    }
-
-    @GetMapping("/display/{id}")
-    public ResponseEntity<ProductResponse> getProduct(@PathVariable int id){
-        ProductResponse productResp = productService.getProductById(id);
-        return ResponseEntity.ok(productResp);
     }
 
     @PatchMapping("/approve/{id}")

@@ -27,7 +27,7 @@ export class ApproveProductComponent implements OnInit {
   }
 
   approve(id: number) {
-    this.productService.approve(id).subscribe({
+    this.productService.patchApprove(id).subscribe({
       next: () => {
         this.ngOnInit()
         this.message.success('Se aprobo el producto correctamente')

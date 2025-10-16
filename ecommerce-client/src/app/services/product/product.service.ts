@@ -18,7 +18,7 @@ export class ProductService {
   ) {
   }
 
-  post(product: Product): Observable<any> {
+  postNew(product: Product): Observable<any> {
 
     const formData = new FormData();
     formData.append('name', product.name);
@@ -42,7 +42,11 @@ export class ProductService {
     return this.http.get<ProductResponse>(`${this.apiUrl}/display/${id}`);
   }
 
-  approve(id: number): Observable<any>{
+  getApprovedAndAvailable(): Observable<BasicProduct[]>{
+    return this.http.get<BasicProduct[]>(`${this.apiUrl}/approved/available`);
+  }
+
+  patchApprove(id: number): Observable<any>{
     return this.http.patch<any>(`${this.apiUrl}/approve/${id}`, {});
   }
 }

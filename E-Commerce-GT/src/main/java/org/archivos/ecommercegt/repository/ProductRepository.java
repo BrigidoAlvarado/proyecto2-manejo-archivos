@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query("SELECT new org.archivos.ecommercegt.dto.BasicProduct(p.id, p.name, p.user.name) " +
+    @Query("SELECT new org.archivos.ecommercegt.dto.BasicProduct(p.name, p.user.name, p.id) " +
             "FROM Product p WHERE not p.isApproved")
     List<BasicProduct> findAllNoApproved();
+
+    List<Product> findByIsApprovedTrueAndStockGreaterThan(int stock);
 
 }

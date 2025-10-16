@@ -70,7 +70,7 @@ export class NewProductComponent implements OnInit {
     product.isNew = this.productForm.get('isNew')?.value === 'true'
     product.categories = this.selectedCategories
 
-    this.productService.post(product).subscribe({
+    this.productService.postNew(product).subscribe({
       next: () => {
 
         this.message.success('se registro el producto exitosamente');
