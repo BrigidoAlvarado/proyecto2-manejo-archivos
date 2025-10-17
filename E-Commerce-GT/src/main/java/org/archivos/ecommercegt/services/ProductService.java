@@ -1,16 +1,17 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
-import org.archivos.ecommercegt.dto.BasicCatalogProduct;
-import org.archivos.ecommercegt.dto.BasicProduct;
-import org.archivos.ecommercegt.dto.ProductRequest;
-import org.archivos.ecommercegt.dto.ProductResponse;
+import org.archivos.ecommercegt.dto.product.BasicCatalogProduct;
+import org.archivos.ecommercegt.dto.product.BasicProduct;
+import org.archivos.ecommercegt.dto.product.ProductRequest;
+import org.archivos.ecommercegt.dto.product.ProductResponse;
 import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ProductRepository;
 import org.archivos.ecommercegt.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,10 +106,13 @@ public class ProductService {
     }
 
     public List<BasicCatalogProduct> getAllBasicApprovedProducts() {
-        List<Product> products = productRepository.findByIsApprovedTrueAndStockGreaterThan(0);
-        List<BasicCatalogProduct> basicProducts = new ArrayList<>();
+        final String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        final List<Product> products = productRepository.findByIsApprovedTrueAndStockGreaterThan(0);
+        final List<BasicCatalogProduct> basicProducts = new ArrayList<>();
 
         for (Product product : products) {
+
+            if(product.getUser().getEmail().equals(userEmail)) continue;
 
             String imageBase64 = getImageBase64(product);
 

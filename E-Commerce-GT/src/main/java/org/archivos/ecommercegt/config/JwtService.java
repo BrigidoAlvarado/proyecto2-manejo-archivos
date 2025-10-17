@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.archivos.ecommercegt.models.enums.Role;
+import org.archivos.ecommercegt.repository.ShoppingCartRepository;
+import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,8 @@ public class JwtService {
 
     private static final String SECRET_KEY = "QZGr2cjssStmGenfAeHLmClDUaQzsad/7ojCnqxNFWQ=";
     public static final long EXPIRATION_PERIOD = 1000L  * 60 * 20;
+
+    private ShoppingCartService  shoppingCartService;
 
     public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -76,7 +80,6 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-
 
     private SecretKey getSignInKey() {
         byte[] keyBytes = io.jsonwebtoken.io.Decoders.BASE64.decode(SECRET_KEY);

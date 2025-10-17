@@ -2,11 +2,10 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
-import org.archivos.ecommercegt.dto.BasicCatalogProduct;
-import org.archivos.ecommercegt.dto.BasicProduct;
-import org.archivos.ecommercegt.dto.ProductRequest;
-import org.archivos.ecommercegt.dto.ProductResponse;
-import org.archivos.ecommercegt.models.Product;
+import org.archivos.ecommercegt.dto.product.BasicCatalogProduct;
+import org.archivos.ecommercegt.dto.product.BasicProduct;
+import org.archivos.ecommercegt.dto.product.ProductRequest;
+import org.archivos.ecommercegt.dto.product.ProductResponse;
 import org.archivos.ecommercegt.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

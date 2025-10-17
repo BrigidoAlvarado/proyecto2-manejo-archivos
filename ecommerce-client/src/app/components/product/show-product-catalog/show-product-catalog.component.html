@@ -1,23 +1,25 @@
 <h1>Catalogo de Productos Disponibles</h1>
 <div class="container my-5">
-  <div class="row row-cols-1 row-cols-md-3 g-4" >
+  <div class="row row-cols-1 row-cols-md-3 g-4">
     @if (products.length > 0) {
-      @for (product of products; track $index){
+      @for (product of products; track $index) {
         <div class="col">
           <div class="card">
-            @if (product.image){
+            @if (product.image) {
               <img
                 class="card-img-top"
                 [src]="product.image"
                 [alt]="product.name">
             }
             <div class="card-body">
-              <h5>{{product.name}}</h5>
+              <h5>{{ product.name }}</h5>
             </div>
             <div class="card-footer">
-              <label class="pb-2"><strong>Q{{product.price}}</strong></label>
-              <div class="d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#buyModal">
+              <label class="pb-2"><strong>Q{{ product.price }}</strong></label>
+              <div class="d-flex justify-content-center">
                 <button
+                  data-bs-toggle="modal"
+                  data-bs-target="#buyModal"
                   class="btn btn-success mr-1 w-100 mx-1"
                   (click)="selectToProduct(product)">
                   <i class="bi bi-cart-plus me-1"></i>
@@ -40,38 +42,32 @@
   </div>
 </div>
 
-@if (productSelected) {
-  <!-- Add to cart modal -->
-  <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
+<div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="buyModalLabel">{{productSelected.name}}</h5>
+          <h5 class="modal-title" id="buyModalLabel">{{ productSelected?.name || '' }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
-            <input
-              type="hidden"
-              [value]="productSelected.id"
-              formControlName="id">
-
-            <div class="d-flex align-items-center">
-              <label class="form-label mx-2" for="amount">Cantidad: </label>
               <input
-                class="form-control"
-                type="number"
-                id="amount"
-                formControlName="amount">
-            </div>
-          </form>
+                type="hidden"
+                [value]="productSelected?.id">
+
+              <div class="d-flex align-items-center">
+                <label class="form-label mx-2" for="amount">Cantidad: </label>
+                <input
+                  class="form-control"
+                  type="number"
+                  id="amount"
+                  value="1"
+                  #amount>
+              </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Agregar al carrito</button>
+          <button type="button" class="btn btn-primary" (click)="addToCart(amount)" data-bs-dismiss="modal">Agregar al carrito</button>
         </div>
-      </div>
     </div>
   </div>
-}
-
+</div>

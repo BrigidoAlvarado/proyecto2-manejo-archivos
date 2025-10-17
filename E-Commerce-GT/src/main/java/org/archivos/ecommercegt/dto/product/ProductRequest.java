@@ -1,4 +1,4 @@
-package org.archivos.ecommercegt.dto;
+package org.archivos.ecommercegt.dto.product;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

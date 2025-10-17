@@ -167,7 +167,7 @@ create table product_category(
 
 create table shopping_cart (
     id serial primary key ,
-    status varchar(50) not null ,
+    status boolean not null ,
     _user varchar(50) not null ,
 
     constraint fk_user_in_shopping_cart

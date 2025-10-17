@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
           this.message.info('Bienvenido ' + this.authService.decodeToken()?.sub);
         },
         error: err => {
+          this.message.error('Correo o contraseña invalidos');
           console.error('error al iniciar sesion:'+err);
         }
       })

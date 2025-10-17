@@ -1,10 +1,14 @@
 package org.archivos.ecommercegt.auth;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.JwtService;
 import org.archivos.ecommercegt.models.Roletype;
 import org.archivos.ecommercegt.models.User;
+import org.archivos.ecommercegt.models.enums.Role;
+import org.archivos.ecommercegt.repository.ShoppingCartRepository;
 import org.archivos.ecommercegt.repository.UserRepository;
+import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +26,9 @@ public class AuthenticatorService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ShoppingCartService shoppingCartService;
 
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -42,6 +48,9 @@ public class AuthenticatorService {
                 .build();
 
         userRepository.save(user);
+
+        if (user.getRole().getName().equals(Role.COMMON.name())) shoppingCartService.save(user);
+
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()

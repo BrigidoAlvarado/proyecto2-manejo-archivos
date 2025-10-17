@@ -1,4 +1,4 @@
-package org.archivos.ecommercegt.dto;
+package org.archivos.ecommercegt.dto.product;
 
 import lombok.Builder;
 import lombok.Data;
