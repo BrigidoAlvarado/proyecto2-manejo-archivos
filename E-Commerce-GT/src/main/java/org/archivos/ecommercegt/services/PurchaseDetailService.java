@@ -1,5 +1,6 @@
 package org.archivos.ecommercegt.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.purchaseDetail.PurchaseDetailRequest;
 import org.archivos.ecommercegt.models.Product;
@@ -21,24 +22,18 @@ import org.springframework.web.server.ResponseStatusException;
 public class PurchaseDetailService {
 
     private final PurchaseDetailRepository purchaseDetailRepository;
-    private final ShoppingCartRepository shoppingCartRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final ShoppingCartService shoppingCartService;
 
+    @Transactional
     public PurchaseDetail save(PurchaseDetailRequest request) {
 
         // validar cantidad
         if (request.getAmount() < 0) throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "La cantidad es invalida");
 
         // obtener el carrito de compras
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository
-                .findByEmail(authentication.getName())
-                .orElseThrow(() -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-        ShoppingCart shoppingCart = shoppingCartRepository
-                .findByStatusAndUser(true, user).get();
-
-        if(shoppingCart == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Carrito no encontrado");
+        ShoppingCart shoppingCart = shoppingCartService.getCurrentShoppingCart();
 
         // obtener el producto
         Product product = productRepository
@@ -47,6 +42,10 @@ public class PurchaseDetailService {
 
         // validar stock
         if(product.getStock() < request.getAmount()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock insuficiente");
+
+        // actualizar stock
+        product.setStock(product.getStock() - request.getAmount());
+        productRepository.save(product);
 
         PurchaseDetail purchaseDetail = new PurchaseDetail();
         purchaseDetail.setProduct(product);

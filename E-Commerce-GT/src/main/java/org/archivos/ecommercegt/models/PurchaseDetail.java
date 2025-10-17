@@ -9,7 +9,12 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "purchase_detail")
+@Table(
+        name = "purchase_detail",
+        uniqueConstraints = {
+                @UniqueConstraint( columnNames = {"shopping_cart", "product"})
+        }
+)
 public class PurchaseDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +30,7 @@ public class PurchaseDetail {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "shopping_cart", nullable = false)
     private ShoppingCart shoppingCart;
 

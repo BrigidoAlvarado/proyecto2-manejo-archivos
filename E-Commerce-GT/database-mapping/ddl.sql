@@ -193,7 +193,10 @@ create table purchase_detail (
                              foreign key (shopping_cart)
                              references shopping_cart(id)
                              on delete  restrict
-                             on update  cascade
+                             on update  cascade,
+
+    constraint unique_product_shopping_cart
+                             unique (shopping_cart, product)
 );
 
 create table package(

@@ -10,7 +10,7 @@ import {NewProductComponent} from "./components/product/new-product/new-product.
 import {CreateUserComponent} from "./components/user/create-user/create-user.component";
 import {ApproveProductComponent} from "./components/product/approve-product/approve-product.component";
 import {DisplayProductComponent} from "./components/product/display-product/display-product.component";
-import {ShoppigCartComponent} from "./components/shoppig-cart/shoppig-cart.component";
+import {ShoppingCartComponent} from "./components/shoppig-cart/shopping-cart.component";
 
 export const routes: Routes = [
   {
@@ -57,6 +57,10 @@ export const routes: Routes = [
     path: 'product/display/:id',
     component: DisplayProductComponent,
   },
+  {
+    path: 'shopping-cart',
+    component: ShoppingCartComponent,
+  },
   // PRODUCTOS
   {
     path: 'product/new',
@@ -64,7 +68,7 @@ export const routes: Routes = [
   },
   {
     path: 'common/shopping-cart',
-    component: ShoppigCartComponent
+    component: ShoppingCartComponent
   },
   // EXTRAS
   {

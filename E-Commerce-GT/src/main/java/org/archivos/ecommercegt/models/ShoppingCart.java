@@ -1,11 +1,14 @@
 package org.archivos.ecommercegt.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +28,7 @@ public class ShoppingCart {
     @JoinColumn(name = "_user", nullable = false, referencedColumnName = "email")
     private User user;
 
+    @OneToMany( mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<PurchaseDetail> purchaseDetails;
 }
