@@ -3,4 +3,5 @@ export interface PurchaseDetail {
   amount: number;
   price: number;
   name: string;
+  subTotal: number;
 }

@@ -3,12 +3,14 @@ import {ShoppingCart} from "../../entities/shopping-cart";
 import {MessageService} from "../../services/message.service";
 import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
 import {DecimalPipe} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-shopping-cart',
   standalone: true,
   imports: [
-    DecimalPipe
+    DecimalPipe,
+    RouterLink
   ],
   templateUrl: './shopping-cart.component.html',
   styleUrl: './shopping-cart.component.scss'
@@ -34,10 +36,4 @@ export class ShoppingCartComponent implements OnInit {
     })
   }
 
-  get total(): number {
-    if (!this.shoppingCart) return 0;
-
-    return this.shoppingCart.purchaseDetails
-      .reduce((sum, item) => sum + item.price * item.amount, 0);
-  }
 }

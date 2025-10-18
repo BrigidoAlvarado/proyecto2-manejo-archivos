@@ -11,5 +11,6 @@ import java.util.List;
 public class ShoppingCartResponse {
 
     private final int id;
+    private final double total;
     private final List<PurchaseDetailResponse> purchaseDetails;
 }

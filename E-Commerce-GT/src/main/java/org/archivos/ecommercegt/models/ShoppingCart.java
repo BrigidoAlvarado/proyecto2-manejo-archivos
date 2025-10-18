@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -20,11 +21,12 @@ public class ShoppingCart {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "status", nullable = false, length = 50)
-    private boolean status;
+    @ColumnDefault("TRUE")
+    @Column(name = "status", nullable = false)
+    private boolean status = true;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "_user", nullable = false, referencedColumnName = "email")
     private User user;
 

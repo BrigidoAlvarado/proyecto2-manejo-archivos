@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class ApplicationConfig {
 
     public static final String BASE_URL = "/api/v1";
+    public static final String ADMIN_EMAIL = "admin@mail.com";
 
     private final UserRepository userRepository;
 

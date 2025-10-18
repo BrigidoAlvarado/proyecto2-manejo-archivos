@@ -19,4 +19,9 @@ export class ShoppingCartService {
     Observable<ShoppingCart>{
     return this.http.get<ShoppingCart>(this.url);
   }
-}
+
+  postPayment( cardRequest: { cardNumber:string, save: boolean }):
+    Observable<any>{
+    console.log('se envian los datos:',cardRequest);
+    return this.http.post(`${this.url}/pay`, cardRequest)
+  }}

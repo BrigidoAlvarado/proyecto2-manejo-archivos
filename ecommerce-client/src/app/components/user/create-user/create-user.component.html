@@ -24,11 +24,13 @@
       <label class="form-label" for="role">Rol</label>
       <div>
         <select class="form-select" formControlName="role" id="role" required>
-          <option value="" selected>Seleccione un rol</option>
+          <option value="" selected>Seleccione un rol...</option>
           @for (role of roles; track $index){
-            <option [value]="role">
-              {{role}}
-            </option>
+            @if (role !== 'ADMIN') {
+              <option [value]="role">
+                {{role}}
+              </option>
+            }
           }
         </select>
         @if (validForm.isInvalid(createUserForm,'role')) {

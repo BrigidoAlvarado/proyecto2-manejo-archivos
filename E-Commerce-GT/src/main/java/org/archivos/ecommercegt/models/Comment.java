@@ -32,7 +32,7 @@ public class Comment {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "_user", nullable = false, referencedColumnName = "email")
     private User user;
 

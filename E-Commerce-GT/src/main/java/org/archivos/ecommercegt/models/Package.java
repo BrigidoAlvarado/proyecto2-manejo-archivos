@@ -28,7 +28,7 @@ public class Package {
     private Instant deliveryDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "shopping_cart", nullable = false)
     private ShoppingCart shoppingCart;
 

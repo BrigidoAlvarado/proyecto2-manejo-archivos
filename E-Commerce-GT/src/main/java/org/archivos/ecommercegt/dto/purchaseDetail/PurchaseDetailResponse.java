@@ -9,5 +9,6 @@ public class PurchaseDetailResponse {
     private final int productId;
     private final int amount;
     private final double price;
+    private final double subTotal;
     private final String name;
 }

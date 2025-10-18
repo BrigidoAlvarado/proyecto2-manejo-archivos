@@ -19,9 +19,10 @@ public class Wallet {
     @Column(name = "money", nullable = false)
     private Double money;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "_user", nullable = false, referencedColumnName = "email")
     private User user;
+
 
 }

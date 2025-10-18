@@ -25,7 +25,7 @@ public class PurchaseDetail {
     private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "product", nullable = false)
     private Product product;
 

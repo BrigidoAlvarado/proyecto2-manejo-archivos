@@ -18,7 +18,7 @@ create table _user (
     constraint fk_role_in_user
                    foreign key (role)
                    references role(name)
-                   on delete restrict
+                   on delete cascade
                    on update cascade
 
 );
@@ -26,12 +26,12 @@ create table _user (
 create table wallet(
     id serial primary key ,
     money float not null ,
-    _user varchar(50) not null ,
+    _user varchar(50) unique not null ,
 
     constraint fk_user_in_wallet
                    foreign key (_user)
                    references _user(email)
-                   on delete restrict
+                   on delete cascade
                    on update cascade
 );
 
@@ -49,13 +49,13 @@ create table notification_sent(
     constraint fk_notification_in_notification_sent
                               foreign key (notification)
                               references notification(id)
-                              on delete restrict
+                              on delete cascade
                               on update cascade ,
 
     constraint fk_user_in_notification_sent
                               foreign key (_user)
                               references _user(email)
-                              on delete restrict
+                              on delete cascade
                               on update cascade
 
 );
@@ -68,8 +68,11 @@ create table credit_card(
     constraint fk_user_in_credit_card
                         foreign key (_user)
                         references _user(email)
-                        on delete  restrict
-                        on update  cascade
+                        on delete  cascade
+                        on update  cascade,
+
+    constraint unique_number_and_user
+                        unique (number, _user)
 );
 
 create table sanction (
@@ -82,7 +85,7 @@ create table sanction (
     constraint fk_user_in_sanction
                       foreign key (_user)
                       references _user(email)
-                      on delete restrict
+                      on delete cascade
                       on update cascade
 );
 
@@ -100,7 +103,7 @@ create table product(
     constraint fk_user_in_product
                     foreign key (_user)
                     references _user(email)
-                    on delete restrict
+                    on delete cascade
                     on update cascade
 );
 
@@ -114,7 +117,7 @@ create table comment(
     constraint fk_product_int_comment
                     foreign key (product)
                     references product(id)
-                    on delete restrict
+                    on delete cascade
                     on update cascade ,
 
     constraint fk_user_in_comment
@@ -133,7 +136,7 @@ create table qualification(
     constraint fk_product_in_qualification
                           foreign key (product)
                           references product(id)
-                          on delete restrict
+                          on delete cascade
                           on update cascade ,
 
     constraint fk_user_in_qualification
@@ -167,13 +170,13 @@ create table product_category(
 
 create table shopping_cart (
     id serial primary key ,
-    status boolean not null ,
+    status boolean not null default true,
     _user varchar(50) not null ,
 
     constraint fk_user_in_shopping_cart
                            foreign key (_user)
                            references _user(email)
-                           on delete restrict
+                           on delete cascade
                            on update cascade
 );
 
@@ -186,13 +189,13 @@ create table purchase_detail (
     constraint fk_product_in_purchase_detail
                              foreign key (product)
                              references product(id)
-                             on delete restrict
+                             on delete cascade
                              on update cascade ,
 
     constraint fk_shopping_cart_in_purchase_detail
                              foreign key (shopping_cart)
                              references shopping_cart(id)
-                             on delete  restrict
+                             on delete  cascade
                              on update  cascade,
 
     constraint unique_product_shopping_cart
@@ -210,6 +213,6 @@ create table package(
     constraint fk_shopping_cart_in_package
                     foreign key (shopping_cart)
                     references shopping_cart(id)
-                    on delete restrict
+                    on delete cascade
                     on update cascade
 );
