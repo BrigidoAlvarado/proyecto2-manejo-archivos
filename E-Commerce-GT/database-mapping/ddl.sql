@@ -205,9 +205,9 @@ create table purchase_detail (
 create table package(
 
     id serial primary key ,
-    is_delivered boolean not null ,
-    departure_date timestamp not null ,
-    delivery_date timestamp not null ,
+    is_delivered boolean default false not null ,
+    departure_date  timestamp default current_timestamp not null ,
+    delivery_date   timestamp default (current_timestamp + interval '5 days') not null ,
     shopping_cart int not null ,
 
     constraint fk_shopping_cart_in_package

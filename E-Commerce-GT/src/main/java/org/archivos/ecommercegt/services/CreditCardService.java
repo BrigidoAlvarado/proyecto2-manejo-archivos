@@ -1,6 +1,7 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
+import org.archivos.ecommercegt.dto.card.CreditCardResponse;
 import org.archivos.ecommercegt.models.CreditCard;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.CreditCardRepository;
@@ -8,11 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CreditCardService {
 
     private final CreditCardRepository creditCardRepository;
+    private final UserService userService;
 
     public void validNumber(String number) {
         if (number.length() > 20){
@@ -32,5 +37,20 @@ public class CreditCardService {
         creditCard.setNumber(number);
         creditCard.setUser(user);
         return creditCardRepository.save(creditCard);
+    }
+
+    public List<CreditCardResponse> findAllByUser() {
+        List<CreditCard> cardsFound = creditCardRepository.findAllByUser((userService.getUser()));
+        List<CreditCardResponse> creditCardResponses = new ArrayList<>();
+
+        for (CreditCard creditCard : cardsFound) {
+            creditCardResponses.add(
+              CreditCardResponse.builder()
+                      .id( creditCard.getId() )
+                      .cardNumber( creditCard.getNumber() ).build()
+            );
+        }
+
+        return creditCardResponses;
     }
 }

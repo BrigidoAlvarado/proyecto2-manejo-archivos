@@ -21,11 +21,7 @@ export class PayShoppingCartComponent implements OnInit {
   shoppingCart!: ShoppingCart;
   payForm!: FormGroup;
 
-  creditsCards: Card[] = [
-    {id: 1, cardNumber: '123'},
-    {id: 2, cardNumber: '456'},
-    {id: 3, cardNumber: '789'},
-  ]
+  creditsCards: Card[] = []
 
   constructor(
     private location: Location,
@@ -36,9 +32,15 @@ export class PayShoppingCartComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.shoppingCartService.getShoppingCart().subscribe({
       next: data =>  this.shoppingCart = data ,
       error: err => console.error('Error al cargar el carrito: '+err)
+    })
+
+    this.cardService.getAllCards().subscribe({
+      next: data => this.creditsCards = data,
+      error: err => console.error(err)
     })
 
     this.payForm = this.formBuilder.group({

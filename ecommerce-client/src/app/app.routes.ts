@@ -12,6 +12,9 @@ import {ApproveProductComponent} from "./components/product/approve-product/appr
 import {DisplayProductComponent} from "./components/product/display-product/display-product.component";
 import {ShoppingCartComponent} from "./components/shoppig-cart/shopping-cart.component";
 import {PayShoppingCartComponent} from "./components/pay-shopping-cart/pay-shopping-cart.component";
+import {
+  ApproveDeliveryPackageComponent
+} from "./components/approve-delivery-package/approve-delivery-package.component";
 
 export const routes: Routes = [
   {
@@ -48,6 +51,10 @@ export const routes: Routes = [
   {
     path: 'logistic/home',
     component: LogisticHomeComponent,
+  },
+  {
+    path: 'logistic/delivery-package',
+    component: ApproveDeliveryPackageComponent
   },
   // COMUN
   {

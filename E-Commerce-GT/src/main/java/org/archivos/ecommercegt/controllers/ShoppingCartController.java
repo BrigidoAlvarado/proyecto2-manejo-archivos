@@ -8,8 +8,6 @@ import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/shopping-cart")
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class ShoppingCartController {
 
     @GetMapping
     public ResponseEntity<ShoppingCartResponse> getShoppingCart() {
-        ShoppingCartResponse shoppingCartResponse = shoppingCartService.getShoppingCartResponse();
+        ShoppingCartResponse shoppingCartResponse = shoppingCartService.getCurrentShoppingCartResponse();
         return ResponseEntity.ok(shoppingCartResponse);
     }
 
@@ -27,8 +25,13 @@ public class ShoppingCartController {
     public ResponseEntity<?> payShoppingCard(
             @RequestBody PayCardRequest payCardRequest
     ) {
-        shoppingCartService.payShoppingCart(payCardRequest);
-        return ResponseEntity.ok().build();
+       try{
+           shoppingCartService.payShoppingCart(payCardRequest);
+           return ResponseEntity.ok().build();
+       }catch(Exception e){
+           e.printStackTrace();
+           throw e;
+       }
     }
 
 }

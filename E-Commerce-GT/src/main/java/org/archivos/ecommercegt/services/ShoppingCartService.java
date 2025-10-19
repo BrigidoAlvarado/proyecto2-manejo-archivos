@@ -2,21 +2,17 @@ package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.card.PayCardRequest;
-import org.archivos.ecommercegt.dto.purchaseDetail.PurchaseDetailResponse;
 import org.archivos.ecommercegt.dto.shoppingCart.ShoppingCartResponse;
 import org.archivos.ecommercegt.models.PurchaseDetail;
 import org.archivos.ecommercegt.models.ShoppingCart;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ShoppingCartRepository;
+import org.archivos.ecommercegt.services.tools.ShoppingCartTools;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +23,11 @@ public class ShoppingCartService {
 
     private final ShoppingCartRepository shoppingCartRepository;
 
+    private final ShoppingCartTools shoppingCartTools;
     private final WalletService walletService;
     private final UserService userService;
     private final CreditCardService creditCardService;
+    private final DeliveryPackageService deliveryPackageService;
 
     public ShoppingCart save(User user) {
 
@@ -48,39 +46,14 @@ public class ShoppingCartService {
                 .orElseThrow(() -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "ShoppingCart not found"));
     }
 
-    public ShoppingCartResponse getShoppingCartResponse(){
+    public ShoppingCartResponse getCurrentShoppingCartResponse(){
 
         final ShoppingCart cart = getCurrentShoppingCart();
-        final List<PurchaseDetailResponse> purchaseDetailResponses = new ArrayList<>();
-
-        double total = 0;
-        for(PurchaseDetail purchaseDetail : cart.getPurchaseDetails()){
-
-            double subTotal =  purchaseDetail.getProduct().getPrice() * purchaseDetail.getAmount();
-            total = total + subTotal;
-
-            purchaseDetailResponses.add(
-                    PurchaseDetailResponse.builder()
-                            .price( purchaseDetail.getProduct().getPrice() )
-                            .amount( purchaseDetail.getAmount() )
-                            .productId( purchaseDetail.getProduct().getId() )
-                            .name( purchaseDetail.getProduct().getName() )
-                            .subTotal( subTotal )
-                            .build()
-            );
-        }
-
-        return ShoppingCartResponse.builder()
-                .id( cart.getId() )
-                .purchaseDetails( purchaseDetailResponses )
-                .total(total)
-                .build();
+        return shoppingCartTools.parseShoppingCartResponse(cart);
     }
 
     @Transactional
     public void payShoppingCart(PayCardRequest request){
-
-        System.out.println("En el request hay: "+request.getCardNumber());
 
         final User user = userService.getUser();
 
@@ -111,10 +84,14 @@ public class ShoppingCartService {
         cart.setStatus(false);
         shoppingCartRepository.save(cart);
 
+        // crear un nuevo paquete
+        deliveryPackageService.save(cart);
+
         // crear un nuevo carrito
         ShoppingCart newCart = new ShoppingCart();
         newCart.setUser(user);
         newCart.setStatus(true);
         shoppingCartRepository.save(newCart);
     }
+
 }

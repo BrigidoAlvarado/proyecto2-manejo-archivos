@@ -1,0 +1,61 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4 fw-bold text-primary">
+        Paquetes
+      </h2>
+
+      @if (packages) {
+        @if (packages.length > 0) {
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle text-center">
+              <thead class="table-primary">
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha de Salida</th>
+                <th scope="col">Fecha de Entrega</th>
+                <th scope="col">Dueño</th>
+                <th scope="col">Opciones</th>
+              </tr>
+              </thead>
+              <tbody>
+                @for (deliveryPackage of packages; track $index) {
+                  <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                      <span class="badge rounded-pill
+                        {{ deliveryPackage.isDelivered ? 'bg-success' : 'bg-warning text-dark' }}">
+                        {{ deliveryPackage.isDelivered ? 'Entregado' : 'En camino' }}
+                      </span>
+                    </td>
+                    <td>{{ deliveryPackage.departureDate | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ deliveryPackage.deliveryDate  | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ deliveryPackage.userName }}</td>
+                    <td>
+                      <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <button class="btn btn-sm btn-info">
+                          <i class="bi bi-eye"></i> Detalles
+                        </button>
+                        <button class="btn btn-sm btn-warning">
+                          <i class="bi bi-arrow-repeat"></i> Cambiar Entrega
+                        </button>
+                        <button class="btn btn-sm btn-success" (click)="deliver(deliveryPackage.id)">
+                          <i class="bi bi-check-circle"></i> Entregar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="alert alert-info text-center mt-4">
+            No hay paquetes por entregar
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>
