@@ -7,7 +7,7 @@ import org.archivos.ecommercegt.models.PurchaseDetail;
 import org.archivos.ecommercegt.models.ShoppingCart;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ShoppingCartRepository;
-import org.archivos.ecommercegt.services.tools.ShoppingCartTools;
+import org.archivos.ecommercegt.services.utilities.ParseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class ShoppingCartService {
 
     private final ShoppingCartRepository shoppingCartRepository;
 
-    private final ShoppingCartTools shoppingCartTools;
+    private final ParseService shoppingCartTools;
     private final WalletService walletService;
     private final UserService userService;
     private final CreditCardService creditCardService;

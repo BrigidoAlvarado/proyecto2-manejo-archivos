@@ -93,7 +93,7 @@ create table product(
     id serial primary key ,
     name varchar(50) not null ,
     description text not null ,
-    image bytea not null ,
+    image_url text not null ,
     price float not null ,
     stock int not null ,
     is_new boolean not null ,

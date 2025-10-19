@@ -35,8 +35,8 @@ public class Product {
     @Column(name = "description", nullable = false, length = Integer.MAX_VALUE)
     private String description;
 
-    @Column(name = "image", nullable = false)
-    private byte[] image;
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
     @Column(name = "price", nullable = false)
     private Double price;

@@ -10,6 +10,7 @@ import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ProductRepository;
 import org.archivos.ecommercegt.repository.UserRepository;
+import org.archivos.ecommercegt.services.utilities.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -28,6 +28,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final ProductCategoryService productCategoryService;
+    private final ImageService imageService;
 
     @Transactional
     public void saveProduct(ProductRequest request, String userEmail) {
@@ -51,14 +52,8 @@ public class ProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La imagen excede el tamaño permitido (5 MB)");
         }
 
-        try {
-            product.setImage(imageFile.getBytes());
-            // todo DELETE PRINT
-            System.out.println("Se cargo la imagen al producto");
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer la imagen", e);
-        }
-
+        String imageUrl = imageService.saveImage(imageFile);
+        product.setImageUrl( imageUrl );
         Product productSaved = productRepository.save(product);
 
         productCategoryService.saveProductCategories(request.getCategories(), productSaved);
@@ -80,7 +75,7 @@ public class ProductService {
                 .map(Category::getName)
                 .toList();
 
-        String imageBase64 =  "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(product.getImage());
+        String imageBase64 = imageService.getBase64Image(product.getImageUrl());
 
         return ProductResponse.builder()
                 .id(product.getId())
@@ -114,7 +109,7 @@ public class ProductService {
 
             if(product.getUser().getEmail().equals(userEmail)) continue;
 
-            String imageBase64 = getImageBase64(product);
+            String imageBase64 = imageService.getBase64Image(product.getImageUrl());
 
             basicProducts.add( BasicCatalogProduct.builder()
                     .id( product.getId() )
@@ -126,7 +121,4 @@ public class ProductService {
         return basicProducts;
     }
 
-    private String getImageBase64(Product product) {
-        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(product.getImage());
-    }
 }

@@ -1,0 +1,70 @@
+package org.archivos.ecommercegt.services.utilities;
+
+import lombok.Data;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.Base64;
+import java.util.Objects;
+import java.util.UUID;
+
+@Data
+@Service
+public class ImageService {
+
+    public static final String IMAGE_PATH = "images-server";
+
+    public ImageService() {
+        File dir = new File(IMAGE_PATH);
+        if (!dir.exists()) {
+            boolean result = dir.mkdir();
+            if (!result) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Can't create directory");
+            }
+        }
+    }
+
+    public String saveImage(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
+            }
+
+            String originalName = Paths.get(Objects.requireNonNull(file.getOriginalFilename())).getFileName().toString();
+            String safeFileName = UUID.randomUUID() + "_" + originalName.replaceAll("[^a-zA-Z0-9._-]", "_");
+
+            Path destinationPath = Paths.get(IMAGE_PATH).resolve(safeFileName).normalize().toAbsolutePath();
+
+            file.transferTo(destinationPath.toFile());
+
+            return IMAGE_PATH + File.separator + safeFileName;
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving file", e);
+        }
+    }
+
+    public byte[] getImage(String relativePath) {
+        try {
+            Path imagePath = Paths.get(relativePath).normalize().toAbsolutePath();
+
+            if (!Files.exists(imagePath)) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+            }
+
+            return Files.readAllBytes(imagePath);
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error reading image", e);
+        }
+    }
+
+    public String getBase64Image(String relativePath) {
+        return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString( getImage(relativePath) );
+    }
+}

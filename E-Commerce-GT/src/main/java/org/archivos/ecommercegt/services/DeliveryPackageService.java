@@ -5,7 +5,7 @@ import org.archivos.ecommercegt.dto.deliveryPackage.DeliveryPackageResponse;
 import org.archivos.ecommercegt.models.DeliveryPackage;
 import org.archivos.ecommercegt.models.ShoppingCart;
 import org.archivos.ecommercegt.repository.DeliveryPackageRepository;
-import org.archivos.ecommercegt.services.tools.ShoppingCartTools;
+import org.archivos.ecommercegt.services.utilities.ParseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,7 +19,7 @@ public class DeliveryPackageService {
 
     private final DeliveryPackageRepository deliveryPackageRepository;
 
-    private final ShoppingCartTools shoppingCartTools;
+    private final ParseService shoppingCartTools;
 
     public void save(ShoppingCart shoppingCart){
         DeliveryPackage deliveryPackage = new DeliveryPackage();

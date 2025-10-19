@@ -1,4 +1,4 @@
-package org.archivos.ecommercegt.services.tools;
+package org.archivos.ecommercegt.services.utilities;
 
 import org.archivos.ecommercegt.dto.purchaseDetail.PurchaseDetailResponse;
 import org.archivos.ecommercegt.dto.shoppingCart.ShoppingCartResponse;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ShoppingCartTools {
+public class ParseService {
 
     public ShoppingCartResponse parseShoppingCartResponse(ShoppingCart cart){
         final List<PurchaseDetailResponse> purchaseDetailResponses = new ArrayList<>();
