@@ -20,6 +20,9 @@ public class DeliveryPackage {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "total", nullable = false)
+    private double total;
+
     @Column(name = "is_delivered", nullable = false)
     private Boolean isDelivered = false;
 

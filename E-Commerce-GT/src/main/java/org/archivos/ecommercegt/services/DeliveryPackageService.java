@@ -21,8 +21,9 @@ public class DeliveryPackageService {
 
     private final ParseService shoppingCartTools;
 
-    public void save(ShoppingCart shoppingCart){
+    public void save(ShoppingCart shoppingCart, double totalPrice) {
         DeliveryPackage deliveryPackage = new DeliveryPackage();
+        deliveryPackage.setTotal(totalPrice);
         deliveryPackage.setShoppingCart(shoppingCart);
         deliveryPackageRepository.save(deliveryPackage);
     };

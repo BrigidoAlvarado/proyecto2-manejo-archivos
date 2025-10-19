@@ -69,6 +69,7 @@ public class ShoppingCartService {
 
         // pagar cada producto
         double total = 0;
+        double totalPrice = 0;
         for (PurchaseDetail purchaseDetail : cart.getPurchaseDetails()){
             final User productOwner = purchaseDetail.getProduct().getUser();
             final double price = purchaseDetail.getProduct().getPrice();
@@ -76,6 +77,7 @@ public class ShoppingCartService {
             final double subTotal = amount * price;
             walletService.updateMoney( productOwner, subTotal * PERCENT_PRODUCT_OWNER_EARNING);
             total +=  subTotal * PERCENT_APP_EARNING;
+            totalPrice += subTotal;
         }
 
         walletService.updateAppMoney(total);
@@ -85,7 +87,7 @@ public class ShoppingCartService {
         shoppingCartRepository.save(cart);
 
         // crear un nuevo paquete
-        deliveryPackageService.save(cart);
+        deliveryPackageService.save(cart, totalPrice);
 
         // crear un nuevo carrito
         ShoppingCart newCart = new ShoppingCart();
