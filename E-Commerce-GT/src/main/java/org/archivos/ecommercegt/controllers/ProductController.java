@@ -2,10 +2,7 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
-import org.archivos.ecommercegt.dto.product.BasicCatalogProduct;
-import org.archivos.ecommercegt.dto.product.BasicProduct;
-import org.archivos.ecommercegt.dto.product.ProductRequest;
-import org.archivos.ecommercegt.dto.product.ProductResponse;
+import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,6 +34,12 @@ public class ProductController {
     public ResponseEntity<List<BasicCatalogProduct>> getAllBasicApprovedProducts(){
         List<BasicCatalogProduct> products = productService.getAllBasicApprovedProducts();
         return ResponseEntity.ok( products );
+    }
+
+    @GetMapping("/top/selling")
+    public ResponseEntity<List<MoreSellingProduct>> getTopSellingProducts(){
+        List<MoreSellingProduct> topSelling = productService.getMoreSellingProducts();
+        return ResponseEntity.ok(topSelling);
     }
 
     @PostMapping(consumes = {"multipart/form-data"})

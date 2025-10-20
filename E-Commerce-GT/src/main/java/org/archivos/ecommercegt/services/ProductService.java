@@ -1,15 +1,13 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
-import org.archivos.ecommercegt.dto.product.BasicCatalogProduct;
-import org.archivos.ecommercegt.dto.product.BasicProduct;
-import org.archivos.ecommercegt.dto.product.ProductRequest;
-import org.archivos.ecommercegt.dto.product.ProductResponse;
+import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ProductRepository;
 import org.archivos.ecommercegt.services.utilities.ImageService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -128,4 +126,7 @@ public class ProductService {
         return basicProducts;
     }
 
+    public List<MoreSellingProduct> getMoreSellingProducts() {
+        return productRepository.getMoreSellingProducts(PageRequest.of(0, 10));
+    }
 }

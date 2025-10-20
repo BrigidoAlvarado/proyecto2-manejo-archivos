@@ -15,6 +15,7 @@ import {PayShoppingCartComponent} from "./components/pay-shopping-cart/pay-shopp
 import {
   ApproveDeliveryPackageComponent
 } from "./components/approve-delivery-package/approve-delivery-package.component";
+import {TopSellingProductsComponent} from "./components/product/top-selling-products/top-selling-products.component";
 
 export const routes: Routes = [
   {
@@ -46,6 +47,10 @@ export const routes: Routes = [
   {
     path: 'admin/user/new',
     component: CreateUserComponent
+  },
+  {
+    path: 'product/top/selling',
+    component: TopSellingProductsComponent
   },
   // LOGISTICA
   {

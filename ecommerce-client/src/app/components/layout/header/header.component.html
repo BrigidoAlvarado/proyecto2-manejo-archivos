@@ -18,8 +18,16 @@
             </ul>
           </div>
         </li>
-        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
+        <li>
+          <div class="btn-group">
+            <button type="button" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
+              Reporte Productos
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/product/top/selling">Top 10 mas vendidos</a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
 
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.COMMON) {

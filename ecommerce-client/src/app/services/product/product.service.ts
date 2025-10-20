@@ -5,6 +5,7 @@ import {Product} from "../../entities/product/product";
 import {Observable} from "rxjs";
 import {BasicProduct} from "../../entities/product/basic-Product";
 import {ProductResponse} from "../../entities/product/product-response";
+import {ProductReport} from "../../entities/product/product-report";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,11 @@ export class ProductService {
 
   getById(id: number): Observable<ProductResponse>{
     return this.http.get<ProductResponse>(`${this.apiUrl}/display/${id}`);
+  }
+
+  getTopSelling():
+    Observable<ProductReport[]>{
+    return this.http.get<ProductReport[]>(`${this.apiUrl}/top/selling`);
   }
 
   getApprovedAndAvailable(): Observable<BasicProduct[]>{
