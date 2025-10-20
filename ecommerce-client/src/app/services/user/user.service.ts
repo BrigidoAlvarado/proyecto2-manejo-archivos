@@ -1,0 +1,26 @@
+import { Injectable } from '@angular/core';
+import {AppConfig} from "../../config/app.constants";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {UserReport} from "../../entities/user/user-report";
+import {ReportRequest} from "../../entities/report-request";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  private url: string = `${AppConfig.API_URL}/user`;
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  getTopSpent(reportRequest: ReportRequest)
+  :Observable<UserReport[]>{
+    const params:any = []
+    if (reportRequest.startDate) params.startDate = reportRequest.startDate;
+    if (reportRequest.endDate) params.endDate = reportRequest.endDate;
+    return this.http.get<UserReport[]>(`${this.url}/top/spent`, {params: params})
+  }
+}

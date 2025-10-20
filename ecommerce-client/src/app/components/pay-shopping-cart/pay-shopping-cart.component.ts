@@ -85,6 +85,8 @@ export class PayShoppingCartComponent implements OnInit {
           next: () => {
             this.messageService.success('Pago exitoso')
             this.payForm.reset()
+            this.ngOnInit()
+            this.goBack()
           },
           error: err => console.error('Error al pagar el carrito: '+err)
         })

@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   AbstractControl, ValidationErrors
 } from "@angular/forms";
-import { User } from "../../../entities/user";
+import { User } from "../../../entities/user/user";
 import { AuthService } from "../../../services/auth/auth.service";
 import {NgIf} from "@angular/common";
 import {MessageService} from "../../../services/message.service";

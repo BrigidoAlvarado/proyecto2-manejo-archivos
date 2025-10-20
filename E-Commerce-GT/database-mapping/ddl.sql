@@ -37,6 +37,20 @@ create table wallet
             on update cascade
 );
 
+create table transaction
+(
+    id     serial primary key,
+    amount float not null,
+    date timestamp not null  default current_timestamp,
+    wallet int   not null,
+
+    constraint fk_wallet_in_transaction
+        foreign key (wallet)
+            references wallet (id)
+            on delete cascade
+            on update cascade
+);
+
 create table notification
 (
     id      serial primary key,

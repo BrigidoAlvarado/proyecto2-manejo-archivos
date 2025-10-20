@@ -1,4 +1,4 @@
-import {User} from "./user";
+import {User} from "./user/user";
 import {ShoppingCart} from "./shopping-cart";
 
 export interface DeliveryPackage {

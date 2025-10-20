@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {BasicProduct} from "../../entities/product/basic-Product";
 import {ProductResponse} from "../../entities/product/product-response";
 import {ProductReport} from "../../entities/product/product-report";
+import {ReportRequest} from "../../entities/report-request";
 
 @Injectable({
   providedIn: 'root'
@@ -43,9 +44,12 @@ export class ProductService {
     return this.http.get<ProductResponse>(`${this.apiUrl}/display/${id}`);
   }
 
-  getTopSelling():
+  getTopSelling(reportRequest: ReportRequest):
     Observable<ProductReport[]>{
-    return this.http.get<ProductReport[]>(`${this.apiUrl}/top/selling`);
+    const params:any = []
+    if (reportRequest.startDate) params.startDate = reportRequest.startDate;
+    if (reportRequest.endDate) params.endDate = reportRequest.endDate;
+    return this.http.get<ProductReport[]>(`${this.apiUrl}/top/selling`, {params: params});
   }
 
   getApprovedAndAvailable(): Observable<BasicProduct[]>{

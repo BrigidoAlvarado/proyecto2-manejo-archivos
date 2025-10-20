@@ -2,6 +2,7 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
+import org.archivos.ecommercegt.dto.ReportRequest;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.services.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 
+import java.security.Timestamp;
 import java.util.List;
 
 @RestController
@@ -37,8 +39,11 @@ public class ProductController {
     }
 
     @GetMapping("/top/selling")
-    public ResponseEntity<List<MoreSellingProduct>> getTopSellingProducts(){
-        List<MoreSellingProduct> topSelling = productService.getMoreSellingProducts();
+    public ResponseEntity<List<MoreSellingProduct>> getTopSellingProducts(
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
+    ){
+        List<MoreSellingProduct> topSelling = productService.getMoreSellingProducts(startDate, endDate);
         return ResponseEntity.ok(topSelling);
     }
 

@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h2>Top 5 Clientes Con Mas Ganacias</h2>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form [formGroup]="reportForm" (ngSubmit)="submit()" class="d-flex">
+          <input formControlName="startDate" type="date" class="form-control me-2" placeholder="Depues de">
+          <input formControlName="endDate" type="date" class="form-control me-2" placeholder="Antes de">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <table class="table table-bordered table-striped table-hover text-center shadow-sm">
+    <thead class="table-primary">
+    <tr>
+      <th scope="col">No.</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Correo Electronico</th>
+      <th scope="col">Ganacia</th>
+      <th scope="col">Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+      @if (users.length > 0) {
+        @for (user of users; track $index){
+          <tr>
+            <td>{{ $index + 1 }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.earning | number }}</td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <a class="btn btn-info btn-sm" [routerLink]="['/user/display', user.id]">
+                  <i class="bi bi-eye"></i> Ver
+                </a>
+              </div>
+            </td>
+          </tr>
+        }
+      } @else {
+        <tr>
+          <td class="text-center fst-italic text-muted" colspan="5">No se encontraron resultados</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

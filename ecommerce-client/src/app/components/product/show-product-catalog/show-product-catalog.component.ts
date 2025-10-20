@@ -45,7 +45,10 @@ export class ShowProductCatalogComponent implements OnInit {
 
     this.purchaseDetailService.post( {productId: this.productSelected.id, amount: amount} )
       .subscribe({
-        next: () => this.message.success('Producto agregado al carrito de compras exitosamente'),
+        next: () => {
+          this.message.success('Producto agregado al carrito de compras exitosamente')
+          this.ngOnInit()
+        },
         error: (err) => console.error(err)
       })
 

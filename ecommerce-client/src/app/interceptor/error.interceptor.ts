@@ -11,8 +11,8 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
 
       let errorMessage = 'Ocurrio un error en el servidor';
 
-      if (err.status === 401) {
-        errorMessage = 'No tienes acceso';
+      if (err.status === 403) {
+        errorMessage = 'Acceso denegado';
       }
 
       if (err.error && err.error.message) {

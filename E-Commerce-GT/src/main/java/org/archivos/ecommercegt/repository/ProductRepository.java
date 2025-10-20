@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
@@ -29,9 +30,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             from Product p
                 join PurchaseDetail pd on p.id = pd.product.id
                 join ShoppingCart crt  on pd.shoppingCart.id = crt.id
-            where crt.status = false
+                join DeliveryPackage pck on crt.id = pck.shoppingCart.id
+            where ( cast(:startDate as timestamp ) is null or :startDate < pck.departureDate )
+              and ( cast(:endDate as timestamp ) is null or pck.departureDate < :endDate )
             group by p.id, p.name, p.user.name, p.user.email, p.price
             order by sum(pd.amount) desc
     """)
-    List<MoreSellingProduct> getMoreSellingProducts(Pageable page);
+    List<MoreSellingProduct> getMoreSellingProducts(Instant startDate, Instant endDate, Pageable pageable);
 }
