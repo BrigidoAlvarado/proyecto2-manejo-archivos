@@ -9,7 +9,6 @@ import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.ProductRepository;
-import org.archivos.ecommercegt.repository.UserRepository;
 import org.archivos.ecommercegt.services.utilities.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,14 +25,14 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
+
     private final ProductCategoryService productCategoryService;
     private final ImageService imageService;
+    private final UserService userService;
 
     @Transactional
     public void saveProduct(ProductRequest request, String userEmail) {
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Usuario no encontrado"));
+        User user = userService.getUser();
 
         Product product = new Product();
         product.setName(request.getName());
@@ -52,12 +51,20 @@ public class ProductService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La imagen excede el tamaño permitido (5 MB)");
         }
 
-        String imageUrl = imageService.saveImage(imageFile);
-        product.setImageUrl( imageUrl );
+        // Establecer url para la imagen
+        String imageUrl = imageService.getImageUrl(imageFile);
+        System.out.println("La url es: " + imageUrl);
+        product.setImageUrl(imageUrl);
+
+        // Guardar imagen en el servidor
+        imageService.saveImage(imageFile);
+
+        // Guardar Product
         Product productSaved = productRepository.save(product);
 
+        // Guardar Categorias
         productCategoryService.saveProductCategories(request.getCategories(), productSaved);
-
+        product.setImageUrl( imageUrl );
     }
 
     public List<BasicProduct> findAllNoApproved() {

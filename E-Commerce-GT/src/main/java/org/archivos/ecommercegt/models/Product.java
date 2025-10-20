@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -15,15 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 public class Product {
-
-    public Product() {}
-
-    public Product(Integer id, String name, User user) {
-        this.id = id;
-        this.name = name;
-       this.user = user;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

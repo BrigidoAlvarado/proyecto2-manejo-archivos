@@ -19,6 +19,8 @@ public class ImageService {
 
     public static final String IMAGE_PATH = "images-server";
 
+    private String safeFileName;
+
     public ImageService() {
         File dir = new File(IMAGE_PATH);
         if (!dir.exists()) {
@@ -29,22 +31,21 @@ public class ImageService {
         }
     }
 
-    public String saveImage(MultipartFile file) {
-        try {
+    public String getImageUrl(MultipartFile file) {
+            safeFileName = null;
             if (file.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
             }
-
             String originalName = Paths.get(Objects.requireNonNull(file.getOriginalFilename())).getFileName().toString();
-            String safeFileName = UUID.randomUUID() + "_" + originalName.replaceAll("[^a-zA-Z0-9._-]", "_");
-
-            Path destinationPath = Paths.get(IMAGE_PATH).resolve(safeFileName).normalize().toAbsolutePath();
-
-            file.transferTo(destinationPath.toFile());
-
+            safeFileName = UUID.randomUUID() + "_" + originalName.replaceAll("[^a-zA-Z0-9._-]", "_");
             return IMAGE_PATH + File.separator + safeFileName;
+    }
 
-        } catch (IOException e) {
+    public void saveImage(MultipartFile file) {
+        try{
+            Path destinationPath = Paths.get(IMAGE_PATH).resolve(safeFileName).normalize().toAbsolutePath();
+            file.transferTo(destinationPath.toFile());
+        }catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error saving file", e);
         }
     }
