@@ -54,6 +54,10 @@ export const routes: Routes = [
     component: TopSellingProductsComponent
   },
   {
+    path: 'user/top/products-send',
+    component: TopSellingProductsComponent,
+  },
+  {
     path: 'user/top/spent',
     component: UserTopEarningComponent
   },

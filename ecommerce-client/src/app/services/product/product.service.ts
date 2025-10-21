@@ -7,6 +7,7 @@ import {BasicProduct} from "../../entities/product/basic-Product";
 import {ProductResponse} from "../../entities/product/product-response";
 import {ProductReport} from "../../entities/product/product-report";
 import {ReportRequest} from "../../entities/report-request";
+import {UserReport} from "../../entities/user/user-report";
 
 @Injectable({
   providedIn: 'root'

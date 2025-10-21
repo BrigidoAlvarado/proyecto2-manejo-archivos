@@ -23,4 +23,12 @@ export class UserService {
     if (reportRequest.endDate) params.endDate = reportRequest.endDate;
     return this.http.get<UserReport[]>(`${this.url}/top/spent`, {params: params})
   }
+
+  getTopByProductsSend(reportRequest: ReportRequest):
+    Observable<UserReport[]>{
+    const params:any = []
+    if (reportRequest.startDate) params.startDate = reportRequest.startDate;
+    if (reportRequest.endDate) params.endDate = reportRequest.endDate;
+    return this.http.get<UserReport[]>(`${this.url}/top/products-send`, {params: params});
+  }
 }

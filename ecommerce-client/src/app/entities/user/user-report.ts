@@ -3,4 +3,5 @@ export interface UserReport {
   name: string;
   email: string;
   earning: number;
+  productsSend: number
 }

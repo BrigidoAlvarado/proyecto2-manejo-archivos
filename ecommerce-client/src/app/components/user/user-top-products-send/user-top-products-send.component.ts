@@ -1,25 +1,24 @@
 import {Component, OnInit} from '@angular/core';
+import {DecimalPipe} from "@angular/common";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {User} from "../../../entities/user/user";
 import {UserReport} from "../../../entities/user/user-report";
 import {UserService} from "../../../services/user/user.service";
 import {MessageService} from "../../../services/message.service";
-import {DecimalPipe} from "@angular/common";
-import {RouterLink} from "@angular/router";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReportRequest} from "../../../entities/report-request";
 
 @Component({
-  selector: 'app-user-top-spent',
+  selector: 'app-user-top-products-send',
   standalone: true,
-  imports: [
-    DecimalPipe,
-    RouterLink,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './user-top-earning.component.html',
-  styleUrl: './user-top-earning.component.scss'
+    imports: [
+        DecimalPipe,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+  templateUrl: './user-top-products-send.component.html',
+  styleUrl: './user-top-products-send.component.scss'
 })
-export class UserTopEarningComponent implements OnInit {
+export class UserTopProductsSendComponent implements OnInit {
 
   users: UserReport[] = [];
   reportForm!: FormGroup;
@@ -44,13 +43,12 @@ export class UserTopEarningComponent implements OnInit {
     const reportRequest: ReportRequest = this.reportForm.value;
     console.log('submit', reportRequest);
 
-    this.userService.getTopSpent(reportRequest).subscribe({
+    this.userService.getTopByProductsSend(reportRequest).subscribe({
       next: data => {
-        console.log('get success');
         this.users = data},
       error: error =>{
         this.message.error('Error al cargar los datos');
-        console.error('Error al cargar el reporte de usuarios con mas ganacis por ventas',+error)
+        console.error('Error al cargar el reporte de clientes con mayor cantidad de procuctos vendidos',+error)
       },
     })
   }

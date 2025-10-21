@@ -2,6 +2,7 @@ package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.user.UserEarning;
+import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
@@ -47,5 +48,21 @@ public class UserService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public List<UserProductsSend> finUserByProductsSend(String startDate, String endDate) {
+            try{
+                Instant startInstant = null;
+                Instant endInstant = null;
+
+                if( startDate != null ) startInstant = LocalDate.parse( startDate ).atStartOfDay(ZoneId.systemDefault() ).toInstant();
+                if (endDate != null ) endInstant = LocalDate.parse( endDate ).atStartOfDay(ZoneId.systemDefault() ).toInstant();
+
+                final Pageable pageable = PageRequest.of(0, 5);
+                return userRepository.findUserByProductsSend(startInstant, endInstant, pageable);
+            }catch (Exception e){
+                e.printStackTrace();
+                throw e;
+            }
     }
 }

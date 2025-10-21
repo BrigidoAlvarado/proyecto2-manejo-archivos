@@ -3,6 +3,7 @@ package org.archivos.ecommercegt.controllers;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.user.UserEarning;
+import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,15 @@ public class UserController {
             @RequestParam( required = false ) String endDate
     ) {
         List<UserEarning> userTopSpents = userService.findUserByTopSpent(startDate, endDate);
+        return ResponseEntity.ok(userTopSpents);
+    }
+
+    @GetMapping("/top/products-send")
+    public ResponseEntity<List<UserProductsSend>> findUserByTopProductsSend(
+            @RequestParam( required = false ) String startDate,
+            @RequestParam( required = false ) String endDate
+    ) {
+        List<UserProductsSend> userTopSpents = userService.finUserByProductsSend(startDate, endDate);
         return ResponseEntity.ok(userTopSpents);
     }
 }
