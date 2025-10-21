@@ -2,6 +2,7 @@ package org.archivos.ecommercegt.repository;
 
 import org.archivos.ecommercegt.dto.user.UserEarning;
 import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
+import org.archivos.ecommercegt.dto.user.UserProductsApprove;
 import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.models.User;
 import org.springframework.data.domain.Pageable;
@@ -64,4 +65,19 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     order by sum ( crt.user.id ) desc
     """)
     List<UserPackagesOrdered> findUserByPackagesOrdered(Instant startDate, Instant endDate, Pageable pageable);
+
+    @Query("""
+    select new org.archivos.ecommercegt.dto.user.UserProductsApprove(
+        u.id,
+        u.name,
+        u.email,
+        count ( u.id )
+        )
+    from User u
+    join Product pd on u.email = pd.user.email
+    where ( pd.isApproved = true  )
+    group by u.id, u.name, u.email
+    order by count ( u.id ) desc
+    """)
+    List<UserProductsApprove> findUsersByAProvedProducts(Pageable pageable);
 }

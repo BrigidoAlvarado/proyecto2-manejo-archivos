@@ -1,25 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {DecimalPipe} from "@angular/common";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {User} from "../../../entities/user/user";
+import { Component } from '@angular/core';
 import {UserReport} from "../../../entities/user/user-report";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "../../../services/user/user.service";
 import {MessageService} from "../../../services/message.service";
 import {ReportRequest} from "../../../entities/report-request";
+import {DecimalPipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
 
 @Component({
-  selector: 'app-user-top-products-send',
+  selector: 'app-user-top-products-approve',
   standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-      RouterLink
-    ],
-  templateUrl: './user-top-products-send.component.html',
-  styleUrl: './user-top-products-send.component.scss'
+  imports: [
+    DecimalPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink
+  ],
+  templateUrl: './user-top-products-approve.component.html',
+  styleUrl: './user-top-products-approve.component.scss'
 })
-export class UserTopProductsSendComponent implements OnInit {
+export class UserTopProductsApproveComponent {
+
 
   users: UserReport[] = [];
   reportForm!: FormGroup;
@@ -41,15 +42,13 @@ export class UserTopProductsSendComponent implements OnInit {
   }
 
   submit() {
-    const reportRequest: ReportRequest = this.reportForm.value;
-    console.log('submit', reportRequest);
-
-    this.userService.getTopByProductsSend(reportRequest).subscribe({
+    this.userService.getTopByProductsApprove().subscribe({
       next: data => {
+        console.log('get success');
         this.users = data},
       error: error =>{
         this.message.error('Error al cargar los datos');
-        console.error('Error al cargar el reporte de clientes con mayor cantidad de procuctos vendidos',+error)
+        console.error('Error al cargar el reporte de usuarios con mas productos a la venta',+error)
       },
     })
   }

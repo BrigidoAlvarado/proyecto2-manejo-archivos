@@ -44,7 +44,7 @@ export class UserTopEarningComponent implements OnInit {
     const reportRequest: ReportRequest = this.reportForm.value;
     console.log('submit', reportRequest);
 
-    this.userService.getTopSpent(reportRequest).subscribe({
+    this.userService.getTopEarning(reportRequest).subscribe({
       next: data => {
         console.log('get success');
         this.users = data},

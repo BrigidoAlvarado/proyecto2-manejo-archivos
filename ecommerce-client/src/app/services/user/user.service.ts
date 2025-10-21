@@ -16,7 +16,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  getTopSpent(reportRequest: ReportRequest)
+  getTopEarning(reportRequest: ReportRequest)
   :Observable<UserReport[]>{
     const params:any = []
     if (reportRequest.startDate) params.startDate = reportRequest.startDate;
@@ -38,5 +38,11 @@ export class UserService {
     if (reportRequest.startDate) params.startDate = reportRequest.startDate;
     if (reportRequest.endDate) params.endDate = reportRequest.endDate;
     return this.http.get<UserReport[]>(`${this.url}/top/packages-ordered`, {params: params});
+  }
+
+  getTopByProductsApprove():
+    Observable<UserReport[]>{
+
+    return this.http.get<UserReport[]>(`${this.url}/top/products-approve`);
   }
 }

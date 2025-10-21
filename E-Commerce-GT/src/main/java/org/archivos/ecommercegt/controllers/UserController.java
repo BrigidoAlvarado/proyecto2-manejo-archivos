@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.user.UserEarning;
 import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
+import org.archivos.ecommercegt.dto.user.UserProductsApprove;
 import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,12 @@ public class UserController {
             @RequestParam( required = false ) String endDate
     ) {
         List<UserPackagesOrdered> userPackagesOrdered = userService.finUserByPackagesOrdered(startDate, endDate);
+        return ResponseEntity.ok(userPackagesOrdered);
+    }
+
+    @GetMapping("/top/products-approve")
+    public ResponseEntity<List<UserProductsApprove>> findUsersByProductsApprove() {
+        List<UserProductsApprove> userPackagesOrdered = userService.finUserByProductsApprove();
         return ResponseEntity.ok(userPackagesOrdered);
     }
 }

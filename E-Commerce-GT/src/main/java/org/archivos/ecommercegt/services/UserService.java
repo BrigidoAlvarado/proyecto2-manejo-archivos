@@ -3,6 +3,7 @@ package org.archivos.ecommercegt.services;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.user.UserEarning;
 import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
+import org.archivos.ecommercegt.dto.user.UserProductsApprove;
 import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.UserRepository;
@@ -81,6 +82,11 @@ public class UserService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public List<UserProductsApprove> finUserByProductsApprove( ) {
+        final Pageable pageable = PageRequest.of(0, 10);
+        return userRepository.findUsersByAProvedProducts( pageable );
     }
 
 }
