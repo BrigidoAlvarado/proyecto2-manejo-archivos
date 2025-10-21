@@ -55,9 +55,18 @@ create table notification
 (
     id      serial primary key,
     sender  varchar(50) not null,
-    context text        not null
+    content text        not null,
+    subject text        not null,
+    _user   varchar(50) not null,
+
+    constraint fk_user_int_notification
+        foreign key (_user)
+        references _user(email)
+        on delete cascade
+        on update cascade
 );
 
+/*
 create table notification_sent
 (
     id           serial primary key,
@@ -77,6 +86,7 @@ create table notification_sent
             on update cascade
 
 );
+*/
 
 create table credit_card
 (

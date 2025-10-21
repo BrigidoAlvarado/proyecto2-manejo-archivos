@@ -19,6 +19,7 @@ public class ApplicationConfig {
 
     public static final String BASE_URL = "/api/v1";
     public static final String ADMIN_EMAIL = "admin@mail.com";
+    public static final String APP_EMAIL = "brigidoavarado@gmail.com";
 
     private final UserRepository userRepository;
 

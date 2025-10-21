@@ -8,6 +8,7 @@ import org.archivos.ecommercegt.repository.DeliveryPackageRepository;
 import org.archivos.ecommercegt.services.utilities.ParseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class DeliveryPackageService {
     private final DeliveryPackageRepository deliveryPackageRepository;
 
     private final ParseService shoppingCartTools;
+    private final NotificationService notificationService;
 
     public void save(ShoppingCart shoppingCart, double totalPrice) {
         DeliveryPackage deliveryPackage = new DeliveryPackage();
@@ -49,13 +51,21 @@ public class DeliveryPackageService {
         return deliveryPackagesResponse;
     }
 
+    @Transactional
     public void deliverPackage(int id){
-        //obtener el paquete
-        DeliveryPackage deliveryPackage = deliveryPackageRepository.findById(id)
-                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery package not found"));
-        //actualizar el estado
-        deliveryPackage.setIsDelivered(true);
-        //acutalizar la db
-        deliveryPackageRepository.save(deliveryPackage);
+        try{
+            // obtener el paquete
+            DeliveryPackage deliveryPackage = deliveryPackageRepository.findById(id)
+                    .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery package not found"));
+            // actualizar el estado
+            deliveryPackage.setIsDelivered(true);
+            // acutalizar la db
+            deliveryPackageRepository.save(deliveryPackage);
+            // notificar entrega
+            notificationService.notifyPackageStatusChange(deliveryPackage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo entregar el paquete");
+        }
     }
 }
