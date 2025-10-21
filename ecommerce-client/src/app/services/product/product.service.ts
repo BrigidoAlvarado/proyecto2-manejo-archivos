@@ -65,7 +65,7 @@ export class ProductService {
     return this.http.get<BasicProduct[]>(`${this.apiUrl}/approved/available`);
   }
 
-  patchApprove(id: number): Observable<any>{
-    return this.http.patch<any>(`${this.apiUrl}/approve/${id}`, {});
+  patchApprove( approveRequest: {id: number, isApprove: boolean}): Observable<any>{
+    return this.http.patch<any>(`${this.apiUrl}/approve`, approveRequest);
   }
 }

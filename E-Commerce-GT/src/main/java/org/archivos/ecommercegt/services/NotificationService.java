@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.models.DeliveryPackage;
 import org.archivos.ecommercegt.models.Notification;
+import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.NotificationRepository;
 import org.archivos.ecommercegt.services.utilities.MailService;
@@ -23,11 +24,26 @@ public class NotificationService {
         final String subject = "E Commerce GT pedido No." + deliveryPackage.getId();
         final String text = "El pedido No." + deliveryPackage.getId() + " ha sido envido"
                 + " fecha estimada de entrega: " + deliveryPackage.getDeliveryDate().toString();
-        notify(deliveryPackage, subject, text);
+        notify(deliveryPackage.getShoppingCart().getUser(), subject, text);
     }
 
-    public void notify(DeliveryPackage deliveryPackage, String subject, String text) {
-        final User user = deliveryPackage.getShoppingCart().getUser();
+    public void notifyNoApproveProduct( Product product ) {
+        final String subject = "E Commerce GT producto No." + product.getId();
+        final String text = "El producto No." + product.getId()
+                + " con nombre " + product.getName() + " ha sido rechazado por nuestro equipo.";
+
+        notify( product.getUser(), subject, text);
+    }
+
+    public void notifyApproveProduct( Product product ) {
+        final String subject = "E Commerce GT producto No." + product.getId();
+        final String text = "El producto No." + product.getId()
+                + " con nombre " + product.getName() + " ha sido aprovado por nuestro equipo.";
+
+        notify( product.getUser(), subject, text);
+    }
+
+    public void notify(User user, String subject, String text) {
 
         // guardar la notificacion en la base de datos
         Notification notification = new Notification();

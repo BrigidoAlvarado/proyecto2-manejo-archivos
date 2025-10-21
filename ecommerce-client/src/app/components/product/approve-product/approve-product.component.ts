@@ -26,11 +26,20 @@ export class ApproveProductComponent implements OnInit {
     this.productService.getNoApproved().subscribe( noApprovedList => this.basicProducts = noApprovedList );
   }
 
-  approve(id: number) {
-    this.productService.patchApprove(id).subscribe({
+  approve(id: number, isApprove: boolean) {
+    this.productService.patchApprove(
+      {
+        id: id,
+        isApprove: isApprove
+      }
+    ).subscribe({
       next: () => {
         this.ngOnInit()
-        this.message.success('Se aprobo el producto correctamente')
+        if (isApprove){
+          this.message.success('Se aprobo el producto correctamente')
+        } else {
+          this.message.success('Se rechazo el producto correctamente')
+        }
       },
       error: (error) => {
         console.error(error);

@@ -26,8 +26,13 @@
 
               <button
                 class="btn btn-success btn-sm"
-                (click)="approve(product.id)">
-                <i class="bi bi-check-circle"></i> Aprobar
+                (click)="approve(product.id, true)">
+                <i class="bi bi-check-circle mx-2"></i> Aprobar
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="approve(product.id, false)" >
+                <i class="bi bi-x-circle mx-2"></i> Rechazar
               </button>
             </div>
           </td>

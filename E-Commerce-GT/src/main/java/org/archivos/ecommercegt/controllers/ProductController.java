@@ -71,9 +71,11 @@ public class ProductController {
         }
     }
 
-    @PatchMapping("/approve/{id}")
-    public ResponseEntity<?> approveProduct(@PathVariable int id){
-        productService.approveProduct(id);
+    @PatchMapping("/approve")
+    public ResponseEntity<?> approveProduct(
+            @RequestBody ApproveProductRequest approveProductRequest
+    ){
+        productService.approveProduct(approveProductRequest);
         return ResponseEntity.ok().build();
     }
 }

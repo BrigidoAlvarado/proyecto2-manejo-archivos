@@ -68,4 +68,23 @@ public class ImageService {
     public String getBase64Image(String relativePath) {
         return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString( getImage(relativePath) );
     }
+
+    public void deleteImage(String relativePath) {
+        try {
+            // Construye la ruta absoluta normalizada
+            Path imagePath = Paths.get(relativePath).normalize().toAbsolutePath();
+
+            // Verifica si el archivo existe antes de eliminarlo
+            if (!Files.exists(imagePath)) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+            }
+
+            // Elimina el archivo
+            Files.delete(imagePath);
+
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting image", e);
+        }
+    }
+
 }

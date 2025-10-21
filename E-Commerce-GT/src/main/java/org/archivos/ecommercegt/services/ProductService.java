@@ -33,6 +33,7 @@ public class ProductService {
     private final ProductCategoryService productCategoryService;
     private final ImageService imageService;
     private final UserService userService;
+    private final NotificationService notificationService;
 
     @Transactional
     public void saveProduct(ProductRequest request, String userEmail) {
@@ -99,16 +100,23 @@ public class ProductService {
                 .build();
     }
 
-    public void approveProduct(int id) {
+    @Transactional
+    public void approveProduct(ApproveProductRequest approveProductRequest) {
+
         Product product = productRepository
-                .findById(id)
+                .findById(approveProductRequest.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
 
-        product.setApproved( true );
+        if (approveProductRequest.getIsApprove()){
+            product.setApproved( true );
+            productRepository.save(product);
+            notificationService.notifyApproveProduct(product);
+        } else {
+            productRepository.deleteById(approveProductRequest.getId());
+            imageService.deleteImage( product.getImageUrl() );
+            notificationService.notifyNoApproveProduct(product);
+        }
 
-        System.out.println("se aprobo el producto");
-
-        productRepository.save(product);
     }
 
     public List<BasicCatalogProduct> getAllBasicApprovedProducts() {
