@@ -4,4 +4,5 @@ export interface UserReport {
   email: string;
   earning: number;
   productsSend: number
+  packagesOrdered: number
 }

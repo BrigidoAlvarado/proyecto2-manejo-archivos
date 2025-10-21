@@ -3,6 +3,7 @@ package org.archivos.ecommercegt.controllers;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.user.UserEarning;
+import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
 import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,14 @@ public class UserController {
     ) {
         List<UserProductsSend> userTopSpents = userService.finUserByProductsSend(startDate, endDate);
         return ResponseEntity.ok(userTopSpents);
+    }
+
+    @GetMapping("/top/packages-ordered")
+    public ResponseEntity<List<UserPackagesOrdered>> findUserByPackagesOrdered(
+            @RequestParam( required = false ) String startDate,
+            @RequestParam( required = false ) String endDate
+    ) {
+        List<UserPackagesOrdered> userPackagesOrdered = userService.finUserByPackagesOrdered(startDate, endDate);
+        return ResponseEntity.ok(userPackagesOrdered);
     }
 }

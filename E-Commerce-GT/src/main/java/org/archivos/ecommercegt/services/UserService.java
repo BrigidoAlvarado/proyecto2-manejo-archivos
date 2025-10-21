@@ -2,6 +2,7 @@ package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.user.UserEarning;
+import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
 import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.UserRepository;
@@ -65,4 +66,21 @@ public class UserService {
                 throw e;
             }
     }
+
+    public List<UserPackagesOrdered> finUserByPackagesOrdered(String startDate, String endDate) {
+        try{
+            Instant startInstant = null;
+            Instant endInstant = null;
+
+            if( startDate != null ) startInstant = LocalDate.parse( startDate ).atStartOfDay(ZoneId.systemDefault() ).toInstant();
+            if (endDate != null ) endInstant = LocalDate.parse( endDate ).atStartOfDay(ZoneId.systemDefault() ).toInstant();
+
+            final Pageable pageable = PageRequest.of(0, 10);
+            return userRepository.findUserByPackagesOrdered(startInstant, endInstant, pageable);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 }

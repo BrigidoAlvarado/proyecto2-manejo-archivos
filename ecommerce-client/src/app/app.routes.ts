@@ -17,6 +17,9 @@ import {
 } from "./components/approve-delivery-package/approve-delivery-package.component";
 import {TopSellingProductsComponent} from "./components/product/top-selling-products/top-selling-products.component";
 import {UserTopEarningComponent} from "./components/user/user-top-spent/user-top-earning.component";
+import {
+  UserTopPackagesOrderedComponent
+} from "./components/user/user-top-packages-ordered/user-top-packages-ordered.component";
 
 export const routes: Routes = [
   {
@@ -58,8 +61,12 @@ export const routes: Routes = [
     component: TopSellingProductsComponent,
   },
   {
-    path: 'user/top/spent',
+    path: 'user/top/earning',
     component: UserTopEarningComponent
+  },
+  {
+    path: 'user/top/packages-ordered',
+    component: UserTopPackagesOrderedComponent
   },
   // LOGISTICA
   {

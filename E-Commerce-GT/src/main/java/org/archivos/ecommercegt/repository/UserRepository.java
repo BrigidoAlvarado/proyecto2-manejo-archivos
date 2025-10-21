@@ -1,6 +1,7 @@
 package org.archivos.ecommercegt.repository;
 
 import org.archivos.ecommercegt.dto.user.UserEarning;
+import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
 import org.archivos.ecommercegt.dto.user.UserProductsSend;
 import org.archivos.ecommercegt.models.User;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,25 @@ public interface UserRepository extends JpaRepository<User, Integer> {
         join PurchaseDetail pd on pd.shoppingCart.id = crt.id
         join Product prod on pd.product.id = prod.id
     where ( cast(:startDate as timestamp ) is null or :startDate < pck.departureDate )
-             and ( cast(:endDate as timestamp ) is null or pck.departureDate < :endDate )
+    and ( cast(:endDate as timestamp ) is null or pck.departureDate < :endDate )
+    group by prod.user.id, prod.user.name
+    order by sum( pd.amount ) desc
     """)
     List<UserProductsSend> findUserByProductsSend(Instant startDate, Instant endDate, Pageable pageable);
+
+    @Query("""
+    select new org.archivos.ecommercegt.dto.user.UserPackagesOrdered(
+        crt.user.id,
+        crt.user.name,
+        crt.user.email,
+        count ( crt.user.id )
+        )
+    from DeliveryPackage pck
+    join ShoppingCart crt on crt.id = pck.shoppingCart.id
+    where ( cast(:startDate as timestamp ) is null or :startDate < pck.departureDate )
+    and ( cast(:endDate as timestamp ) is null or pck.departureDate < :endDate )
+    group by crt.user.id, crt.user.name, crt.user.email
+    order by sum ( crt.user.id ) desc
+    """)
+    List<UserPackagesOrdered> findUserByPackagesOrdered(Instant startDate, Instant endDate, Pageable pageable);
 }
