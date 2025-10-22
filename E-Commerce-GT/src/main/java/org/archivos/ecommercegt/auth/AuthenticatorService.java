@@ -9,6 +9,7 @@ import org.archivos.ecommercegt.models.enums.Role;
 import org.archivos.ecommercegt.repository.ShoppingCartRepository;
 import org.archivos.ecommercegt.repository.UserRepository;
 import org.archivos.ecommercegt.services.CommonUserService;
+import org.archivos.ecommercegt.services.SanctionService;
 import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +29,7 @@ public class AuthenticatorService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final CommonUserService commonUserService;
+    private final SanctionService sanctionService;
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
@@ -81,6 +83,8 @@ public class AuthenticatorService {
                                 "Correo Electronico o contraseña invalidos"
                         )
                 );
+
+        sanctionService.validateSanction(user);
 
         var jwtToken = jwtService.generateToken(user);
 
