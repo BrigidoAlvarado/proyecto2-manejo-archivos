@@ -2,7 +2,6 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
-import org.archivos.ecommercegt.dto.ReportRequest;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.services.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
 
-import java.security.Timestamp;
 import java.util.List;
 
 @RestController
@@ -21,14 +19,16 @@ public class ProductController {
 
     private final ProductService productService;
 
+    // Usuario moderador obtiene los no aprobados para aprobarlos
     @GetMapping("/noApproved")
     public ResponseEntity<List<BasicProduct>> getNoApprovedProducts(){
         return ResponseEntity.ok(productService.findAllNoApproved());
     }
 
+    // Obtener producto por id
     @GetMapping("/display/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable int id){
-        ProductResponse productResp = productService.getProductById(id);
+        ProductResponse productResp = productService.getProductResponseById(id);
         return ResponseEntity.ok(productResp);
     }
 
@@ -45,6 +45,12 @@ public class ProductController {
     ){
         List<MoreSellingProduct> topSelling = productService.getMoreSellingProducts(startDate, endDate);
         return ResponseEntity.ok(topSelling);
+    }
+
+    @GetMapping("/no-approve/revised")
+    public ResponseEntity<List<BasicProduct>> getNoApprove(){
+        List<BasicProduct> products = productService.findNoApproveAndRevised();
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping(consumes = {"multipart/form-data"})

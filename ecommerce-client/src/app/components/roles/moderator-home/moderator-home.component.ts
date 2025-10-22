@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ApproveProductComponent} from "../../product/approve-product/approve-product.component";
+import ApproveProductComponent from "../../product/approve-product/approve-product.component";
 
 @Component({
   selector: 'app-moderator-home',

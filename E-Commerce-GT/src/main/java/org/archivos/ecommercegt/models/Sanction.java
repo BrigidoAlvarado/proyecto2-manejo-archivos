@@ -22,12 +22,12 @@ public class Sanction {
     @Column(name = "reason", nullable = false, length = Integer.MAX_VALUE)
     private String reason;
 
-    @Column(name = "is_reviewed", nullable = false)
-    private Boolean isReviewed = false;
-
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @Column(name = "end_at")
+    private Instant endAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)

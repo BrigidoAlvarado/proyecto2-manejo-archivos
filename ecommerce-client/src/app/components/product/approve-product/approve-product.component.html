@@ -4,24 +4,25 @@
   <table class="table table-bordered table-striped table-hover align-middle text-center shadow-sm">
     <thead class="table-primary">
     <tr>
-      <th>#</th>
+      <th>No.</th>
+      <th>ID</th>
       <th>Nombre</th>
       <th>Usuario</th>
       <th>Opciones</th>
     </tr>
     </thead>
-
     <tbody>
       @for (product of basicProducts; track $index) {
         <tr>
           <td>{{ $index + 1 }}</td>
+          <td>{{ product.id }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.user }}</td>
           <td>
             <div class="d-flex justify-content-center gap-2">
 
               <a class="btn btn-info btn-sm" [routerLink]="['/product/display', product.id]">
-                <i class="bi bi-eye"></i> Ver
+                <i class="bi bi-eye"></i> Ver Detalles
               </a>
 
               <button
@@ -29,10 +30,20 @@
                 (click)="approve(product.id, true)">
                 <i class="bi bi-check-circle mx-2"></i> Aprobar
               </button>
+
               <button
-                class="btn btn-danger btn-sm"
-                (click)="approve(product.id, false)" >
+                class="btn btn-warning bt  n-sm"
+                (click)="approve(product.id, false)">
                 <i class="bi bi-x-circle mx-2"></i> Rechazar
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#sanctionModal"
+                (click)="selectProduct(product)">
+                <i class="bi bi-shield-x mx-2"></i> Sancionar y Rechazar
               </button>
             </div>
           </td>
@@ -44,4 +55,54 @@
       }
     </tbody>
   </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="sanctionModal" tabindex="-1" aria-labelledby="sanctionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sanctionModalLabel">
+          {{ (productSelected) ? productSelected.user : '' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      @if (productSelected) {
+        <div class="modal-body">
+          <div class="card">
+            <form [formGroup]="sanctionForm" (ngSubmit)="sanction()">
+
+              <div class="mb-3">
+                <label for="amountDays" class="form-label">cantidad de dias que se bloqueara la cuenta</label>
+                <input class="form-control" type="number" id="amountDays" formControlName="amountDays">
+                @if (validForm.isInvalid(sanctionForm, 'amountDays')) {
+                  <label class="text-danger text-muted">
+                    El numero de dias debe ser minimo 1 y es requerido.
+                  </label>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label for="reason">Motivo de la sancion</label>
+                <textarea rows="3" class="form-control" id="reason" formControlName="reason"></textarea>
+                @if (validForm.isInvalid(sanctionForm, 'amountDays')) {
+                  <label class="text-danger text-muted">
+                    El motivo de la sacion es requerida.
+                  </label>
+                }
+              </div>
+
+              <button class="btn btn-danger w-100 " type="submit" data-bs-dismiss="modal">
+                Sancionar
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+        </div>
+      }
+    </div>
+  </div>
 </div>

@@ -106,11 +106,11 @@ create table credit_card
 
 create table sanction
 (
-    id          serial primary key,
-    reason      text        not null,
-    is_reviewed boolean     not null,
-    created_at  timestamp default current_timestamp,
-    _user       varchar(50) not null,
+    id          serial primary key ,
+    reason      text        not null ,
+    created_at  timestamp   not null default current_timestamp,
+    end_at       timestamp   not null ,
+    _user       varchar(50) not null ,
 
     constraint fk_user_in_sanction
         foreign key (_user)
@@ -129,6 +129,7 @@ create table product
     stock       int         not null,
     is_new      boolean     not null,
     is_approved boolean     not null default false,
+    is_revised boolean      not null default false,
     _user       varchar(50) not null,
 
     constraint fk_user_in_product

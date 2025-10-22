@@ -35,6 +35,14 @@ public class UserService {
                 );
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "El usuario no existe")
+                );
+    }
+
     public List<UserEarning> findUserByTopSpent(String startDate, String endDate ) {
 
         try{

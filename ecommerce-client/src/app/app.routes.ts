@@ -8,7 +8,7 @@ import {CommonHomeComponent} from "./components/roles/common-home/common-home.co
 import {LogoutComponent} from "./components/user/logout/logout.component";
 import {NewProductComponent} from "./components/product/new-product/new-product.component";
 import {CreateUserComponent} from "./components/user/create-user/create-user.component";
-import {ApproveProductComponent} from "./components/product/approve-product/approve-product.component";
+import ApproveProductComponent from "./components/product/approve-product/approve-product.component";
 import {DisplayProductComponent} from "./components/product/display-product/display-product.component";
 import {ShoppingCartComponent} from "./components/shoppig-cart/shopping-cart.component";
 import {PayShoppingCartComponent} from "./components/pay-shopping-cart/pay-shopping-cart.component";

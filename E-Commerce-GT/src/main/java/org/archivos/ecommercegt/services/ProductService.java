@@ -1,7 +1,6 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
-import org.archivos.ecommercegt.dto.ReportRequest;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -76,12 +74,8 @@ public class ProductService {
         return productRepository.findAllNoApproved();
     }
 
-    public ProductResponse getProductById(int id) {
-        Product product = productRepository
-                .findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
-
+    public ProductResponse getProductResponseById(int id) {
+        Product product = getProductById(id);
         List<String> categories = product.getCategories()
                 .stream()
                 .map(Category::getName)
@@ -100,6 +94,14 @@ public class ProductService {
                 .build();
     }
 
+    public Product getProductById(int id) {
+        return productRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+    }
+
     @Transactional
     public void approveProduct(ApproveProductRequest approveProductRequest) {
 
@@ -107,21 +109,20 @@ public class ProductService {
                 .findById(approveProductRequest.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
 
+        product.setRevised(true);
+
         if (approveProductRequest.getIsApprove()){
             product.setApproved( true );
-            productRepository.save(product);
             notificationService.notifyApproveProduct(product);
         } else {
-            productRepository.deleteById(approveProductRequest.getId());
-            imageService.deleteImage( product.getImageUrl() );
             notificationService.notifyNoApproveProduct(product);
         }
-
+        productRepository.save(product);
     }
 
     public List<BasicCatalogProduct> getAllBasicApprovedProducts() {
         final String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        final List<Product> products = productRepository.findByIsApprovedTrueAndStockGreaterThan(0);
+        final List<Product> products = productRepository.findByIsRevisedTrueAndIsApprovedTrueAndStockGreaterThan(0);
         final List<BasicCatalogProduct> basicProducts = new ArrayList<>();
 
         for (Product product : products) {
@@ -159,5 +160,21 @@ public class ProductService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public List<BasicProduct> findNoApproveAndRevised() {
+        List<Product> products = productRepository.findByIsRevisedTrueAndIsApprovedFalse();
+        List<BasicProduct> basicProducts = new ArrayList<>();
+
+        for (Product product : products) {
+            basicProducts.add(
+              BasicProduct.builder()
+                      .id( product.getId() )
+                      .name( product.getName() )
+                      .user( product.getUser().getEmail() )
+                      .build()
+            );
+        }
+        return basicProducts;
     }
 }

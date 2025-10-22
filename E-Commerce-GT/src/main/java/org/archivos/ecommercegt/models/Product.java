@@ -39,6 +39,10 @@ public class Product {
     @Column(name = "is_approved")
     private boolean isApproved;
 
+    @ColumnDefault("false")
+    @Column(name = "is_revised")
+    private boolean isRevised;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "product_category",

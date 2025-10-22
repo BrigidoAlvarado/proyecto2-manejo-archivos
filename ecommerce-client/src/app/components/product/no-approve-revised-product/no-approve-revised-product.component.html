@@ -1,0 +1,35 @@
+<div class="container mt-4">
+  <h2 class="mb-3 text-center">Lista de Productos</h2>
+
+  <table class="table table-bordered table-striped table-hover align-middle text-center shadow-sm">
+    <thead class="table-primary">
+    <tr>
+      <th>No.</th>
+      <th>ID</th>
+      <th>Correo Cliente</th>
+      <th>Usuario</th>
+      <th>Opciones</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      @for (product of products; track $index) {
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.user }}</td>
+          <td>
+
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" class="text-muted fst-italic">No hay productos rechazados</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+

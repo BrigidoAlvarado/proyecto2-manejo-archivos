@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "FROM Product p WHERE not p.isApproved")
     List<BasicProduct> findAllNoApproved();
 
-    List<Product> findByIsApprovedTrueAndStockGreaterThan(int stock);
+    List<Product> findByIsRevisedTrueAndIsApprovedTrueAndStockGreaterThan(int stock);
 
     @Query("""
         select new org.archivos.ecommercegt.dto.product.MoreSellingProduct(
@@ -37,4 +37,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             order by sum(pd.amount) desc
     """)
     List<MoreSellingProduct> getMoreSellingProducts(Instant startDate, Instant endDate, Pageable pageable);
+
+    List<Product> findByIsRevisedTrueAndIsApprovedFalse();
 }

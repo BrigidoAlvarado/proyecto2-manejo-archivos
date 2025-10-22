@@ -53,19 +53,24 @@ export class ProductService {
     return this.http.get<ProductReport[]>(`${this.apiUrl}/top/selling`, {params: params});
   }
 
+  getApprovedAndAvailable(): Observable<BasicProduct[]>{
+    return this.http.get<BasicProduct[]>(`${this.apiUrl}/approved/available`);
+  }
+
+  patchApprove( approveProductRequest: {id: number, isApprove: boolean}): Observable<any>{
+    return this.http.patch<any>(`${this.apiUrl}/approve`, approveProductRequest);
+  }
+
+  getNoApproveAnRevised()
+    :Observable<BasicProduct[]>{
+    return this.http.get<BasicProduct[]>(`${this.apiUrl}/no-approve/revised`);
+  }
+
   getByProductsApprove(reportRequest: ReportRequest):
     Observable<ProductReport[]>{
     const params:any = []
     if (reportRequest.startDate) params.startDate = reportRequest.startDate;
     if (reportRequest.endDate) params.endDate = reportRequest.endDate;
     return this.http.get<ProductReport[]>(`${this.apiUrl}/top/products-approve`, {params: params});
-  }
-
-  getApprovedAndAvailable(): Observable<BasicProduct[]>{
-    return this.http.get<BasicProduct[]>(`${this.apiUrl}/approved/available`);
-  }
-
-  patchApprove( approveRequest: {id: number, isApprove: boolean}): Observable<any>{
-    return this.http.patch<any>(`${this.apiUrl}/approve`, approveRequest);
   }
 }
