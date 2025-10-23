@@ -2,14 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ProductService} from "../../../services/product/product.service";
 import {ProductResponse} from "../../../entities/product/product-response";
-import {Location, NgClass,} from "@angular/common";
+      import {Location, NgClass,} from "@angular/common";
 import {AuthService} from "../../../services/auth/auth.service";
+import {NewCommentComponent} from "../../comment/new-comment/new-comment.component";
 
 @Component({
   selector: 'app-display-product',
   standalone: true,
   imports: [
     NgClass,
+    NewCommentComponent,
   ],
   templateUrl: './display-product.component.html',
   styleUrl: './display-product.component.scss'
@@ -22,6 +24,7 @@ export class DisplayProductComponent implements OnInit {
     private route: ActivatedRoute,
     private productService: ProductService,
     private location: Location,
+    public authService: AuthService,
     public auth: AuthService,
   ) {
   }

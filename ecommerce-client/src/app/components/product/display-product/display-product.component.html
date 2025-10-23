@@ -37,7 +37,13 @@
         </span>
           }
         </div>
-        <button class="btn btn-outline-info" (click)="goBack()">Regresar</button>
+        <div>
+          <button class="btn btn-outline-info mx-2" (click)="goBack()">Regresar</button>
+          @if (authService.decodeToken()?.role === 'COMMON') {
+            <app-new-comment [productId]="product.id" ></app-new-comment>
+          }
+        </div>
+
       </div>
     </div>
   </div>

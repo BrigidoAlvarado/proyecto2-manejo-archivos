@@ -1,0 +1,49 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCommentModal">
+  Nuevo Comentario
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="newCommentModal" tabindex="-1" aria-labelledby="newCommentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="newCommentModalLabel">Nuevo Comentario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (productId){
+          <form [formGroup]="commentForm" (ngSubmit)="submit()" class="p-4 rounded shadow-sm bg-light border">
+            <div class="mb-4">
+              <label class="form-label fw-semibold " for="comment">
+                Contenido del Comentario
+              </label>
+
+
+              <textarea
+                class="form-control"
+                formControlName="comment"
+                id="comment"
+                rows="4"
+                placeholder="Escribe tu comentario aqui ...">
+              </textarea>
+
+              @if (validForm.isInvalid(commentForm, 'comment')) {
+                <div class="form-text text-bg-danger mt-1" >
+                  El contenido del comentario no puede estar vacio.
+                </div>
+              }
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" data-bs-dismiss="modal">
+              guardar
+            </button>
+          </form>
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
