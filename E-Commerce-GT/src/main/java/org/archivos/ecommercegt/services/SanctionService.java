@@ -1,10 +1,9 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
-import org.archivos.ecommercegt.dto.SanctionRequest;
-import org.archivos.ecommercegt.models.Product;
-import org.archivos.ecommercegt.models.Sanction;
-import org.archivos.ecommercegt.models.User;
+import org.archivos.ecommercegt.dto.sanction.SanctionDeliveryPackageRequest;
+import org.archivos.ecommercegt.dto.sanction.SanctionProductRequest;
+import org.archivos.ecommercegt.models.*;
 import org.archivos.ecommercegt.repository.SanctionRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,12 +19,13 @@ import java.util.Optional;
 public class SanctionService {
 
     private final SanctionRepository sanctionRepository;
+    private final DeliveryPackageService deliveryPackageService;
 
     private final UserService userService;
     private final ProductService productService;
 
     @Transactional
-    public Sanction save(SanctionRequest  sanctionRequest) {
+    public void sanctionAndRejectProduct(SanctionProductRequest sanctionRequest) {
 
         Product product = productService.getProductById( sanctionRequest.getApproveProductRequest().getId() );
         productService.approveProduct(sanctionRequest.getApproveProductRequest());
@@ -36,7 +36,27 @@ public class SanctionService {
         sanction.setCreatedAt( Instant.now());
         sanction.setEndAt( Instant.now().plus(sanctionRequest.getAmountDays(), ChronoUnit.DAYS) );
 
-        return sanctionRepository.save(sanction);
+        sanctionRepository.save(sanction);
+    }
+
+    @Transactional
+    public void sanctionDeliveryPackage(SanctionDeliveryPackageRequest request){
+
+        Sanction sanction = new Sanction();
+        sanction.setCreatedAt( Instant.now() );
+        sanction.setEndAt( Instant.now().plus( request.getAmountDays(), ChronoUnit.DAYS ));
+        sanction.setReason( request.getReason() );
+
+        final DeliveryPackage deliveryPackage = deliveryPackageService.getDeliveryPackageById( request.getDeliveryPackageId() );
+
+        for( PurchaseDetail item: deliveryPackage.getShoppingCart().getPurchaseDetails() ){
+            User user = item.getProduct().getUser();
+            sanction.setUser(user);
+            sanctionRepository.save(sanction);
+        }
+
+        deliveryPackage.setIsRevised(true);
+        deliveryPackageService.save(deliveryPackage);
     }
 
     public void validateSanction(User user){

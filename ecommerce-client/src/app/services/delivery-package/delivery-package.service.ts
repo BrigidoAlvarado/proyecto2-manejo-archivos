@@ -21,8 +21,18 @@ export class DeliveryPackageService {
     return this.http.get<DeliveryPackage[]>(this.url)
   }
 
-  deliverPackage(id:number):
+  getAllPackagesNoRevised()
+  :Observable<DeliveryPackage []>{
+    return this.http.get<DeliveryPackage[]>(`${this.url}/no-revised`)
+  }
+
+  patchDeliverPackage(id:number):
   Observable<any>{
     return this.http.patch<DeliveryPackage>(`${this.url}/deliver/${id}`,{})
+  }
+
+  patchRevisedPackage(id:number)
+    : Observable<any>{
+    return this.http.patch(`${this.url}/revised/${id}`,{})
   }
 }

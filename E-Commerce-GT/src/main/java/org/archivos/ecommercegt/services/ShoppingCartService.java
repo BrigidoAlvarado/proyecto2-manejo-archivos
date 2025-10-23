@@ -52,6 +52,17 @@ public class ShoppingCartService {
         return shoppingCartTools.parseShoppingCartResponse(cart);
     }
 
+    public ShoppingCartResponse getShoppingCartResponseById(int id){
+        final ShoppingCart cart = getShoppingCartById(id);
+        return shoppingCartTools.parseShoppingCartResponse(cart);
+    }
+
+    public ShoppingCart getShoppingCartById(int id){
+        return shoppingCartRepository.findById(id)
+                .orElseThrow(
+                        () -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "ShoppingCart not found")
+                );
+    }
     @Transactional
     public void payShoppingCart(PayCardRequest request){
 

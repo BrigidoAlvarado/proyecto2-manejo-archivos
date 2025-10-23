@@ -21,6 +21,14 @@ public class ShoppingCartController {
         return ResponseEntity.ok(shoppingCartResponse);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ShoppingCartResponse> getShoppingCartById(
+            @PathVariable Integer id
+    ) {
+        ShoppingCartResponse shoppingCartResponse = shoppingCartService.getShoppingCartResponseById(id);
+        return ResponseEntity.ok(shoppingCartResponse);
+    }
+
     @PostMapping("/pay")
     public ResponseEntity<?> payShoppingCard(
             @RequestBody PayCardRequest payCardRequest

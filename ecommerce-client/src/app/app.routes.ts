@@ -14,7 +14,7 @@ import {ShoppingCartComponent} from "./components/shoppig-cart/shopping-cart.com
 import {PayShoppingCartComponent} from "./components/pay-shopping-cart/pay-shopping-cart.component";
 import {
   ApproveDeliveryPackageComponent
-} from "./components/approve-delivery-package/approve-delivery-package.component";
+} from "./components/delivery-package/approve-delivery-package/approve-delivery-package.component";
 import {TopSellingProductsComponent} from "./components/product/top-selling-products/top-selling-products.component";
 import {UserTopEarningComponent} from "./components/user/user-top-spent/user-top-earning.component";
 import {
@@ -23,6 +23,12 @@ import {
 import {
   UserTopProductsApproveComponent
 } from "./components/user/user-top-products-approve/user-top-products-approve.component";
+import {
+  NoRevisedDeliveryPackagesComponent
+} from "./components/delivery-package/no-revised-delivery-packages/no-revised-delivery-packages.component";
+import {
+  DisplayPackageDetailsComponent
+} from "./components/delivery-package/display-package-details/display-package-details.component";
 
 export const routes: Routes = [
   {
@@ -45,6 +51,10 @@ export const routes: Routes = [
   {
     path: 'moderator/product/approve',
     component: ApproveProductComponent
+  },
+  {
+    path: 'packages/no-revised',
+    component: NoRevisedDeliveryPackagesComponent
   },
   // ADMINISTRADOR
   {
@@ -74,6 +84,10 @@ export const routes: Routes = [
   {
     path: 'user/top/products-approve',
     component: UserTopProductsApproveComponent
+  },
+  {
+    path: 'shopping-cart/display/:id',
+    component: DisplayPackageDetailsComponent
   },
   // LOGISTICA
   {

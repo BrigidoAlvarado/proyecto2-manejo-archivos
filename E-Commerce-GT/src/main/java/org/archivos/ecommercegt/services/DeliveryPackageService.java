@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,11 @@ public class DeliveryPackageService {
         deliveryPackage.setTotal(totalPrice);
         deliveryPackage.setShoppingCart(shoppingCart);
         deliveryPackageRepository.save(deliveryPackage);
-    };
+    }
+
+    public DeliveryPackage  save(DeliveryPackage  deliveryPackage){
+        return deliveryPackageRepository.save( deliveryPackage );
+    }
 
     public List<DeliveryPackageResponse> getAllDeliveryPackagesInProcess(){
         final List<DeliveryPackage>  deliveryPackages = deliveryPackageRepository.findAllByIsDelivered(false);
@@ -55,10 +60,10 @@ public class DeliveryPackageService {
     public void deliverPackage(int id){
         try{
             // obtener el paquete
-            DeliveryPackage deliveryPackage = deliveryPackageRepository.findById(id)
-                    .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery package not found"));
+            DeliveryPackage deliveryPackage = getDeliveryPackageById(id);
             // actualizar el estado
             deliveryPackage.setIsDelivered(true);
+            deliveryPackage.setDeliverAt( Instant.now() );
             // acutalizar la db
             deliveryPackageRepository.save(deliveryPackage);
             // notificar entrega
@@ -67,5 +72,39 @@ public class DeliveryPackageService {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo entregar el paquete");
         }
+    }
+
+    public DeliveryPackage getDeliveryPackageById(int id){
+        return deliveryPackageRepository.findById(id)
+                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery package not found"));
+
+    }
+
+    public List<DeliveryPackageResponse> getAllDeliveryPackagesNoRevised(){
+        List<DeliveryPackage> packages = deliveryPackageRepository.findAllByIsRevised(false);
+        List<DeliveryPackageResponse>  deliveryPackagesResponse = new ArrayList<>();
+
+        for(DeliveryPackage deliveryPackage : packages){
+            deliveryPackagesResponse.add(
+              DeliveryPackageResponse.builder()
+                      .id( deliveryPackage.getId() )
+                      .userName( deliveryPackage.getShoppingCart().getUser().getUsername() )
+                      .userEmail( deliveryPackage.getShoppingCart().getUser().getEmail() )
+                      .isDelivered( deliveryPackage.getIsDelivered() )
+                      .departureDate( deliveryPackage.getDepartureDate() )
+                      .deliveryDate( deliveryPackage.getDeliveryDate() )
+                      .deliverAt( deliveryPackage.getDeliverAt() )
+                      .shoppingCart( shoppingCartTools
+                              .parseShoppingCartResponse( deliveryPackage.getShoppingCart() ) )
+                      .build()
+            );
+        }
+        return deliveryPackagesResponse;
+    }
+
+    public void revisedDeliveryPackage(int id){
+        DeliveryPackage deliveryPackage = getDeliveryPackageById(id);
+        deliveryPackage.setIsRevised(true);
+        deliveryPackageRepository.save(deliveryPackage);
     }
 }

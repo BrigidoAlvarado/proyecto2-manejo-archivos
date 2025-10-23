@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {DeliveryPackage} from "../../entities/delivery-package";
+import {DeliveryPackage} from "../../../entities/delivery-package";
 import {DatePipe} from "@angular/common";
-import {DeliveryPackageService} from "../../services/delivery-package/delivery-package.service";
-import {MessageService} from "../../services/message.service";
+import {DeliveryPackageService} from "../../../services/delivery-package/delivery-package.service";
+import {MessageService} from "../../../services/message.service";
 
 @Component({
   selector: 'app-approve-delivery-package',
@@ -35,7 +35,7 @@ export class ApproveDeliveryPackageComponent implements OnInit {
   }
 
   deliver(packageId: number):void{
-    this.deliveryPackageService.deliverPackage(packageId).subscribe({
+    this.deliveryPackageService.patchDeliverPackage(packageId).subscribe({
       next: data => {
         this.messageService.success('Entrega realizada exitosamente')
         this.ngOnInit()

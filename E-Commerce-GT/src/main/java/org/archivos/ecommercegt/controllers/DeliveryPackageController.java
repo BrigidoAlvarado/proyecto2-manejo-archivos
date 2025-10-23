@@ -23,11 +23,25 @@ public class DeliveryPackageController {
         return ResponseEntity.ok(deliveryPackageResponseList);
     }
 
+    @GetMapping("/no-revised")
+    public ResponseEntity< List< DeliveryPackageResponse > > getNoRevised(){
+        List<DeliveryPackageResponse>  deliveryPackageResponseList = deliveryPackageService.getAllDeliveryPackagesNoRevised();
+        return ResponseEntity.ok(deliveryPackageResponseList);
+    }
+
     @PatchMapping("/deliver/{id}")
     public ResponseEntity<List<DeliveryPackageResponse>> deliverPackage(
             @PathVariable int id
     ){
         deliveryPackageService.deliverPackage(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/revised/{id}")
+    ResponseEntity<?> patchRevised(
+            @PathVariable int id
+    ){
+        deliveryPackageService.revisedDeliveryPackage(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -12,8 +12,10 @@ public class DeliveryPackageResponse {
 
     private int id;
     private String userName;
+    private String userEmail;
     private Instant deliveryDate;
     private Instant departureDate;
+    private Instant deliverAt;
     private ShoppingCartResponse shoppingCart;
     private boolean isDelivered;
 }

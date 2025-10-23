@@ -39,4 +39,11 @@ public class DeliveryPackage {
     @JoinColumn(name = "shopping_cart", nullable = false)
     private ShoppingCart shoppingCart;
 
+    @ColumnDefault("false")
+    @Column(name = "is_revised", nullable = false)
+    private Boolean isRevised = false;
+
+    @Column(name = "deliver_at")
+    private Instant deliverAt;
+
 }

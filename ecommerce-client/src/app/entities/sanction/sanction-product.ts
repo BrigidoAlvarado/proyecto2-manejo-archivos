@@ -1,4 +1,4 @@
-export interface Sanction {
+export interface SanctionProduct {
 
   productId: number;
   reason: string;

@@ -66,8 +66,8 @@
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.MODERATOR){
 
         <li><a routerLink="moderator/product/approve" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
+        <li><a routerLink="moderator/product/approve" class="nav-link px-2 link-dark">Revizar Productos</a></li>
+        <li><a routerLink="packages/no-revised" class="nav-link px-2 link-dark">Revizar Paquetes</a></li>
         <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
         <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
 

@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ShoppingCart} from "../../entities/shopping-cart";
 import {AppConfig} from "../../config/app.constants";
+import {id} from "date-fns/locale";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,11 @@ export class ShoppingCartService {
   getShoppingCart():
     Observable<ShoppingCart>{
     return this.http.get<ShoppingCart>(this.url);
+  }
+
+  getShoppingCartById( id : number)
+  : Observable<ShoppingCart>{
+    return this.http.get<ShoppingCart>(`${this.url  }/${id}`);
   }
 
   postPayment( cardRequest: { cardNumber:string, save: boolean }):

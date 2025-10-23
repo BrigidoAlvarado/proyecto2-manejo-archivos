@@ -2,14 +2,12 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
-import org.archivos.ecommercegt.dto.SanctionRequest;
+import org.archivos.ecommercegt.dto.sanction.SanctionDeliveryPackageRequest;
+import org.archivos.ecommercegt.dto.sanction.SanctionProductRequest;
 import org.archivos.ecommercegt.services.SanctionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -21,14 +19,22 @@ public class SanctionController {
 
     @PostMapping()
     public ResponseEntity<?> postSanction(
-            @RequestBody SanctionRequest sanctionRequest
+            @RequestBody SanctionProductRequest sanctionRequest
     ) {
         try{
-            sanctionService.save(sanctionRequest);
+            sanctionService.sanctionAndRejectProduct(sanctionRequest);
             return ResponseEntity.ok().build();
         }catch(Exception e){
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/delivery-package")
+    public ResponseEntity<?> postSanctionDeliverPackage(
+            @RequestBody SanctionDeliveryPackageRequest request
+            ){
+        sanctionService.sanctionDeliveryPackage(request);
+        return ResponseEntity.ok().build();
     }
 }

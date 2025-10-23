@@ -1,0 +1,113 @@
+<div class="container mt-4">
+  <h2 class="mb-3 text-center">Lista de Productos</h2>
+
+  <table class="table table-bordered table-striped table-hover align-middle text-center shadow-sm">
+    <thead class="table-primary">
+    <tr>
+      <th>No.</th>
+      <th>Id</th>
+      <th>Correo Cliente</th>
+      <th>Salida</th>
+      <th>Entrega</th>
+      <th>Estado</th>
+      <th>Estado Temporal</th>
+      <th>Dias Habiles</th>
+      <th>Duracion entrega (dias)</th>
+      <th>Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (deliveryPackage of deliveryPackages; track $index) {
+        <tr>
+          <td>{{ $index + 1 }}</td>
+          <td>{{ deliveryPackage.id }}</td>
+          <td>{{ deliveryPackage.userEmail }}</td>
+          <td>{{ deliveryPackage.departureDate | date }}</td>
+          <td>{{ deliveryPackage.deliveryDate | date }}</td>
+          <td>{{ deliveryPackage.isDelivered? 'Entregado' : 'En proceso' }}</td>
+          <td>{{ isLate( deliveryPackage)? 'Retrasdo': 'A tiempo' }}</td>
+          <td>{{ calBusinessDays( deliveryPackage ) | number }} </td>
+          <td>{{ calculateDuration( deliveryPackage ) }}</td>
+
+          <td>
+            <div class="d-flex justify-content-center gap-2">
+
+              <a class="btn btn-info btn-sm" [routerLink]="['/shopping-cart/display', deliveryPackage.id]">
+                <i class="bi bi-eye"></i> Detalles
+              </a>
+
+              <button
+                class="btn btn-success btn-sm"
+                (click)="revised(deliveryPackage.id)">
+                <i class="bi bi-check-circle mx-2"></i> Revisado
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#sanctionModal"
+                (click)="selectDeliveryPackage(deliveryPackage)">
+                <i class="bi bi-shield-x mx-2"></i> Sancionar
+              </button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="10" class="text-muted fst-italic">No hay paquetes por revizar</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="sanctionModal" tabindex="-1" aria-labelledby="sanctionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sanctionModalLabel">
+          {{ (deliveryPackageSelected) ? 'Paquete: ' + deliveryPackageSelected.id : '' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      @if (deliveryPackageSelected) {
+        <div class="modal-body">
+          <div class="card">
+            <form [formGroup]="sanctionForm" (ngSubmit)="sanction()">
+
+              <div class="mb-3">
+                <label for="amountDays" class="form-label">cantidad de dias que se bloqueara la cuenta</label>
+                <input class="form-control" type="number" id="amountDays" formControlName="amountDays">
+                @if (validForm.isInvalid(sanctionForm, 'amountDays')) {
+                  <label class="text-danger text-muted">
+                    El numero de dias debe ser minimo 1 y es requerido.
+                  </label>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label for="reason">Motivo de la sancion</label>
+                <textarea rows="3" class="form-control" id="reason" formControlName="reason"></textarea>
+                @if (validForm.isInvalid(sanctionForm, 'amountDays')) {
+                  <label class="text-danger text-muted">
+                    El motivo de la sacion es requerida.
+                  </label>
+                }
+              </div>
+
+              <button class="btn btn-danger w-100 " type="submit" data-bs-dismiss="modal">
+                Sancionar
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

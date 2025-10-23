@@ -1,0 +1,63 @@
+<div class="container mt-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h2 class="text-center mb-4 fw-bold text-dark">
+        Detalles del Paquete
+      </h2>
+
+      @if (shoppingCart) {
+
+        @if (shoppingCart.purchaseDetails.length > 0) {
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead class="table-light text-center">
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Opciones</th>
+              </tr>
+              </thead>
+              <tbody>
+                @for (item of shoppingCart.purchaseDetails; track $index) {
+                  <tr>
+                    <td class="fw-semibold text-start">{{ item.name }}</td>
+                    <td class="text-center">{{ item.amount }}</td>
+                    <td class="text-center">
+                      Q{{ item.price | number : '1.2-2' }}
+                    </td>
+                    <td class="text-end fw-bold">
+                      Q{{ (item.subTotal) | number : '1.2-2' }}
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-center">
+                        <a
+                          class="btn btn-info btn-sm mx-2"
+                        [routerLink]="['/product/display', item.productId]">
+                          <i class="bi bi-eye mx-2"></i>Detalles del producto</a>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-end mt-3">
+            <h5 class="fw-bold text-dark mb-0">
+              Total: Q{{ shoppingCart.total | number : '1.2-2' }}
+            </h5>
+          </div>
+
+        }
+        @else {
+          <p class="text-center text-muted mt-4">
+            Vista No Disponible
+          </p>
+        }
+      }
+      <button class="btn btn-outline-primary" (click)="goBack()">Regresar</button>
+    </div>
+  </div>
+</div>

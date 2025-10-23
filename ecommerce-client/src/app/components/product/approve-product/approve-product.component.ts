@@ -6,7 +6,7 @@ import {MessageService} from "../../../services/message.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ValidFormService} from "../../../services/tools/validForm/valid-form.service";
 import {SanctionService} from "../../../services/sanction/sanction.service";
-import {Sanction} from "../../../entities/sanction";
+import {SanctionProduct} from "../../../entities/sanction/sanction-product";
 
 
 @Component({
@@ -84,13 +84,13 @@ class ApproveProductComponent implements OnInit {
     }
 
     if (this.sanctionForm.valid ){
-      let sanction: Sanction = this.sanctionForm.value as Sanction;
+      let sanction: SanctionProduct = this.sanctionForm.value as SanctionProduct;
       sanction.productId = this.productSelected.id;
       sanction.approveProductRequest = {
         id: this.productSelected!.id,
         isApprove: false
       }
-      this.sanctionService.postSanction(sanction).subscribe({
+      this.sanctionService.postSanctionProduct(sanction).subscribe({
         next: () => {
           this.sanctionForm.reset()
           this.productSelected = null;
