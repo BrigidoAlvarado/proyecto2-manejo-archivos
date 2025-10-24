@@ -1,5 +1,6 @@
 package org.archivos.ecommercegt.repository;
 
+import org.archivos.ecommercegt.dto.comment.CommentResponse;
 import org.archivos.ecommercegt.dto.product.BasicProduct;
 import org.archivos.ecommercegt.dto.product.MoreSellingProduct;
 import org.archivos.ecommercegt.models.Product;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 

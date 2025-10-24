@@ -32,7 +32,7 @@ export class NewQualificationComponent implements OnInit {
 
   ngOnInit() {
     this.qualificationForm = this.formBuilder.nonNullable.group({
-      starts: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
+      starts: [0, [Validators.required, Validators.min(0), Validators.max(5)]],
     })
 
     this.qualificationForm.get('starts')?.valueChanges.subscribe(

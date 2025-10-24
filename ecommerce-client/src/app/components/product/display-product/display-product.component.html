@@ -13,8 +13,8 @@
 
         <h3 class="card-title d-flex justify-content-between align-items-center">
           {{ product.name }}
-          <span class="badge" [ngClass]="product.isNew ? 'bg-success' : 'bg-secondary'">
-          {{ product.isNew ? 'Nuevo' : 'Usado' }}
+          <span class="badge" [ngClass]="product.new ? 'bg-success' : 'bg-secondary'">
+          {{ product.new ? 'Nuevo' : 'Usado' }}
         </span>
         </h3>
 
@@ -40,13 +40,43 @@
         <div>
           <button class="btn btn-info mx-2" (click)="goBack()">Regresar</button>
           @if (authService.decodeToken()?.role === 'COMMON') {
-            <app-new-comment [productId]="product.id" ></app-new-comment>
             <app-new-qualification [productId]="product.id"></app-new-qualification>
+            <app-new-comment [productId]="product.id" ></app-new-comment>
           }
+          <button class="btn btn-primary " type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Ver Comentarios
+          </button>
         </div>
 
       </div>
     </div>
+
+    <div class="collapse" id="collapseExample">
+      @if (product.comments.length > 0) {
+        @for (comment of product.comments; track $index){
+          <div class="list-group-item list-group-item-action border-0 mb-3 shadow-sm rounded-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="fw-semibold text-primary">
+                <i class="bi bi-person-circle me-1"></i>
+                {{ comment.userName }}
+              </div>
+              <small class="text-muted">
+                <i class="bi bi-clock me-1"></i>
+                {{ comment.date | date: 'mediumDate' }}
+              </small>
+            </div>
+            <div class="text-secondary ps-3 border-start border-3 border-primary">
+              {{ comment.comment }}
+            </div>
+          </div>
+        }
+      } @else {
+        <div>
+          <label class="text-secondary">Aun no hay comentarios</label>
+        </div>
+      }
+    </div>
+
   </div>
 
 } @else {

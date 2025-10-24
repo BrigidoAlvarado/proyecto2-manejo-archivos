@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ProductService} from "../../../services/product/product.service";
 import {ProductResponse} from "../../../entities/product/product-response";
-      import {Location, NgClass,} from "@angular/common";
+      import {DatePipe, Location, NgClass,} from "@angular/common";
 import {AuthService} from "../../../services/auth/auth.service";
 import {NewCommentComponent} from "../../comment/new-comment/new-comment.component";
 import {NewQualificationComponent} from "../../qualification/new-qualification/new-qualification.component";
@@ -14,6 +14,7 @@ import {NewQualificationComponent} from "../../qualification/new-qualification/n
     NgClass,
     NewCommentComponent,
     NewQualificationComponent,
+    DatePipe,
   ],
   templateUrl: './display-product.component.html',
   styleUrl: './display-product.component.scss'
@@ -37,6 +38,7 @@ export class DisplayProductComponent implements OnInit {
     this.productService.getById(id).subscribe(
       product => {
         this.product = product
+        console.log(product)
         console.log('se recibio', this.product.name);
       }
     );

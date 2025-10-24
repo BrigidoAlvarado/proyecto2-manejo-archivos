@@ -1,6 +1,7 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
+import org.archivos.ecommercegt.dto.comment.CommentResponse;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
@@ -32,6 +33,7 @@ public class ProductService {
     private final ImageService imageService;
     private final UserService userService;
     private final NotificationService notificationService;
+    private final CommentService commentService;
 
     @Transactional
     public void saveProduct(ProductRequest request, String userEmail) {
@@ -75,22 +77,28 @@ public class ProductService {
     }
 
     public ProductResponse getProductResponseById(int id) {
-        Product product = getProductById(id);
-        List<String> categories = product.getCategories()
+        // Buscar el producto por id
+        final Product product = getProductById(id);
+        // Obtener las categorias
+        final List<String> categories = product.getCategories()
                 .stream()
                 .map(Category::getName)
                 .toList();
-
-        String imageBase64 = imageService.getBase64Image(product.getImageUrl());
-
+        // Obtener la imagen en base 64
+        final String imageBase64 = imageService.getBase64Image(product.getImageUrl());
+        // Obtener los comentarios
+        final List<CommentResponse> comments = commentService.getAllCommentsByProductId( id );
+        System.out.println("\n\n\nis new: "+product.getIsNew());
         return ProductResponse.builder()
                 .id(product.getId())
                 .name( product.getName())
                 .description( product.getDescription())
                 .price(product.getPrice())
                 .stock(product.getStock())
+                .isNew( product.getIsNew() )
                 .image( imageBase64 )
                 .categories( categories )
+                .comments( comments )
                 .build();
     }
 
