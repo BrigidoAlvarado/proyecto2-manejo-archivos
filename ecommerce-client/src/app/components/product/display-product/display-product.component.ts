@@ -5,6 +5,7 @@ import {ProductResponse} from "../../../entities/product/product-response";
       import {Location, NgClass,} from "@angular/common";
 import {AuthService} from "../../../services/auth/auth.service";
 import {NewCommentComponent} from "../../comment/new-comment/new-comment.component";
+import {NewQualificationComponent} from "../../qualification/new-qualification/new-qualification.component";
 
 @Component({
   selector: 'app-display-product',
@@ -12,6 +13,7 @@ import {NewCommentComponent} from "../../comment/new-comment/new-comment.compone
   imports: [
     NgClass,
     NewCommentComponent,
+    NewQualificationComponent,
   ],
   templateUrl: './display-product.component.html',
   styleUrl: './display-product.component.scss'

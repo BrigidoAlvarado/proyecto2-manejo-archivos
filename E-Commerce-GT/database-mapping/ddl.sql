@@ -165,7 +165,7 @@ create table qualification
     id      serial primary key,
     starts  int         not null,
     product int         not null,
-    _user   varchar(50) not null,
+    _user   varchar(50) not null unique ,
 
     constraint fk_product_in_qualification
         foreign key (product)
@@ -177,7 +177,10 @@ create table qualification
         foreign key (_user)
             references _user (email)
             on delete restrict
-            on update cascade
+            on update cascade,
+
+    constraint unique_product_user
+        unique ( product, _user )
 );
 
 create table category

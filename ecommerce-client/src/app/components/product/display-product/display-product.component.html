@@ -38,9 +38,10 @@
           }
         </div>
         <div>
-          <button class="btn btn-outline-info mx-2" (click)="goBack()">Regresar</button>
+          <button class="btn btn-info mx-2" (click)="goBack()">Regresar</button>
           @if (authService.decodeToken()?.role === 'COMMON') {
             <app-new-comment [productId]="product.id" ></app-new-comment>
+            <app-new-qualification [productId]="product.id"></app-new-qualification>
           }
         </div>
 

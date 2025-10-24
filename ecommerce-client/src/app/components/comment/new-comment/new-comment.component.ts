@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {MessageService} from "../../../services/message.service";
 import {Comment} from "../../../entities/comment";
 import {ValidFormService} from "../../../services/tools/validForm/valid-form.service";
-import {CommentService} from "../../../services/delivery-package/comment.service";
+import {CommentService} from "../../../services/comment/comment.service";
 
 @Component({
   selector: 'app-new-comment',
