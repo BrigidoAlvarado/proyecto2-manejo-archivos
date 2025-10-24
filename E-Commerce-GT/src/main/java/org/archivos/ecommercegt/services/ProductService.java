@@ -34,6 +34,7 @@ public class ProductService {
     private final UserService userService;
     private final NotificationService notificationService;
     private final CommentService commentService;
+    private final QualificationService qualificationService;
 
     @Transactional
     public void saveProduct(ProductRequest request, String userEmail) {
@@ -88,26 +89,21 @@ public class ProductService {
         final String imageBase64 = imageService.getBase64Image(product.getImageUrl());
         // Obtener los comentarios
         final List<CommentResponse> comments = commentService.getAllCommentsByProductId( id );
-        System.out.println("\n\n\nis new: "+product.getIsNew());
+        // Obtener calificacion
+        final int qualfication = qualificationService.calculateQualification( id );
+
         return ProductResponse.builder()
-                .id(product.getId())
-                .name( product.getName())
-                .description( product.getDescription())
-                .price(product.getPrice())
-                .stock(product.getStock())
+                .id(product.getId() )
+                .name( product.getName() )
+                .description( product.getDescription() )
+                .price( product.getPrice())
+                .stock( product.getStock() )
                 .isNew( product.getIsNew() )
                 .image( imageBase64 )
                 .categories( categories )
                 .comments( comments )
+                .qualification( qualfication )
                 .build();
-    }
-
-    public Product getProductById(int id) {
-        return productRepository
-                .findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
-
     }
 
     @Transactional
@@ -184,5 +180,13 @@ public class ProductService {
             );
         }
         return basicProducts;
+    }
+
+    public Product getProductById(int id) {
+        return productRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
     }
 }

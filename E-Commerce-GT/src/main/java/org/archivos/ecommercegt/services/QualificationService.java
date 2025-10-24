@@ -5,22 +5,28 @@ import org.archivos.ecommercegt.dto.qualification.QualificationRequest;
 import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.Qualification;
 import org.archivos.ecommercegt.models.User;
+import org.archivos.ecommercegt.repository.ProductRepository;
 import org.archivos.ecommercegt.repository.QualificationRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class QualificationService {
 
     private final QualificationRepository qualificationRepository;
+    private final ProductRepository productRepository ;
+
 
     private final UserService userService;
-    private final ProductService productService;
 
     public Qualification save (QualificationRequest request){
 
         final User user = userService.getUser();
-        final Product product = productService.getProductById(request.getProductId());
+        final Product product = getProductById(request.getProductId());
 
         //validar si ya existe
         Qualification qualification = qualificationRepository.findByUserAndProduct(
@@ -36,5 +42,24 @@ public class QualificationService {
 
         qualification.setStarts(request.getStarts());
         return qualificationRepository.save(qualification);
+    }
+
+    public int calculateQualification( int productId ){
+        final List<Qualification> qualifications = qualificationRepository
+                .findByProduct( getProductById( productId ) );
+
+        int sum = 0;
+        for (Qualification qualification : qualifications) {
+            sum += qualification.getStarts();
+        }
+
+        return sum / qualifications.size();
+    }
+
+    private Product getProductById(int id){
+        return productRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado")
+                );
     }
 }

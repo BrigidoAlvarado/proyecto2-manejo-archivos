@@ -4,6 +4,7 @@ export interface ProductResponse {
   id: number;
   price: number;
   stock: number;
+  qualification: number
   isNew: boolean;
   new: boolean
   name: string;
