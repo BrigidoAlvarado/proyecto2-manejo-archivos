@@ -33,6 +33,19 @@ public class PurchaseDetailService {
     private final ProductService productService;
 
     @Transactional
+    public void deletePurchaseDetail( int id){
+        PurchaseDetail purchaseDetail = purchaseDetailRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Detalle del producto no encontrado en el carrito"));
+
+        // update stock
+        Product product = purchaseDetail.getProduct();
+        productService.updateStock( product, product.getStock() + purchaseDetail.getAmount() );
+
+        // delete purchase detail
+        purchaseDetailRepository.delete(purchaseDetail);
+    }
+
+    @Transactional
     public PurchaseDetail save(PurchaseDetailRequest request) {
 
         // validar cantidad
@@ -63,7 +76,7 @@ public class PurchaseDetailService {
        }
     }
 
-    public PurchaseDetail updatePurchaseDetail(
+    private PurchaseDetail updatePurchaseDetail(
             PurchaseDetailRequest request,
             PurchaseDetail purchaseDetail,
             Product product
@@ -82,7 +95,7 @@ public class PurchaseDetailService {
         return purchaseDetailRepository.save(purchaseDetail);
     }
 
-    public PurchaseDetail addToPurchaseDetail(
+    private PurchaseDetail addToPurchaseDetail(
             PurchaseDetailRequest request,
             PurchaseDetail purchaseDetail,
             Product product
@@ -96,7 +109,7 @@ public class PurchaseDetailService {
         return purchaseDetailRepository.save(purchaseDetail);
     }
 
-    public PurchaseDetail createPurchaseDetail(
+    private PurchaseDetail createPurchaseDetail(
             PurchaseDetailRequest request,
             Product product,
             ShoppingCart shoppingCart

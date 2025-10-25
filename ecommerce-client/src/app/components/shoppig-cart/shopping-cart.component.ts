@@ -62,12 +62,12 @@ export class ShoppingCartComponent implements OnInit {
     })
   }
 
-  deleteItem(){
-    if(!this.selectedItem) return
+  deleteItem( item: PurchaseDetail ) {
+    if(!item) return
 
-    this.purchaseDetailService.delete( this.selectedItem.productId ).subscribe({
+    this.purchaseDetailService.delete( item.purchaseDetailId ).subscribe({
       next: () => {
-        this.message.success('Se actualizo el carrito de compras');
+        this.message.success('Se elimino un item del carrito de compras');
         this.ngOnInit()
       },
       error: err => {

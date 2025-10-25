@@ -22,4 +22,12 @@ public class PurchaseDetailController {
         purchaseDetailService.save(purchaseDetail);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePurchaseDetail(
+            @PathVariable Integer id
+    ){
+        purchaseDetailService.deletePurchaseDetail(id);
+        return ResponseEntity.ok().build();
+    }
 }
