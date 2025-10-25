@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.purchaseDetail.PurchaseDetailRequest;
 import org.archivos.ecommercegt.models.PurchaseDetail;
+import org.archivos.ecommercegt.models.ShoppingCart;
 import org.archivos.ecommercegt.services.PurchaseDetailService;
+import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +15,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PurchaseDetailController {
 
+    private final ShoppingCartService shoppingCartService;
     private final PurchaseDetailService purchaseDetailService;
 
     @PostMapping
     public ResponseEntity<PurchaseDetail> save(
             @RequestBody PurchaseDetailRequest purchaseDetail
     ) {
-        purchaseDetailService.save(purchaseDetail);
+        final ShoppingCart shoppingCart = shoppingCartService.getCurrentShoppingCart();
+        purchaseDetailService.savePurchaseDetail(purchaseDetail, shoppingCart);
         return ResponseEntity.ok().build();
     }
 

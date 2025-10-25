@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,8 +31,13 @@ public class ProductController {
     // Obtener producto por id
     @GetMapping("/display/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable int id){
-        ProductResponse productResp = productService.getProductResponseById(id);
-        return ResponseEntity.ok(productResp);
+       try{
+           ProductResponse productResp = productService.getProductResponseById(id);
+           return ResponseEntity.ok(productResp);
+       }catch (Exception e){
+           e.printStackTrace();
+           throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 
     @GetMapping("/approved/available")

@@ -6,29 +6,18 @@ import org.archivos.ecommercegt.dto.purchaseDetail.PurchaseDetailRequest;
 import org.archivos.ecommercegt.models.Product;
 import org.archivos.ecommercegt.models.PurchaseDetail;
 import org.archivos.ecommercegt.models.ShoppingCart;
-import org.archivos.ecommercegt.models.User;
-import org.archivos.ecommercegt.repository.ProductRepository;
 import org.archivos.ecommercegt.repository.PurchaseDetailRepository;
-import org.archivos.ecommercegt.repository.ShoppingCartRepository;
-import org.archivos.ecommercegt.repository.UserRepository;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PurchaseDetailService {
-    public static final String DUPLICATE_KEY = "23505";
 
     private final PurchaseDetailRepository purchaseDetailRepository;
-    private final ShoppingCartService shoppingCartService;
 
     private final ProductService productService;
 
@@ -46,14 +35,20 @@ public class PurchaseDetailService {
     }
 
     @Transactional
-    public PurchaseDetail save(PurchaseDetailRequest request) {
+    public void deletePurchaseDetail( PurchaseDetail purchaseDetail){
+        // delete purchase detail
+        purchaseDetailRepository.delete(purchaseDetail);
+        // update stock
+        Product product = purchaseDetail.getProduct();
+        productService.updateStock( product, product.getStock() + purchaseDetail.getAmount() );
+    }
+
+    @Transactional
+    public PurchaseDetail savePurchaseDetail(PurchaseDetailRequest request, ShoppingCart shoppingCart) {
 
         // validar cantidad
         if (request.getAmount() < 0)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La cantidad es invalida");
-
-        // obtener el carrito de compras
-        ShoppingCart shoppingCart = shoppingCartService.getCurrentShoppingCart();
 
         // obtener el producto
         Product product = productService.getProductById(request.getProductId());

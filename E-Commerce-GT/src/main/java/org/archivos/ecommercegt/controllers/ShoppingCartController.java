@@ -33,13 +33,15 @@ public class ShoppingCartController {
     public ResponseEntity<?> payShoppingCard(
             @RequestBody PayCardRequest payCardRequest
     ) {
-       try{
-           shoppingCartService.payShoppingCart(payCardRequest);
-           return ResponseEntity.ok().build();
-       }catch(Exception e){
-           e.printStackTrace();
-           throw e;
-       }
+        shoppingCartService.payShoppingCart(payCardRequest);
+        return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<?> deleteShoppingCartItems(
+            @PathVariable Integer id
+    ) {
+        shoppingCartService.deleteShoppingCartItems(id);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -53,6 +53,8 @@ public class QualificationService {
             sum += qualification.getStarts();
         }
 
+        if (sum == 0) return 0;
+
         return sum / qualifications.size();
     }
 

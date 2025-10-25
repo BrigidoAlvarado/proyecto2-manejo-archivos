@@ -30,4 +30,10 @@ export class ShoppingCartService {
     Observable<any>{
     console.log('se envian los datos:',cardRequest);
     return this.http.post(`${this.url}/pay`, cardRequest)
-  }}
+  }
+
+  deleteShoppingCartItems(id:number)
+    :Observable<any>{
+    return this.http.delete(`${this.url}/items/${id}`);
+  }
+}

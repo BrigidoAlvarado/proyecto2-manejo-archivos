@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class ShoppingCartService {
     private final UserService userService;
     private final CreditCardService creditCardService;
     private final DeliveryPackageService deliveryPackageService;
+    private final PurchaseDetailService purchaseDetailService;
 
     public ShoppingCart save(User user) {
 
@@ -55,13 +58,6 @@ public class ShoppingCartService {
     public ShoppingCartResponse getShoppingCartResponseById(int id){
         final ShoppingCart cart = getShoppingCartById(id);
         return shoppingCartTools.parseShoppingCartResponse(cart);
-    }
-
-    public ShoppingCart getShoppingCartById(int id){
-        return shoppingCartRepository.findById(id)
-                .orElseThrow(
-                        () -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "ShoppingCart not found")
-                );
     }
 
     @Transactional
@@ -106,6 +102,28 @@ public class ShoppingCartService {
         newCart.setUser(user);
         newCart.setStatus(true);
         shoppingCartRepository.save(newCart);
+    }
+
+    @Transactional
+    public void deleteShoppingCartItems(int id){
+        final ShoppingCart cart = getShoppingCartById(id);
+        final List<PurchaseDetail> purchaseDetails = cart.getPurchaseDetails();
+
+        for (PurchaseDetail purchaseDetail : purchaseDetails){
+            purchaseDetailService.deletePurchaseDetail(purchaseDetail);
+        }
+        shoppingCartRepository.delete(cart);
+        ShoppingCart newCart = new ShoppingCart();
+        newCart.setUser(userService.getUser());
+        newCart.setStatus(true);
+        shoppingCartRepository.save(newCart);
+    }
+
+    private ShoppingCart getShoppingCartById(int id){
+        return shoppingCartRepository.findById(id)
+                .orElseThrow(
+                        () -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "ShoppingCart not found")
+                );
     }
 
 }

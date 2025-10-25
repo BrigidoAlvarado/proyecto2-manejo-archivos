@@ -77,4 +77,20 @@ export class ShoppingCartComponent implements OnInit {
       }
     })
   }
+
+  deleteShoppingCartItems() {
+    if(!this.shoppingCart) return
+
+    this.shoppingCartService.deleteShoppingCartItems(this.shoppingCart.id).subscribe({
+      next: () => {
+        this.message.success('Se vacio el carrito de compras');
+        this.ngOnInit()
+      },
+      error: err => {
+        const msg = 'Error al vaciar el carrito de compras';
+        this.message.error(msg);
+        console.error(msg, err);
+      }
+    })
+  }
 }
