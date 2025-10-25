@@ -61,4 +61,20 @@ export class ShoppingCartComponent implements OnInit {
       }
     })
   }
+
+  deleteItem(){
+    if(!this.selectedItem) return
+
+    this.purchaseDetailService.delete( this.selectedItem.productId ).subscribe({
+      next: () => {
+        this.message.success('Se actualizo el carrito de compras');
+        this.ngOnInit()
+      },
+      error: err => {
+        const msg = 'Error al actualizar el carrito de compras';
+        this.message.error(msg);
+        console.error(msg, err);
+      }
+    })
+  }
 }

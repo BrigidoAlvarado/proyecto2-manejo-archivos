@@ -24,4 +24,9 @@ export class PurchaseDetailService {
     :Observable<any>{
     return this.http.put( this.baseUrl, purchaseDetail)
   }
+
+  delete( id: number )
+  :Observable<any>{
+    return this.http.delete(`${this.baseUrl}/${id}` );
+  }
 }
