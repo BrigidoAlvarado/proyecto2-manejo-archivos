@@ -23,6 +23,7 @@ public class ParseService {
 
             purchaseDetailResponses.add(
                     PurchaseDetailResponse.builder()
+                            .purchaseDetailId(purchaseDetail.getId())
                             .price( purchaseDetail.getProduct().getPrice() )
                             .amount( purchaseDetail.getAmount() )
                             .productId( purchaseDetail.getProduct().getId() )

@@ -63,6 +63,7 @@ public class ShoppingCartService {
                         () -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "ShoppingCart not found")
                 );
     }
+
     @Transactional
     public void payShoppingCart(PayCardRequest request){
 

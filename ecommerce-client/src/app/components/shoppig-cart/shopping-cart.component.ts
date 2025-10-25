@@ -4,6 +4,8 @@ import {MessageService} from "../../services/message.service";
 import {ShoppingCartService} from "../../services/shopping-cart/shopping-cart.service";
 import {DecimalPipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {PurchaseDetail} from "../../entities/purchase-detail";
+import {PurchaseDetailService} from "../../services/purchase-detail/purchase-detail.service";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -18,10 +20,12 @@ import {RouterLink} from "@angular/router";
 export class ShoppingCartComponent implements OnInit {
 
   shoppingCart!: ShoppingCart;
+  selectedItem: PurchaseDetail | null = null;
 
   constructor(
     private message: MessageService,
     private shoppingCartService: ShoppingCartService,
+    private purchaseDetailService: PurchaseDetailService,
   ) {
   }
 
@@ -36,4 +40,25 @@ export class ShoppingCartComponent implements OnInit {
     })
   }
 
+  selectItem(item: PurchaseDetail) {
+    this.selectedItem = item;
+  }
+
+  protected update(amount: HTMLInputElement) {
+    if (!this.selectedItem) return
+
+    this.selectedItem.amount = parseInt(amount.value);
+
+    this.purchaseDetailService.post(this.selectedItem).subscribe({
+      next: () => {
+        this.message.success('Se actualizo el carrito de compras');
+        this.ngOnInit()
+      },
+      error: err => {
+        const msg = 'Error al actualizar el carrito de compras';
+        this.message.error(msg);
+        console.error(msg, err);
+      }
+    })
+  }
 }

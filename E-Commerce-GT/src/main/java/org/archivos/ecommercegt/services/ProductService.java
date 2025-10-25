@@ -189,4 +189,16 @@ public class ProductService {
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
 
     }
+
+    public Product updateStock(Product product, int stock) {
+        if( stock < 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock invalido");
+        }
+        product.setStock(stock);
+        return productRepository.save(product);
+    }
+
+    public void save(Product product) {
+        productRepository.save(product);
+    }
 }

@@ -22,7 +22,7 @@
               <tbody>
                 @for (item of shoppingCart.purchaseDetails; track $index) {
                   <tr>
-                    <td class="fw-semibold text-start">{{ item.name }}</td>
+                    <td class="fw-semibold text-center">{{ item.name }}</td>
                     <td class="text-center">{{ item.amount }}</td>
                     <td class="text-center">
                       Q{{ item.price | number : '1.2-2' }}
@@ -32,7 +32,12 @@
                     </td>
                     <td>
                       <div class="d-flex justify-content-center">
-                        <a class="btn btn-warning btn-sm mx-2">Agregar</a>
+                        <button
+                          class="btn btn-warning btn-sm mx-2"
+                          data-bs-toggle="modal"
+                          data-bs-target="#updateModal"
+                          (click)="selectItem(item)">Agregar
+                        </button>
                         <a class="btn btn-danger btn-sm mx-2">Eliminar</a>
                       </div>
                     </td>
@@ -53,8 +58,7 @@
               Finalizar compra
             </a>
           </div>
-        }
-        @else {
+        } @else {
           <p class="text-center text-muted mt-4">
             Tu carrito está vacío.
           </p>
@@ -63,3 +67,41 @@
     </div>
   </div>
 </div>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">
+          @if (selectedItem) {
+            Actualizar {{ selectedItem.name }}
+          }
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div>
+            <label for="amount" class="form-label">Cantidad</label>
+            <input
+              class="form-control"
+              [value]="selectedItem?.amount"
+              id="amount"
+              type="number"
+              min="1"
+              #amountInput
+              required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+        (click)="update(amountInput)">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+

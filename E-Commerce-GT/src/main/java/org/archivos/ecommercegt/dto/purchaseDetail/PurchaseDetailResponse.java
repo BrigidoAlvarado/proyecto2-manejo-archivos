@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class PurchaseDetailResponse {
+    private final Integer purchaseDetailId;
     private final int productId;
     private final int amount;
     private final double price;
