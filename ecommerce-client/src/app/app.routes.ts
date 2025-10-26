@@ -29,6 +29,9 @@ import {
 import {
   DisplayPackageDetailsComponent
 } from "./components/delivery-package/display-package-details/display-package-details.component";
+import {AllUsersComponent} from "./components/user/all-users/all-users.component";
+import {ShowNotificationsComponent} from "./components/show-notifications/show-notifications.component";
+import {ShowSanctionsComponent} from "./components/show-sanctions/show-sanctions.component";
 
 export const routes: Routes = [
   {
@@ -88,6 +91,18 @@ export const routes: Routes = [
   {
     path: 'shopping-cart/display/:id',
     component: DisplayPackageDetailsComponent
+  },
+  {
+    path: 'users/all',
+    component: AllUsersComponent
+  },
+  {
+    path: 'notification/:id',
+    component: ShowNotificationsComponent,
+  },
+  {
+    path: 'sanction/:id',
+    component: ShowSanctionsComponent
   },
   // LOGISTICA
   {

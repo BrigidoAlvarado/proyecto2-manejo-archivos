@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead class="table-light text-center">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Opciones</th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (users.length > 0) {
+          @for (user of users; track $index) {
+            <tr>
+              <td class="fw-semibold text-center">{{ $index + 1 }}</td>
+              <td class="text-center">{{ user.name }}</td>
+              <td class="text-center">{{ user.email }}</td>
+              <td class="text-center text-capitalize">{{ user.enabled? 'Activado':'Desactivado' }}</td>
+              <td class="text-center">{{ user.role }}</td>
+              <td>
+                <div class="d-flex justify-content-center">
+                  <a class="btn btn-info btn-sm">
+                    <i class="bi bi-receipt mx-1"></i>
+                    Actualizar
+                  </a>
+                  @if (user.role == AppConfig.ROLES.COMMON) {
+                    <a
+                      class="btn btn-secondary btn-sm mx-2"
+                    [routerLink]="['/sanction', user.id]">
+                      <i class="bi bi-x-circle"></i>
+                      Sanciones
+                    </a>
+                    <a
+                      class="btn btn-warning btn-sm mx-2"
+                    [routerLink]="['/notification', user.id]">
+                      <i class="bi bi-bell mx-2"></i>
+                      Notificaciones
+                    </a>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        } @else {
+          <td class="text-muted fst-italic" colspan="6">
+            No hay usuarios registrados
+          </td>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

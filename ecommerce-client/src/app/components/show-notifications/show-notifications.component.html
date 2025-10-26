@@ -1,0 +1,32 @@
+<div class="container">
+  <button class="btn btn-secondary" (click)="goBack()">Regresar</button>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead class="table-light text-center">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Asunto</th>
+        <th scope="col">Contendio</th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (notifications.length > 0) {
+          @for (notification of notifications; track $index) {
+            <tr>
+              <td class="fw-semibold text-center">{{ $index + 1 }}</td>
+              <td class="text-center">{{ notification.subject }}</td>
+              <td class="text-center">{{ notification.content }}</td>
+            </tr>
+          }
+        } @else {
+         <tr>
+           <td class="text-muted text-center fst-italic" colspan="3">
+             No hay notificaciones por mostrar
+           </td>
+         </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -14,7 +14,7 @@
             </button>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" routerLink="admin/user/new">Nuevo Usuario</a></li>
-              <li><a class="dropdown-item" href="#">Ver Usuarios Registrados</a></li>
+              <li><a class="dropdown-item" routerLink="users/all">Ver Usuarios Registrados</a></li>
             </ul>
           </div>
         </li>
@@ -52,37 +52,22 @@
             </button>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" routerLink="product/new">Nuevo Producto</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Separated link</a></li>
+              <li><a class="dropdown-item" href="#">Ver productos en venta</a></li>
             </ul>
           </div>
         </li>
-        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
 
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.MODERATOR){
 
         <li><a routerLink="moderator/product/approve" class="nav-link px-2 link-secondary">Home</a></li>
         <li><a routerLink="moderator/product/approve" class="nav-link px-2 link-dark">Revizar Productos</a></li>
         <li><a routerLink="packages/no-revised" class="nav-link px-2 link-dark">Revizar Paquetes</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
 
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.LOGISTIC){
 
         <li><a routerLink="/logistic/delivery-package" class="nav-link px-2 link-secondary">Paquetes</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
-
       }
     }
-
-
   </ul>
 
   <div class="col-md-3 text-end mx-4">

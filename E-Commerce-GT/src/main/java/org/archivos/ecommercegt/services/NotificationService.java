@@ -2,6 +2,7 @@ package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
+import org.archivos.ecommercegt.dto.notification.NotificationResponse;
 import org.archivos.ecommercegt.models.DeliveryPackage;
 import org.archivos.ecommercegt.models.Notification;
 import org.archivos.ecommercegt.models.Product;
@@ -11,6 +12,9 @@ import org.archivos.ecommercegt.services.utilities.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -18,6 +22,8 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private UserService userService;
 
     public void notifyPackageStatusChange( DeliveryPackage deliveryPackage ) {
         // crear el mensaje
@@ -60,5 +66,22 @@ public class NotificationService {
                 text
         );
     }
+
+    public List<NotificationResponse> getNotificationsByUserId(int userId) {
+        final User user = userService.getUserById(userId);
+        final List<Notification> notifications = notificationRepository.findByUser(user);
+        final List<NotificationResponse> responses = new ArrayList<>();
+
+        for (Notification notification : notifications) {
+            responses.add(
+              NotificationResponse.builder()
+                      .content( notification.getContent() )
+                      .subject( notification.getSubject() )
+                      .build()
+            );
+        }
+        return responses;
+    }
+
 
 }

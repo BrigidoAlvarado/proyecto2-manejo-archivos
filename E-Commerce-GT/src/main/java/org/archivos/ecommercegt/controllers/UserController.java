@@ -2,17 +2,12 @@ package org.archivos.ecommercegt.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
-import org.archivos.ecommercegt.dto.user.UserEarning;
-import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
-import org.archivos.ecommercegt.dto.user.UserProductsApprove;
-import org.archivos.ecommercegt.dto.user.UserProductsSend;
+import org.archivos.ecommercegt.dto.user.*;
 import org.archivos.ecommercegt.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -53,5 +48,11 @@ public class UserController {
     public ResponseEntity<List<UserProductsApprove>> findUsersByProductsApprove() {
         List<UserProductsApprove> userPackagesOrdered = userService.finUserByProductsApprove();
         return ResponseEntity.ok(userPackagesOrdered);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> userResponses = userService.getAllUsers();
+        return ResponseEntity.ok(userResponses);
     }
 }

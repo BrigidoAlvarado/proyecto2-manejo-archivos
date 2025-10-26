@@ -3,6 +3,7 @@ package org.archivos.ecommercegt.services;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.sanction.SanctionDeliveryPackageRequest;
 import org.archivos.ecommercegt.dto.sanction.SanctionProductRequest;
+import org.archivos.ecommercegt.dto.sanction.SanctionResponse;
 import org.archivos.ecommercegt.models.*;
 import org.archivos.ecommercegt.repository.SanctionRepository;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,5 +74,21 @@ public class SanctionService {
                     "Usuario sancionado hasta: " + sanction.get().getEndAt().toString()
             );
         }
+    }
+
+    public List<SanctionResponse> getSanctionsByUserId(int userId){
+        final List<Sanction> sanctions = sanctionRepository.findByUserId( userId );
+        final List<SanctionResponse> sanctionsResponse = new ArrayList<>();
+
+        for (Sanction sanction : sanctions) {
+            sanctionsResponse.add(
+              SanctionResponse.builder()
+                      .endAt( sanction.getEndAt() )
+                      .createdAt( sanction.getCreatedAt() )
+                      .reason( sanction.getReason() )
+                      .build()
+            );
+        }
+        return sanctionsResponse;
     }
 }

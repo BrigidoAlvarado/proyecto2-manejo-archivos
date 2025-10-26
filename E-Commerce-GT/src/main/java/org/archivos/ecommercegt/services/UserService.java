@@ -1,10 +1,7 @@
 package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
-import org.archivos.ecommercegt.dto.user.UserEarning;
-import org.archivos.ecommercegt.dto.user.UserPackagesOrdered;
-import org.archivos.ecommercegt.dto.user.UserProductsApprove;
-import org.archivos.ecommercegt.dto.user.UserProductsSend;
+import org.archivos.ecommercegt.dto.user.*;
 import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -97,4 +95,26 @@ public class UserService {
         return userRepository.findUsersByAProvedProducts( pageable );
     }
 
+    public List<UserResponse> getAllUsers(){
+        final List<User> users = userRepository.findAll();
+        final List<UserResponse> list = new ArrayList<>();
+
+        for (User user : users) {
+            list.add(
+                    UserResponse.builder()
+                            .id( user.getId() )
+                            .role( user.getRole().getName() )
+                            .enabled( user.isEnabled() )
+                            .username( user.getUsername() )
+                            .email( user.getEmail() ).build()
+            );
+        }
+        return list;
+    }
+
+    public User getUserById(int id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "El usuario no existe")
+        );
+    }
 }

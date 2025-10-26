@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {SanctionProduct} from "../../entities/sanction/sanction-product";
 import {Observable} from "rxjs";
 import {SanctionDeliveryPackage} from "../../entities/sanction/sanction-delivery-package";
+import {SanctionResponse} from "../../entities/sanction/sanction-response";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class SanctionService {
   constructor(
     private http: HttpClient
   ) { }
+
+  getSanctionsByUserId( id: number)
+  : Observable<SanctionResponse[]>{
+    return this.http.get<SanctionResponse[]>(`${this.url}/${id}`)
+  }
 
   postSanctionProduct(sanction: SanctionProduct )
   :Observable<any>{

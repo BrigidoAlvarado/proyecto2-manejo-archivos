@@ -1,0 +1,34 @@
+<div class="container">
+  <button class="btn btn-secondary" (click)="goBack()">Regresar</button>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead class="table-light text-center">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Fecha Inicio</th>
+        <th scope="col">Fecha Fin
+        <th scope="col">Razon</th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (sanctions.length > 0) {
+          @for (sanction of sanctions; track $index) {
+            <tr>
+              <td class="fw-semibold text-center">{{ $index + 1 }}</td>
+              <td class="text-center">{{ sanction.createdAt | date }}</td>
+              <td class="text-center">{{ sanction.endAt | date }}</td>
+              <td class="text-center">{{ sanction.reason }}</td>
+            </tr>
+          }
+        } @else {
+          <tr>
+            <td class="text-muted text-center fst-italic" colspan="4">
+              No hay sanciones por mostrar
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

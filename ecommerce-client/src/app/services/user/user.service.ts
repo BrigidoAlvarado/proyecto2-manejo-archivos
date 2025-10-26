@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {UserReport} from "../../entities/user/user-report";
 import {ReportRequest} from "../../entities/report-request";
+import {User} from "../../entities/user/user";
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,10 @@ export class UserService {
     Observable<UserReport[]>{
 
     return this.http.get<UserReport[]>(`${this.url}/top/products-approve`);
+  }
+
+  getAllUsers()
+  :Observable<User[]>{
+    return this.http.get<User[]>(`${this.url}/all`);
   }
 }

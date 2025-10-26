@@ -1,14 +1,18 @@
 package org.archivos.ecommercegt.controllers;
 
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.sanction.SanctionDeliveryPackageRequest;
 import org.archivos.ecommercegt.dto.sanction.SanctionProductRequest;
+import org.archivos.ecommercegt.dto.sanction.SanctionResponse;
 import org.archivos.ecommercegt.services.SanctionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/sanction")
@@ -16,6 +20,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class SanctionController {
 
     private final SanctionService sanctionService;
+
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<SanctionResponse>> getSanctionsByUserId(
+            @PathVariable int userId
+    ){
+        List<SanctionResponse> sanctionResponses = sanctionService.getSanctionsByUserId(userId);
+        return ResponseEntity.ok(sanctionResponses);
+    }
 
     @PostMapping()
     public ResponseEntity<?> postSanction(
