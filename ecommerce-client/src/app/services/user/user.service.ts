@@ -51,4 +51,14 @@ export class UserService {
   :Observable<User[]>{
     return this.http.get<User[]>(`${this.url}/all`);
   }
+
+  getUserById( id: number )
+  :Observable<User>{
+    return this.http.get<User>(`${this.url}/${id}`);
+  }
+
+  putUser( user: User )
+  :Observable<any>{
+    return this.http.put(this.url, user);
+  }
 }

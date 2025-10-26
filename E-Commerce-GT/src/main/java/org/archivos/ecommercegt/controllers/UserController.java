@@ -12,15 +12,15 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApplicationConfig.BASE_URL +"/user")
+@RequestMapping(ApplicationConfig.BASE_URL + "/user")
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping("/top/spent")
     public ResponseEntity<List<UserEarning>> findUserByTopSpent(
-            @RequestParam( required = false ) String startDate,
-            @RequestParam( required = false ) String endDate
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
     ) {
         List<UserEarning> userTopSpents = userService.findUserByTopSpent(startDate, endDate);
         return ResponseEntity.ok(userTopSpents);
@@ -28,8 +28,8 @@ public class UserController {
 
     @GetMapping("/top/products-send")
     public ResponseEntity<List<UserProductsSend>> findUserByTopProductsSend(
-            @RequestParam( required = false ) String startDate,
-            @RequestParam( required = false ) String endDate
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
     ) {
         List<UserProductsSend> userTopSpents = userService.finUserByProductsSend(startDate, endDate);
         return ResponseEntity.ok(userTopSpents);
@@ -37,8 +37,8 @@ public class UserController {
 
     @GetMapping("/top/packages-ordered")
     public ResponseEntity<List<UserPackagesOrdered>> findUserByPackagesOrdered(
-            @RequestParam( required = false ) String startDate,
-            @RequestParam( required = false ) String endDate
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate
     ) {
         List<UserPackagesOrdered> userPackagesOrdered = userService.finUserByPackagesOrdered(startDate, endDate);
         return ResponseEntity.ok(userPackagesOrdered);
@@ -54,5 +54,21 @@ public class UserController {
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> userResponses = userService.getAllUsers();
         return ResponseEntity.ok(userResponses);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUserById(
+            @PathVariable int id
+    ) {
+        UserResponse userResponse = userService.getUserResponseById( id );
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @PutMapping()
+    public ResponseEntity<?> updateUser(
+            @RequestBody UpdateUserRequest user
+    ){
+        userService.updateUser( user );
+        return ResponseEntity.ok().build();
     }
 }

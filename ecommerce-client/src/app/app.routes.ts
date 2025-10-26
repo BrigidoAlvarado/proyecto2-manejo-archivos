@@ -32,6 +32,7 @@ import {
 import {AllUsersComponent} from "./components/user/all-users/all-users.component";
 import {ShowNotificationsComponent} from "./components/show-notifications/show-notifications.component";
 import {ShowSanctionsComponent} from "./components/show-sanctions/show-sanctions.component";
+import {UpdateUserComponent} from "./components/user/update-user/update-user.component";
 
 export const routes: Routes = [
   {
@@ -103,6 +104,10 @@ export const routes: Routes = [
   {
     path: 'sanction/:id',
     component: ShowSanctionsComponent
+  },
+  {
+    path: 'update-user/:id',
+    component: UpdateUserComponent,
   },
   // LOGISTICA
   {

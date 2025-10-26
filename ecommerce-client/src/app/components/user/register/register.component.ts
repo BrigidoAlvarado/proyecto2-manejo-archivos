@@ -26,7 +26,11 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   submitting = false;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private message: MessageService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private message: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.nonNullable.group({
