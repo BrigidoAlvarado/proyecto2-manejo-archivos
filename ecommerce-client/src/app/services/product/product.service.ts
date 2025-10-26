@@ -37,6 +37,23 @@ export class ProductService {
     return this.http.post(this.apiUrl, formData);
   }
 
+  putProduct(product: Product)
+    : Observable<any> {
+    const formData = new FormData();
+    formData.append('id', product.id!.toString());
+    formData.append('name', product.name);
+    formData.append('description', product.description);
+    formData.append('price', product.price.toString());
+    formData.append('stock', product.stock.toString());
+    formData.append('isNew', product.isNew.toString());
+    formData.append('categories', product.categories.join(','))
+
+    if (product.image) formData.append('image', product.image);
+
+    return this.http.put(`${this.apiUrl}/update`, formData);
+
+  }
+
   getNoApproved(): Observable<BasicProduct[]> {
     return this.http.get<BasicProduct[]>(`${this.apiUrl}/noApproved`);
   }

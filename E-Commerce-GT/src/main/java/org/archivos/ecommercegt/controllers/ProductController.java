@@ -97,4 +97,21 @@ public class ProductController {
         productService.approveProduct(approveProductRequest);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping(
+            value = "/update",
+            consumes = {"multipart/form-data"}
+    )
+    public ResponseEntity<?> updateProduct(
+            @ModelAttribute ProductRequest productRequest
+    ){
+        System.out.println("\n\n\nsi entra\n\n\n");
+        try{
+            productService.updateProduct(productRequest);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar producto");
+        }
+    }
 }

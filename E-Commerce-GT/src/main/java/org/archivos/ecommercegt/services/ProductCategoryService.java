@@ -23,7 +23,7 @@ public class ProductCategoryService {
     public void saveProductCategories(List<String> categories, Product product) throws HttpStatusCodeException {
 
         for (String category : categories) {
-            saveProductCategory(category, product);
+            if (!category.isBlank()) saveProductCategory(category, product);
         }
     }
 
@@ -41,5 +41,11 @@ public class ProductCategoryService {
         productCategory.setProduct(product);
 
         productCategoryRepository.save(productCategory);
+    }
+
+    public void deleteCategoriesInProduct(List<Category> categories, int productId) {
+        for (Category category : categories) {
+            productCategoryRepository.deleteProductCategoriesByCategoryAndProductId( category, productId );
+        }
     }
 }

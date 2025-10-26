@@ -18,7 +18,7 @@
           <td>{{ product.id }}</td>
           <td>{{ product.name }}</td>
           <td [class]="product.isApproved? 'text-success': 'text-danger'">
-            {{ product.isApproved? 'Aprobado': 'Rechazado' }}</td>
+            {{ product.isApproved? 'Aprobado': 'Rechazado o Pendiente Revisicion' }}</td>
           <td>
             <a class="btn btn-warning sm"
             [routerLink]="['/update-product', product.id]">

@@ -5,7 +5,9 @@ import org.archivos.ecommercegt.dto.comment.CommentResponse;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.models.Category;
 import org.archivos.ecommercegt.models.Product;
+import org.archivos.ecommercegt.models.ProductCategory;
 import org.archivos.ecommercegt.models.User;
+import org.archivos.ecommercegt.repository.ProductCategoryRepository;
 import org.archivos.ecommercegt.repository.ProductRepository;
 import org.archivos.ecommercegt.services.utilities.ImageService;
 import org.springframework.data.domain.PageRequest;
@@ -49,17 +51,10 @@ public class ProductService {
         product.setUser(user);
 
         MultipartFile imageFile = request.getImage();
-        if (imageFile == null || imageFile.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo guardar la imagen o no se encontró");
-        }
-
-        if (imageFile.getSize() > 5 * 1024 * 1024) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La imagen excede el tamaño permitido (5 MB)");
-        }
+        imageService.validateImage(imageFile);
 
         // Establecer url para la imagen
         String imageUrl = imageService.getImageUrl(imageFile);
-        System.out.println("La url es: " + imageUrl);
         product.setImageUrl(imageUrl);
 
         // Guardar imagen en el servidor
@@ -71,6 +66,44 @@ public class ProductService {
         // Guardar Categorias
         productCategoryService.saveProductCategories(request.getCategories(), productSaved);
         product.setImageUrl( imageUrl );
+    }
+
+    @Transactional
+    public void updateProduct(ProductRequest request) {
+        // Get old product
+        Product product = productRepository.findById(request.getId())
+                .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+
+        // Update fields
+        product.setRevised( false );
+        product.setApproved( false );
+
+        product.setStock( request.getStock() );
+        product.setIsNew( request.isNew() );
+        product.setPrice(request.getPrice());
+        product.setDescription(request.getDescription());
+        product.setName( request.getName() );
+
+        // Validate if image is empty
+        final MultipartFile imageFile = request.getImage();
+        if ( imageFile != null ) {
+            // delete old url
+            imageService.deleteImage(product.getImageUrl());
+            // save new image data
+            imageService.validateImage(imageFile);
+            String imageUrl = imageService.getImageUrl(imageFile);
+            product.setImageUrl(imageUrl);
+            imageService.saveImage(imageFile);
+        }
+        // Save changes
+        productRepository.save(product);
+
+        // delete old categories
+        final List<Category> categories = product.getCategories();
+        productCategoryService.deleteCategoriesInProduct(categories, product.getId());
+
+        // save new categories
+        productCategoryService.saveProductCategories(request.getCategories(), product);
     }
 
     public List<BasicProduct> findAllNoApproved() {

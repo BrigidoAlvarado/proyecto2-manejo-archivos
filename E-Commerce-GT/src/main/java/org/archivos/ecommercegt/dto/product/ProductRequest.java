@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class ProductRequest {
+    private Integer id;
     private String name;
     private String description;
     private double price;
@@ -15,6 +16,10 @@ public class ProductRequest {
     private boolean isNew;
     private List<String> categories;
     private MultipartFile image;
+
+    public void setId(String id){
+        this.id = Integer.parseInt(id);
+    }
 
     public void setIsNew(String isNew) {
         this.isNew = Boolean.parseBoolean(isNew);

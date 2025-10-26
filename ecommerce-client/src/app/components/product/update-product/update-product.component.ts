@@ -6,7 +6,6 @@ import {CategoryService} from "../../../services/category/category.service";
 import {Product} from "../../../entities/product/product";
 import {ProductResponse} from "../../../entities/product/product-response";
 import {ActivatedRoute} from "@angular/router";
-import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-update-product',
@@ -24,7 +23,10 @@ export class UpdateProductComponent implements OnInit {
   selectedImage?: File;
   categories: string[] = [];
   selectedCategories: string[] = [];
-  product: ProductResponse = {id: 0}
+  product: ProductResponse = {
+    id: 0,
+    categories: this.categories,
+  }
 
   // Iniciar Servicios
   constructor(
@@ -46,8 +48,9 @@ export class UpdateProductComponent implements OnInit {
 
   initForm() {
     this.productForm = this.fb.nonNullable.group({
+      id:           [this.product.id,                       [Validators.required, Validators.min(1)]],
       name:         [this.product.name,                     [Validators.required, Validators.maxLength(50), Validators.minLength(1)]],
-      description:  [this.product.description,              Validators.required],
+      description:  [this.product.description,               Validators.required],
       price:        [this.product.price,                    [Validators.required, Validators.min(1)]],
       stock:        [this.product.stock,                    [Validators.required, Validators.min(0)]],
       isNew:        [this.product.new?'true':'false',        Validators.required],
@@ -69,7 +72,7 @@ export class UpdateProductComponent implements OnInit {
     this.productService.getById(id).subscribe({
       next: productFound => {
         this.product = productFound
-        console.log(this.product);
+        this.selectedCategories = productFound.categories!
         this.initForm()
       },
       error: err => {
@@ -88,29 +91,23 @@ export class UpdateProductComponent implements OnInit {
       return;
     }
 
-    if (!this.selectedImage) {
-      this.message.error('No hay una imagen valida seleccionada')
-      return
-    }
+    const product: Product = this.productForm.value as Product;
 
-    const product: Product = {
-      ...this.productForm.value,
-      image: this.selectedImage,
-    }
-
+    product.image = this.selectedImage? this.selectedImage: undefined;
     product.isNew = this.productForm.get('isNew')?.value === 'true'
     product.categories = this.selectedCategories
 
-    this.productService.postNew(product).subscribe({
+    console.log('enviando', product)
+    this.productService.putProduct(product).subscribe({
       next: () => {
 
-        this.message.success('se registro el producto exitosamente');
-        console.log('se registro el producto exitosamente');
-        this.productForm.reset();
-
+        this.message.success('se actualizo el producto exitosamente');
+        this.ngOnInit();
       },
       error: err => {
-        console.log('error al crear un nuevo producto', err);
+        const msg = 'Error al actualizar el producto'
+        console.error(msg , err);
+        this.message.error(msg);
       }
     })
   }
