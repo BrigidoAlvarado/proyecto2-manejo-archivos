@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {APP_BASE_HREF} from "@angular/common";
 import {AppConfig} from "../../config/app.constants";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -34,5 +33,10 @@ export class DeliveryPackageService {
   patchRevisedPackage(id:number)
     : Observable<any>{
     return this.http.patch(`${this.url}/revised/${id}`,{})
+  }
+
+  patchDeliveryDate( id:number, date: string)
+  :Observable<any>{
+    return this.http.patch(`${this.url}/date/${id}`,date)
   }
 }

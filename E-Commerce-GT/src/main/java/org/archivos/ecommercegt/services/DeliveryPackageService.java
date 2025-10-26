@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.DateTimeException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,5 +109,16 @@ public class DeliveryPackageService {
         DeliveryPackage deliveryPackage = getDeliveryPackageById(id);
         deliveryPackage.setIsRevised(true);
         deliveryPackageRepository.save(deliveryPackage);
+    }
+
+    public void patchDeliveryDate(int id, String date) {
+        try{
+            final Instant  deliveryDate = LocalDate.parse( date ).atStartOfDay( ZoneId.systemDefault() ).toInstant();
+            final DeliveryPackage deliveryPackage = getDeliveryPackageById(id);
+            deliveryPackage.setDeliveryDate(deliveryDate);
+            deliveryPackageRepository.save(deliveryPackage);
+        }catch(DateTimeException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format");
+        }
     }
 }

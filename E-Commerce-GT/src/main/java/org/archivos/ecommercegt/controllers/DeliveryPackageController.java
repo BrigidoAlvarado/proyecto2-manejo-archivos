@@ -7,6 +7,7 @@ import org.archivos.ecommercegt.services.DeliveryPackageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,15 @@ public class DeliveryPackageController {
             @PathVariable int id
     ){
         deliveryPackageService.revisedDeliveryPackage(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/date/{id}")
+    ResponseEntity<List<DeliveryPackageResponse>> patchDate(
+            @PathVariable int id,
+            @RequestBody String date
+    ){
+        deliveryPackageService.patchDeliveryDate(id, date);
         return ResponseEntity.ok().build();
     }
 }

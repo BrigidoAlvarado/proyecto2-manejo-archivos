@@ -12,6 +12,7 @@
               <thead class="table-primary">
               <tr>
                 <th scope="col">No.</th>
+                <th scope="col">ID</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Fecha de Salida</th>
                 <th scope="col">Fecha de Entrega</th>
@@ -23,21 +24,26 @@
                 @for (deliveryPackage of packages; track $index) {
                   <tr>
                     <td>{{ $index + 1 }}</td>
+                    <td>{{ deliveryPackage.id }}</td>
                     <td>
                       <span class="badge rounded-pill
                         {{ deliveryPackage.isDelivered ? 'bg-success' : 'bg-warning text-dark' }}">
                         {{ deliveryPackage.isDelivered ? 'Entregado' : 'En camino' }}
                       </span>
                     </td>
-                    <td>{{ deliveryPackage.departureDate | date:'dd/MM/yyyy' }}</td>
-                    <td>{{ deliveryPackage.deliveryDate  | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ deliveryPackage.departureDate | date }}</td>
+                    <td>{{ deliveryPackage.deliveryDate  | date }}</td>
                     <td>{{ deliveryPackage.userName }}</td>
                     <td>
                       <div class="d-flex justify-content-center gap-2 flex-wrap">
                         <button class="btn btn-sm btn-info">
                           <i class="bi bi-eye"></i> Detalles
                         </button>
-                        <button class="btn btn-sm btn-warning">
+                        <button
+                          class="btn btn-sm btn-warning"
+                          data-bs-toggle="modal"
+                          data-bs-target="#dateModal"
+                          (click)="selectDeliveryPackage(deliveryPackage)">
                           <i class="bi bi-arrow-repeat"></i> Cambiar Entrega
                         </button>
                         <button class="btn btn-sm btn-success" (click)="deliver(deliveryPackage.id)">
@@ -59,3 +65,36 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dateModalLabel">
+          Actualizar Fecha de entrega
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label class="form-label" for="date">Nueva Fecha de Entrega</label>
+          <input
+            class="form-control"
+            type="date"
+            id="date"
+            #dateInput>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+         (click)="updateDate(dateInput)">Actualizar Fecha</button>
+      </div>
+    </div>
+  </div>
+</div>
+
