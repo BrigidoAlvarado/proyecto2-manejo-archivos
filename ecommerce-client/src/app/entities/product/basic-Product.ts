@@ -4,4 +4,5 @@ export interface BasicProduct {
   user?: string;
   price?: number;
   image?: string;
+  isApproved?: boolean;
 }

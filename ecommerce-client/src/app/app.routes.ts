@@ -33,6 +33,10 @@ import {AllUsersComponent} from "./components/user/all-users/all-users.component
 import {ShowNotificationsComponent} from "./components/show-notifications/show-notifications.component";
 import {ShowSanctionsComponent} from "./components/show-sanctions/show-sanctions.component";
 import {UpdateUserComponent} from "./components/user/update-user/update-user.component";
+import {
+  ProductsCommonSellingComponent
+} from "./components/product/products-common-selling/products-common-selling.component";
+import {UpdateProductComponent} from "./components/product/update-product/update-product.component";
 
 export const routes: Routes = [
   {
@@ -134,6 +138,14 @@ export const routes: Routes = [
   {
     path: 'pay-cart',
     component: PayShoppingCartComponent
+  },
+  {
+    path: 'product/selling',
+    component: ProductsCommonSellingComponent
+  },
+  {
+    path: 'update-product/:id',
+    component: UpdateProductComponent,
   },
   // PRODUCTOS
   {

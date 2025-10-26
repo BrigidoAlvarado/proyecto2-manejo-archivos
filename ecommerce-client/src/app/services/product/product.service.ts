@@ -66,6 +66,11 @@ export class ProductService {
     return this.http.get<BasicProduct[]>(`${this.apiUrl}/no-approve/revised`);
   }
 
+  getBasicProductsByUser()
+  :Observable<BasicProduct[]>{
+    return this.http.get<BasicProduct[]>(`${this.apiUrl}/user-selling`);
+  }
+
   getByProductsApprove(reportRequest: ReportRequest):
     Observable<ProductReport[]>{
     const params:any = []

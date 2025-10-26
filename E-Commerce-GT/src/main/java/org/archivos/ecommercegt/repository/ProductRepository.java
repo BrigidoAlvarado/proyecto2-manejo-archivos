@@ -4,6 +4,7 @@ import org.archivos.ecommercegt.dto.comment.CommentResponse;
 import org.archivos.ecommercegt.dto.product.BasicProduct;
 import org.archivos.ecommercegt.dto.product.MoreSellingProduct;
 import org.archivos.ecommercegt.models.Product;
+import org.archivos.ecommercegt.models.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query("SELECT new org.archivos.ecommercegt.dto.product.BasicProduct(p.name, p.user.name, p.id) " +
+    @Query("SELECT new org.archivos.ecommercegt.dto.product.BasicProduct(p.name, p.user.name, p.id, p.isApproved) " +
             "FROM Product p WHERE not p.isApproved")
     List<BasicProduct> findAllNoApproved();
 
@@ -41,4 +42,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<MoreSellingProduct> getMoreSellingProducts(Instant startDate, Instant endDate, Pageable pageable);
 
     List<Product> findByIsRevisedTrueAndIsApprovedFalse();
+
+    List<Product> findByUserEmail(String userEmail);
+
+    List<Product> findByUser(User user);
 }

@@ -5,7 +5,6 @@ import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.product.*;
 import org.archivos.ecommercegt.services.ProductService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +37,12 @@ public class ProductController {
            e.printStackTrace();
            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
        }
+    }
+
+    @GetMapping("/user-selling")
+    public ResponseEntity<List<BasicProduct>> getProductById(){
+        List<BasicProduct> products = productService.getBasicProductsByUser();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/approved/available")

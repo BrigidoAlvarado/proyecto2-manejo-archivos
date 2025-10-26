@@ -182,6 +182,23 @@ public class ProductService {
         return basicProducts;
     }
 
+    public List<BasicProduct> getBasicProductsByUser( ) {
+        final User user = userService.getUser();
+        final List<Product> products = productRepository.findByUser( user );
+        final List<BasicProduct> basicProducts = new ArrayList<>();
+
+        for (Product product : products) {
+            basicProducts.add(
+                    BasicProduct.builder()
+                            .id( product.getId() )
+                            .name( product.getName() )
+                            .isApproved( product.isApproved() )
+                            .build()
+            );
+        }
+        return basicProducts;
+    }
+
     public Product getProductById(int id) {
         return productRepository
                 .findById(id)
@@ -190,12 +207,12 @@ public class ProductService {
 
     }
 
-    public Product updateStock(Product product, int stock) {
+    public void updateStock(Product product, int stock) {
         if( stock < 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock invalido");
         }
         product.setStock(stock);
-        return productRepository.save(product);
+        productRepository.save(product);
     }
 
     public void save(Product product) {

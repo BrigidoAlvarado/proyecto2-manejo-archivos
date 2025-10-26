@@ -1,12 +1,12 @@
 <div class="container mt-4">
-  <h2 class="mb-3 text-center">Lista de Productos</h2>
+  <h2 class="mb-3 text-center">Lista de Productos en Venta</h2>
   <table class="table table-bordered table-striped table-hover align-middle text-center shadow-sm">
     <thead class="table-primary">
     <tr>
       <th>No.</th>
       <th>ID</th>
-      <th>Correo Cliente</th>
-      <th>Usuario</th>
+      <th>Nombre</th>
+      <th>Estado</th>
       <th>Opciones</th>
     </tr>
     </thead>
@@ -17,14 +17,18 @@
           <td>{{ $index + 1 }}</td>
           <td>{{ product.id }}</td>
           <td>{{ product.name }}</td>
-          <td>{{ product.user }}</td>
+          <td [class]="product.isApproved? 'text-success': 'text-danger'">
+            {{ product.isApproved? 'Aprobado': 'Rechazado' }}</td>
           <td>
-
+            <a class="btn btn-warning sm"
+            [routerLink]="['/update-product', product.id]">
+              <i class="bi bi-record-circle"></i>
+              Actualizar</a>
           </td>
         </tr>
       } @empty {
         <tr>
-          <td colspan="4" class="text-muted fst-italic">No hay productos rechazados</td>
+          <td colspan="5" class="text-muted fst-italic">No hay productos rechazados</td>
         </tr>
       }
     </tbody>
