@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // 🔽 tus endpoints públicos
-                        .requestMatchers("/api/v1/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
 
                         // 🔽 resto requiere autenticación
                         .anyRequest().authenticated()
