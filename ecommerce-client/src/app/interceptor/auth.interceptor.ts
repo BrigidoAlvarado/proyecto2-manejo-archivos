@@ -8,9 +8,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken()
   const isAuthRequest:boolean = req.url.includes('/auth/')
 
+  /*
   if (isAuthRequest) {
     return next(req)
   }
+   */
 
   if (token) {
     const cloned = req.clone({

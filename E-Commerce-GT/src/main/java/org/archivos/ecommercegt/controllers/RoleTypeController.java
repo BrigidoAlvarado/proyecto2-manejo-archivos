@@ -16,7 +16,7 @@ import java.util.List;
  * The type Role type controller.
  */
 @RestController
-@RequestMapping(ApplicationConfig.BASE_URL + "/role")
+@RequestMapping("/api/v1/role")
 @RequiredArgsConstructor
 public class RoleTypeController {
 
@@ -27,7 +27,7 @@ public class RoleTypeController {
      *
      * @return the role types
      */
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<String>> getRoleTypes() {
 
         List<Roletype> roles  = roleTypeRepository.findAll();
