@@ -8,26 +8,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken()
   const isAuthRequest:boolean = req.url.includes('/auth/')
 
-  let clonedReq = req.clone({
-    setHeaders: {
-      'ngrok-skip-browser-warning': 'true',
-    }
-  });
-
   if (isAuthRequest) {
-    return next(clonedReq)
+    return next(req)
   }
 
 
   if (token) {
-     clonedReq = req.clone({
+    const cloned = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
 
       },
     })
-    return next(clonedReq)
+    return next(cloned)
   }
 
-  return next(clonedReq)
+  return next(req)
 }
