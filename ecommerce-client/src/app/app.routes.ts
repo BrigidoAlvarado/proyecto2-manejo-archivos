@@ -37,6 +37,8 @@ import {
   ProductsCommonSellingComponent
 } from "./components/product/products-common-selling/products-common-selling.component";
 import {UpdateProductComponent} from "./components/product/update-product/update-product.component";
+import {RoleGuardService} from "./services/role-guard/role-guard.service";
+import {AppConfig} from "./config/app.constants";
 
 export const routes: Routes = [
   {
@@ -55,106 +57,168 @@ export const routes: Routes = [
   {
     path: 'moderator/home',
     component: ModeratorHomeComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.MODERATOR ]}
   },
   {
     path: 'moderator/product/approve',
-    component: ApproveProductComponent
+    component: ApproveProductComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.MODERATOR ]}
   },
   {
     path: 'packages/no-revised',
-    component: NoRevisedDeliveryPackagesComponent
+    component: NoRevisedDeliveryPackagesComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.MODERATOR ]}
   },
   // ADMINISTRADOR
   {
     path: 'admin/home',
     component: AdminHomeComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'admin/user/new',
-    component: CreateUserComponent
+    component: CreateUserComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'product/top/selling',
-    component: TopSellingProductsComponent
+    component: TopSellingProductsComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'user/top/products-send',
     component: TopSellingProductsComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'user/top/earning',
-    component: UserTopEarningComponent
+    component: UserTopEarningComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'user/top/packages-ordered',
-    component: UserTopPackagesOrderedComponent
+    component: UserTopPackagesOrderedComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'user/top/products-approve',
-    component: UserTopProductsApproveComponent
+    component: UserTopProductsApproveComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'shopping-cart/display/:id',
-    component: DisplayPackageDetailsComponent
+    component: DisplayPackageDetailsComponent,
+    canActivate: [ RoleGuardService ],
+    data: {
+      roles: [
+      AppConfig.ROLES.ADMIN,
+      AppConfig.ROLES.LOGISTIC,
+      AppConfig.ROLES.MODERATOR,
+      AppConfig.ROLES.COMMON
+      ]}
   },
   {
     path: 'users/all',
-    component: AllUsersComponent
+    component: AllUsersComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'notification/:id',
     component: ShowNotificationsComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'sanction/:id',
-    component: ShowSanctionsComponent
+    component: ShowSanctionsComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   {
     path: 'update-user/:id',
     component: UpdateUserComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.ADMIN ]}
   },
   // LOGISTICA
   {
     path: 'logistic/home',
     component: LogisticHomeComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.LOGISTIC ]}
   },
   {
     path: 'logistic/delivery-package',
-    component: ApproveDeliveryPackageComponent
+    component: ApproveDeliveryPackageComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.LOGISTIC ]}
   },
   // COMUN
   {
     path: 'common/home',
     component: CommonHomeComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   {
     path: 'product/display/:id',
     component: DisplayProductComponent,
+    canActivate: [ RoleGuardService ],
+    data: {
+      roles: [
+        AppConfig.ROLES.ADMIN,
+        AppConfig.ROLES.LOGISTIC,
+        AppConfig.ROLES.MODERATOR,
+        AppConfig.ROLES.COMMON
+      ]}
   },
   {
     path: 'shopping-cart',
     component: ShoppingCartComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   {
     path: 'pay-cart',
-    component: PayShoppingCartComponent
+    component: PayShoppingCartComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   {
     path: 'product/selling',
-    component: ProductsCommonSellingComponent
+    component: ProductsCommonSellingComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   {
     path: 'update-product/:id',
     component: UpdateProductComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   // PRODUCTOS
   {
     path: 'product/new',
     component: NewProductComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   {
     path: 'common/shopping-cart',
-    component: ShoppingCartComponent
+    component: ShoppingCartComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
   },
   // EXTRAS
   {
