@@ -18,20 +18,20 @@ public class Cors {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        // Permite localhost, Netlify y cualquier subdominio de ngrok-free.dev
                         .allowedOriginPatterns(
                                 "http://localhost:4200",
                                 "https://manejoarchivosecommercegt.netlify.app",
                                 "https://jade-flinty-dayton.ngrok-free.dev"
                         )
                         // Métodos HTTP permitidos
-                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                        .allowedMethods("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                         // Permite cualquier encabezado, incluyendo Authorization
-                        .allowedHeaders("Authorization", "Content-Type", "Accept")
+                        .allowedHeaders("*")
                         // Permite enviar cookies y credenciales
                         .allowCredentials(true)
                         // Exponer encabezados importantes si es necesario (opcional)
-                        .exposedHeaders("Authorization", "Content-Disposition");
+                        .exposedHeaders("Authorization", "Content-Disposition")
+                        ;
             }
         };
     }

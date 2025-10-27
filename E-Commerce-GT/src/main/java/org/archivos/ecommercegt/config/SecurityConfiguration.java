@@ -3,6 +3,7 @@ package org.archivos.ecommercegt.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -32,16 +33,24 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(cors->{})
+                .cors(cors -> {}) // usa tu configuración CORS global
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests( auth -> auth
+                .authorizeHttpRequests(auth -> auth
+                        // 🔽 permite las preflight de CORS
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // 🔽 tus endpoints públicos
                         .requestMatchers("/api/v1/**").permitAll()
+
+                        // 🔽 resto requiere autenticación
                         .anyRequest().authenticated()
                 )
-                .sessionManagement( session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .addFilterBefore(jwtAuthenticatorFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 }
