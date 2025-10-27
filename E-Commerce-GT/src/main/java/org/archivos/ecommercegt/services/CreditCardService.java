@@ -12,6 +12,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Credit card service.
+ */
 @Service
 @RequiredArgsConstructor
 public class CreditCardService {
@@ -19,6 +22,11 @@ public class CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final UserService userService;
 
+    /**
+     * Valid number.
+     *
+     * @param number the number
+     */
     public void validNumber(String number) {
         if (number.length() > 20){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credit card number is too long");
@@ -29,6 +37,13 @@ public class CreditCardService {
         }
     }
 
+    /**
+     * Save credit card.
+     *
+     * @param number the number
+     * @param user   the user
+     * @return the credit card
+     */
     public CreditCard save(String number, User user) {
 
         validNumber(number);
@@ -39,6 +54,11 @@ public class CreditCardService {
         return creditCardRepository.save(creditCard);
     }
 
+    /**
+     * Find all by user list.
+     *
+     * @return the list
+     */
     public List<CreditCardResponse> findAllByUser() {
         List<CreditCard> cardsFound = creditCardRepository.findAllByUser((userService.getUser()));
         List<CreditCardResponse> creditCardResponses = new ArrayList<>();

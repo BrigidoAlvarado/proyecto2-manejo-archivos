@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * The type Notification controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/notification")
 @RequiredArgsConstructor
@@ -19,6 +22,12 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
+    /**
+     * Get all notifications by user response entity.
+     *
+     * @param userId the user id
+     * @return the response entity
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<List<NotificationResponse>> getAllNotificationsByUser(
             @PathVariable int userId

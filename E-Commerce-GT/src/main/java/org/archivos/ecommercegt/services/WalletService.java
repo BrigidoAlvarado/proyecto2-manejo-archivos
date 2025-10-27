@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * The type Wallet service.
+ */
 @Service
 @RequiredArgsConstructor
 public class WalletService {
@@ -24,6 +27,12 @@ public class WalletService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
+    /**
+     * Save wallet.
+     *
+     * @param user the user
+     * @return the wallet
+     */
     public Wallet save(User user) {
         Wallet wallet = new Wallet();
         wallet.setUser(user);
@@ -31,10 +40,21 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
+    /**
+     * Update app money.
+     *
+     * @param money the money
+     */
     public void updateAppMoney(double money) {
         updateMoney(money, getAppWallet());
     }
 
+    /**
+     * Update money.
+     *
+     * @param user   the user
+     * @param amount the amount
+     */
     @Transactional
     public void updateMoney(User user, double amount) {
         Wallet wallet = walletRepository

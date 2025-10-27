@@ -13,14 +13,36 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface Product repository.
+ */
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+    /**
+     * Find all no approved list.
+     *
+     * @return the list
+     */
     @Query("SELECT new org.archivos.ecommercegt.dto.product.BasicProduct(p.name, p.user.name, p.id, p.isApproved) " +
             "FROM Product p WHERE not p.isApproved")
     List<BasicProduct> findAllNoApproved();
 
+    /**
+     * Find by is revised true and is approved true and stock greater than list.
+     *
+     * @param stock the stock
+     * @return the list
+     */
     List<Product> findByIsRevisedTrueAndIsApprovedTrueAndStockGreaterThan(int stock);
 
+    /**
+     * Gets more selling products.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param pageable  the pageable
+     * @return the more selling products
+     */
     @Query("""
         select new org.archivos.ecommercegt.dto.product.MoreSellingProduct(
                 p.id,
@@ -41,9 +63,26 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     """)
     List<MoreSellingProduct> getMoreSellingProducts(Instant startDate, Instant endDate, Pageable pageable);
 
+    /**
+     * Find by is revised true and is approved false list.
+     *
+     * @return the list
+     */
     List<Product> findByIsRevisedTrueAndIsApprovedFalse();
 
+    /**
+     * Find by user email list.
+     *
+     * @param userEmail the user email
+     * @return the list
+     */
     List<Product> findByUserEmail(String userEmail);
 
+    /**
+     * Find by user list.
+     *
+     * @param user the user
+     * @return the list
+     */
     List<Product> findByUser(User user);
 }

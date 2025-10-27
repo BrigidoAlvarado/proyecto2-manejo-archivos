@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+/**
+ * The type Qualification.
+ */
 @Getter
 @Setter
 @Entity

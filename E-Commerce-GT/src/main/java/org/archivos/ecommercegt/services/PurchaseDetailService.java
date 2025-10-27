@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+/**
+ * The type Purchase detail service.
+ */
 @Service
 @RequiredArgsConstructor
 public class PurchaseDetailService {
@@ -21,6 +24,11 @@ public class PurchaseDetailService {
 
     private final ProductService productService;
 
+    /**
+     * Delete purchase detail.
+     *
+     * @param id the id
+     */
     @Transactional
     public void deletePurchaseDetail( int id){
         PurchaseDetail purchaseDetail = purchaseDetailRepository.findById(id)
@@ -34,6 +42,11 @@ public class PurchaseDetailService {
         purchaseDetailRepository.delete(purchaseDetail);
     }
 
+    /**
+     * Delete purchase detail.
+     *
+     * @param purchaseDetail the purchase detail
+     */
     @Transactional
     public void deletePurchaseDetail( PurchaseDetail purchaseDetail){
         // delete purchase detail
@@ -43,6 +56,13 @@ public class PurchaseDetailService {
         productService.updateStock( product, product.getStock() + purchaseDetail.getAmount() );
     }
 
+    /**
+     * Save purchase detail purchase detail.
+     *
+     * @param request      the request
+     * @param shoppingCart the shopping cart
+     * @return the purchase detail
+     */
     @Transactional
     public PurchaseDetail savePurchaseDetail(PurchaseDetailRequest request, ShoppingCart shoppingCart) {
 

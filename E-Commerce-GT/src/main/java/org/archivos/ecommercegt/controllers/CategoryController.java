@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * The type Category controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL +"/category")
 @RequiredArgsConstructor
@@ -18,6 +21,11 @@ public class CategoryController {
 
     private final CategoryRepository categoryRepository;
 
+    /**
+     * Get categories response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping
     public ResponseEntity<String[]> getCategories(){
         List<Category> categories = categoryRepository.findAll();

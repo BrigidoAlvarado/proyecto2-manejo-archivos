@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Comment controller.
+ */
 @RestController
 @RequestMapping( ApplicationConfig.BASE_URL + "/comment")
 @RequiredArgsConstructor
@@ -17,6 +20,12 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    /**
+     * Add comment response entity.
+     *
+     * @param comment the comment
+     * @return the response entity
+     */
     @PostMapping
     public ResponseEntity<?> addComment(
             @RequestBody CommentRequest comment) {

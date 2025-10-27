@@ -3,6 +3,9 @@ package org.archivos.ecommercegt.dto.card;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type Pay card request.
+ */
 @Data
 @Builder
 public class PayCardRequest {

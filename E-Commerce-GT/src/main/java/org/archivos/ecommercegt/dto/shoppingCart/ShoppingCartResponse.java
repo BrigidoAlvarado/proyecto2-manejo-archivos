@@ -6,6 +6,9 @@ import org.archivos.ecommercegt.dto.purchaseDetail.PurchaseDetailResponse;
 
 import java.util.List;
 
+/**
+ * The type Shopping cart response.
+ */
 @Data
 @Builder
 public class ShoppingCartResponse {

@@ -10,6 +10,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
+/**
+ * The type Shopping cart.
+ */
 @Getter
 @Setter
 @Entity

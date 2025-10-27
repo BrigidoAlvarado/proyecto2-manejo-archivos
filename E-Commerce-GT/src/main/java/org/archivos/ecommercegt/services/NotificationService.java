@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Notification service.
+ */
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -25,6 +28,11 @@ public class NotificationService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Notify package status change.
+     *
+     * @param deliveryPackage the delivery package
+     */
     public void notifyPackageStatusChange( DeliveryPackage deliveryPackage ) {
         // crear el mensaje
         final String subject = "E Commerce GT pedido No." + deliveryPackage.getId();
@@ -33,6 +41,11 @@ public class NotificationService {
         notify(deliveryPackage.getShoppingCart().getUser(), subject, text);
     }
 
+    /**
+     * Notify no approve product.
+     *
+     * @param product the product
+     */
     public void notifyNoApproveProduct( Product product ) {
         final String subject = "E Commerce GT producto No." + product.getId();
         final String text = "El producto No." + product.getId()
@@ -41,6 +54,11 @@ public class NotificationService {
         notify( product.getUser(), subject, text);
     }
 
+    /**
+     * Notify approve product.
+     *
+     * @param product the product
+     */
     public void notifyApproveProduct( Product product ) {
         final String subject = "E Commerce GT producto No." + product.getId();
         final String text = "El producto No." + product.getId()
@@ -49,6 +67,13 @@ public class NotificationService {
         notify( product.getUser(), subject, text);
     }
 
+    /**
+     * Notify.
+     *
+     * @param user    the user
+     * @param subject the subject
+     * @param text    the text
+     */
     public void notify(User user, String subject, String text) {
 
         // guardar la notificacion en la base de datos
@@ -67,6 +92,12 @@ public class NotificationService {
         );
     }
 
+    /**
+     * Gets notifications by user id.
+     *
+     * @param userId the user id
+     * @return the notifications by user id
+     */
     public List<NotificationResponse> getNotificationsByUserId(int userId) {
         final User user = userService.getUserById(userId);
         final List<Notification> notifications = notificationRepository.findByUser(user);

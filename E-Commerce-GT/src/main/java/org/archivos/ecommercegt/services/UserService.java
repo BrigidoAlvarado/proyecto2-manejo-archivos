@@ -21,6 +21,9 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type User service.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -28,6 +31,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
     public User getUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userRepository
@@ -37,6 +45,12 @@ public class UserService {
                 );
     }
 
+    /**
+     * Gets user by email.
+     *
+     * @param email the email
+     * @return the user by email
+     */
     public User getUserByEmail(String email) {
         return userRepository
                 .findByEmail(email)
@@ -45,6 +59,13 @@ public class UserService {
                 );
     }
 
+    /**
+     * Find user by top spent list.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return the list
+     */
     public List<UserEarning> findUserByTopSpent(String startDate, String endDate ) {
 
         try{
@@ -62,6 +83,13 @@ public class UserService {
         }
     }
 
+    /**
+     * Fin user by products send list.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return the list
+     */
     public List<UserProductsSend> finUserByProductsSend(String startDate, String endDate) {
             try{
                 Instant startInstant = null;
@@ -78,6 +106,13 @@ public class UserService {
             }
     }
 
+    /**
+     * Fin user by packages ordered list.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return the list
+     */
     public List<UserPackagesOrdered> finUserByPackagesOrdered(String startDate, String endDate) {
         try{
             Instant startInstant = null;
@@ -94,11 +129,21 @@ public class UserService {
         }
     }
 
+    /**
+     * Fin user by products approve list.
+     *
+     * @return the list
+     */
     public List<UserProductsApprove> finUserByProductsApprove( ) {
         final Pageable pageable = PageRequest.of(0, 10);
         return userRepository.findUsersByAProvedProducts( pageable );
     }
 
+    /**
+     * Get all users list.
+     *
+     * @return the list
+     */
     public List<UserResponse> getAllUsers(){
         final List<User> users = userRepository.findAll();
         final List<UserResponse> list = new ArrayList<>();
@@ -116,12 +161,24 @@ public class UserService {
         return list;
     }
 
+    /**
+     * Gets user by id.
+     *
+     * @param id the id
+     * @return the user by id
+     */
     public User getUserById(int id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "El usuario no existe")
         );
     }
 
+    /**
+     * Gets user response by id.
+     *
+     * @param id the id
+     * @return the user response by id
+     */
     public UserResponse getUserResponseById(int id) {
         User user = getUserById(id);
         return UserResponse.builder()
@@ -132,6 +189,11 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * Update user.
+     *
+     * @param request the request
+     */
     public void updateUser(UpdateUserRequest request) {
         // Get user
         User user = getUserById(request.getId());

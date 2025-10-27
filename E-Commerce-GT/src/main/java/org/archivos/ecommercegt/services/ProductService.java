@@ -25,6 +25,9 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Product service.
+ */
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -38,6 +41,12 @@ public class ProductService {
     private final CommentService commentService;
     private final QualificationService qualificationService;
 
+    /**
+     * Save product.
+     *
+     * @param request   the request
+     * @param userEmail the user email
+     */
     @Transactional
     public void saveProduct(ProductRequest request, String userEmail) {
         User user = userService.getUser();
@@ -68,6 +77,11 @@ public class ProductService {
         product.setImageUrl( imageUrl );
     }
 
+    /**
+     * Update product.
+     *
+     * @param request the request
+     */
     @Transactional
     public void updateProduct(ProductRequest request) {
         // Get old product
@@ -106,10 +120,21 @@ public class ProductService {
         productCategoryService.saveProductCategories(request.getCategories(), product);
     }
 
+    /**
+     * Find all no approved list.
+     *
+     * @return the list
+     */
     public List<BasicProduct> findAllNoApproved() {
         return productRepository.findAllNoApproved();
     }
 
+    /**
+     * Gets product response by id.
+     *
+     * @param id the id
+     * @return the product response by id
+     */
     public ProductResponse getProductResponseById(int id) {
         // Buscar el producto por id
         final Product product = getProductById(id);
@@ -139,6 +164,11 @@ public class ProductService {
                 .build();
     }
 
+    /**
+     * Approve product.
+     *
+     * @param approveProductRequest the approve product request
+     */
     @Transactional
     public void approveProduct(ApproveProductRequest approveProductRequest) {
 
@@ -157,6 +187,11 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    /**
+     * Gets all basic approved products.
+     *
+     * @return the all basic approved products
+     */
     public List<BasicCatalogProduct> getAllBasicApprovedProducts() {
         final String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         final List<Product> products = productRepository.findByIsRevisedTrueAndIsApprovedTrueAndStockGreaterThan(0);
@@ -178,6 +213,13 @@ public class ProductService {
         return basicProducts;
     }
 
+    /**
+     * Gets more selling products.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return the more selling products
+     */
     public List<MoreSellingProduct> getMoreSellingProducts(String startDate, String endDate) {
         try{
             Instant start = null;
@@ -199,6 +241,11 @@ public class ProductService {
         }
     }
 
+    /**
+     * Find no approve and revised list.
+     *
+     * @return the list
+     */
     public List<BasicProduct> findNoApproveAndRevised() {
         List<Product> products = productRepository.findByIsRevisedTrueAndIsApprovedFalse();
         List<BasicProduct> basicProducts = new ArrayList<>();
@@ -215,6 +262,11 @@ public class ProductService {
         return basicProducts;
     }
 
+    /**
+     * Gets basic products by user.
+     *
+     * @return the basic products by user
+     */
     public List<BasicProduct> getBasicProductsByUser( ) {
         final User user = userService.getUser();
         final List<Product> products = productRepository.findByUser( user );
@@ -232,6 +284,12 @@ public class ProductService {
         return basicProducts;
     }
 
+    /**
+     * Gets product by id.
+     *
+     * @param id the id
+     * @return the product by id
+     */
     public Product getProductById(int id) {
         return productRepository
                 .findById(id)
@@ -240,6 +298,12 @@ public class ProductService {
 
     }
 
+    /**
+     * Update stock.
+     *
+     * @param product the product
+     * @param stock   the stock
+     */
     public void updateStock(Product product, int stock) {
         if( stock < 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock invalido");
@@ -248,6 +312,11 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    /**
+     * Save.
+     *
+     * @param product the product
+     */
     public void save(Product product) {
         productRepository.save(product);
     }

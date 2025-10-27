@@ -9,6 +9,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
+/**
+ * The type Sanction.
+ */
 @Getter
 @Setter
 @Entity

@@ -16,22 +16,47 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * The type Jwt service.
+ */
 @Service
 public class JwtService {
 
     private static final String SECRET_KEY = "QZGr2cjssStmGenfAeHLmClDUaQzsad/7ojCnqxNFWQ=";
+    /**
+     * The constant EXPIRATION_PERIOD.
+     */
     public static final long EXPIRATION_PERIOD = 1000L  * 60 * 20;
 
     private ShoppingCartService  shoppingCartService;
 
+    /**
+     * Extract user email string.
+     *
+     * @param token the token
+     * @return the string
+     */
     public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    /**
+     * Generate token string.
+     *
+     * @param userDetails the user details
+     * @return the string
+     */
     public String generateToken(UserDetails userDetails) {
         return generateToken( new HashMap<>(), userDetails);
     }
 
+    /**
+     * Generate token string.
+     *
+     * @param extraClaims the extra claims
+     * @param userDetails the user details
+     * @return the string
+     */
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
@@ -55,6 +80,13 @@ public class JwtService {
                 .compact();
     }
 
+    /**
+     * Is token valid boolean.
+     *
+     * @param token       the token
+     * @param userDetails the user details
+     * @return the boolean
+     */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userEmail = extractUserEmail(token);
         return (userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -68,6 +100,14 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    /**
+     * Extract claim t.
+     *
+     * @param <T>            the type parameter
+     * @param token          the token
+     * @param claimsResolver the claims resolver
+     * @return the t
+     */
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);

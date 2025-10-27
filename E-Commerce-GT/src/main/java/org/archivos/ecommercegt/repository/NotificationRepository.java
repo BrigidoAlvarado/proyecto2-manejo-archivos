@@ -6,6 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * The interface Notification repository.
+ */
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
+    /**
+     * Find by user list.
+     *
+     * @param user the user
+     * @return the list
+     */
     List<Notification> findByUser(User user);
 }

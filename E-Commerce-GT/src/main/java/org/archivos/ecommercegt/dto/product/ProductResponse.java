@@ -7,6 +7,9 @@ import org.archivos.ecommercegt.dto.comment.CommentResponse;
 
 import java.util.List;
 
+/**
+ * The type Product response.
+ */
 @Data
 @Builder
 @RequiredArgsConstructor

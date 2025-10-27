@@ -14,6 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * The type Sanction controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/sanction")
 @RequiredArgsConstructor
@@ -22,6 +25,12 @@ public class SanctionController {
     private final SanctionService sanctionService;
 
 
+    /**
+     * Get sanctions by user id response entity.
+     *
+     * @param userId the user id
+     * @return the response entity
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<List<SanctionResponse>> getSanctionsByUserId(
             @PathVariable int userId
@@ -30,6 +39,12 @@ public class SanctionController {
         return ResponseEntity.ok(sanctionResponses);
     }
 
+    /**
+     * Post sanction response entity.
+     *
+     * @param sanctionRequest the sanction request
+     * @return the response entity
+     */
     @PostMapping()
     public ResponseEntity<?> postSanction(
             @RequestBody SanctionProductRequest sanctionRequest
@@ -43,6 +58,12 @@ public class SanctionController {
         }
     }
 
+    /**
+     * Post sanction deliver package response entity.
+     *
+     * @param request the request
+     * @return the response entity
+     */
     @PostMapping("/delivery-package")
     public ResponseEntity<?> postSanctionDeliverPackage(
             @RequestBody SanctionDeliveryPackageRequest request

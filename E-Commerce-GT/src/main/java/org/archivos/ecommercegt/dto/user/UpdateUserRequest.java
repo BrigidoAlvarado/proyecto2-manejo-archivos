@@ -3,6 +3,9 @@ package org.archivos.ecommercegt.dto.user;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type Update user request.
+ */
 @Data
 @Builder
 public class UpdateUserRequest {

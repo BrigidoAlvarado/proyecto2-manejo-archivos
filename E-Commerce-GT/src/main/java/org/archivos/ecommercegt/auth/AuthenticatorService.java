@@ -20,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * The type Authenticator service.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticatorService {
@@ -31,6 +34,12 @@ public class AuthenticatorService {
     private final CommonUserService commonUserService;
     private final SanctionService sanctionService;
 
+    /**
+     * Register authentication response.
+     *
+     * @param request the request
+     * @return the authentication response
+     */
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
 
@@ -61,6 +70,12 @@ public class AuthenticatorService {
                 .build();
     }
 
+    /**
+     * Authenticate authentication response.
+     *
+     * @param request the request
+     * @return the authentication response
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
         try {

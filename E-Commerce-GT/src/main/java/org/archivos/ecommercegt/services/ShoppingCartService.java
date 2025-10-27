@@ -16,11 +16,20 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 
+/**
+ * The type Shopping cart service.
+ */
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartService {
 
+    /**
+     * The constant PERCENT_PRODUCT_OWNER_EARNING.
+     */
     public static final double PERCENT_PRODUCT_OWNER_EARNING = 0.95;
+    /**
+     * The constant PERCENT_APP_EARNING.
+     */
     public static final double PERCENT_APP_EARNING   = 0.05;
 
     private final ShoppingCartRepository shoppingCartRepository;
@@ -32,6 +41,12 @@ public class ShoppingCartService {
     private final DeliveryPackageService deliveryPackageService;
     private final PurchaseDetailService purchaseDetailService;
 
+    /**
+     * Save shopping cart.
+     *
+     * @param user the user
+     * @return the shopping cart
+     */
     public ShoppingCart save(User user) {
 
         ShoppingCart cart = new ShoppingCart();
@@ -41,6 +56,11 @@ public class ShoppingCartService {
         return shoppingCartRepository.save(cart);
     }
 
+    /**
+     * Get current shopping cart shopping cart.
+     *
+     * @return the shopping cart
+     */
     public ShoppingCart getCurrentShoppingCart(){
         final User user = userService.getUser();
 
@@ -49,17 +69,33 @@ public class ShoppingCartService {
                 .orElseThrow(() -> new  ResponseStatusException(HttpStatus.NOT_FOUND, "ShoppingCart not found"));
     }
 
+    /**
+     * Get current shopping cart response shopping cart response.
+     *
+     * @return the shopping cart response
+     */
     public ShoppingCartResponse getCurrentShoppingCartResponse(){
 
         final ShoppingCart cart = getCurrentShoppingCart();
         return shoppingCartTools.parseShoppingCartResponse(cart);
     }
 
+    /**
+     * Get shopping cart response by id shopping cart response.
+     *
+     * @param id the id
+     * @return the shopping cart response
+     */
     public ShoppingCartResponse getShoppingCartResponseById(int id){
         final ShoppingCart cart = getShoppingCartById(id);
         return shoppingCartTools.parseShoppingCartResponse(cart);
     }
 
+    /**
+     * Pay shopping cart.
+     *
+     * @param request the request
+     */
     @Transactional
     public void payShoppingCart(PayCardRequest request){
 
@@ -104,6 +140,11 @@ public class ShoppingCartService {
         shoppingCartRepository.save(newCart);
     }
 
+    /**
+     * Delete shopping cart items.
+     *
+     * @param id the id
+     */
     @Transactional
     public void deleteShoppingCartItems(int id){
         final ShoppingCart cart = getShoppingCartById(id);

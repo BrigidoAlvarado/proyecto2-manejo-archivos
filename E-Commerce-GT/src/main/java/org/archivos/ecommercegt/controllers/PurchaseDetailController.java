@@ -10,6 +10,9 @@ import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Purchase detail controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/purchase-detail")
 @RequiredArgsConstructor
@@ -18,6 +21,12 @@ public class PurchaseDetailController {
     private final ShoppingCartService shoppingCartService;
     private final PurchaseDetailService purchaseDetailService;
 
+    /**
+     * Save response entity.
+     *
+     * @param purchaseDetail the purchase detail
+     * @return the response entity
+     */
     @PostMapping
     public ResponseEntity<PurchaseDetail> save(
             @RequestBody PurchaseDetailRequest purchaseDetail
@@ -27,6 +36,12 @@ public class PurchaseDetailController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Delete purchase detail response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePurchaseDetail(
             @PathVariable Integer id

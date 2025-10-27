@@ -6,6 +6,9 @@ import org.archivos.ecommercegt.dto.shoppingCart.ShoppingCartResponse;
 
 import java.time.Instant;
 
+/**
+ * The type Delivery package response.
+ */
 @Data
 @Builder
 public class DeliveryPackageResponse {

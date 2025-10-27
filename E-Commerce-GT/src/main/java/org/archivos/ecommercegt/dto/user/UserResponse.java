@@ -3,6 +3,9 @@ package org.archivos.ecommercegt.dto.user;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type User response.
+ */
 @Builder
 @Data
 public class UserResponse {

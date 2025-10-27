@@ -10,6 +10,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * The type Delivery package.
+ */
 @Getter
 @Setter
 @Entity

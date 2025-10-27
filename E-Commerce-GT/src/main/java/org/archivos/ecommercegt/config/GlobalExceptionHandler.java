@@ -8,10 +8,19 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
+/**
+ * The type Global exception handler.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Maneja tus ResponseStatusException (como el 409 que lanzas)
+    /**
+     * Handle response status exception response entity.
+     *
+     * @param ex the ex
+     * @return the response entity
+     */
+// Maneja tus ResponseStatusException (como el 409 que lanzas)
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException ex) {
         assert ex.getReason() != null;
@@ -21,7 +30,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getStatusCode()).body(body);
     }
 
-    // Maneja cualquier otra excepción no controlada
+    /**
+     * Handle all exceptions response entity.
+     *
+     * @param ex the ex
+     * @return the response entity
+     */
+// Maneja cualquier otra excepción no controlada
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
         Map<String, String> body = Map.of(

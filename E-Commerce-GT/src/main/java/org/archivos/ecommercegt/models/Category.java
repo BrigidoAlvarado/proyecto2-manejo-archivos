@@ -7,6 +7,9 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The type Category.
+ */
 @Getter
 @Setter
 @Entity

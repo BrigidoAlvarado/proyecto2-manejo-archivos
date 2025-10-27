@@ -2,6 +2,9 @@ package org.archivos.ecommercegt.dto.user;
 
 import lombok.Data;
 
+/**
+ * The type User products send.
+ */
 @Data
 public class UserProductsSend {
     private final int id;

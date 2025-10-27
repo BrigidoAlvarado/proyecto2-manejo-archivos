@@ -16,6 +16,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Comment service.
+ */
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -25,6 +28,12 @@ public class CommentService {
 
     private final UserService userService;
 
+    /**
+     * Save comment.
+     *
+     * @param commentRequest the comment request
+     * @return the comment
+     */
     public Comment save(CommentRequest commentRequest) {
 
         final User user = userService.getUser();
@@ -39,6 +48,12 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    /**
+     * Gets all comments by product id.
+     *
+     * @param productId the product id
+     * @return the all comments by product id
+     */
     public List<CommentResponse> getAllCommentsByProductId(int productId) {
         final Product product = getProductById(productId);
         final List<Comment> comments = commentRepository.findByProduct(product);

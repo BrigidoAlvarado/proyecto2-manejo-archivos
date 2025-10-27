@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * The type Sanction response.
+ */
 @Data
 @Builder
 public class SanctionResponse {

@@ -8,6 +8,9 @@ import org.archivos.ecommercegt.services.ShoppingCartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The type Shopping cart controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/shopping-cart")
 @RequiredArgsConstructor
@@ -15,12 +18,23 @@ public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
 
+    /**
+     * Gets shopping cart.
+     *
+     * @return the shopping cart
+     */
     @GetMapping
     public ResponseEntity<ShoppingCartResponse> getShoppingCart() {
         ShoppingCartResponse shoppingCartResponse = shoppingCartService.getCurrentShoppingCartResponse();
         return ResponseEntity.ok(shoppingCartResponse);
     }
 
+    /**
+     * Gets shopping cart by id.
+     *
+     * @param id the id
+     * @return the shopping cart by id
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ShoppingCartResponse> getShoppingCartById(
             @PathVariable Integer id
@@ -29,6 +43,12 @@ public class ShoppingCartController {
         return ResponseEntity.ok(shoppingCartResponse);
     }
 
+    /**
+     * Pay shopping card response entity.
+     *
+     * @param payCardRequest the pay card request
+     * @return the response entity
+     */
     @PostMapping("/pay")
     public ResponseEntity<?> payShoppingCard(
             @RequestBody PayCardRequest payCardRequest
@@ -37,6 +57,12 @@ public class ShoppingCartController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Delete shopping cart items response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/items/{id}")
     public ResponseEntity<?> deleteShoppingCartItems(
             @PathVariable Integer id

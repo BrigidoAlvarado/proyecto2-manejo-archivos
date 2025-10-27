@@ -3,6 +3,9 @@ package org.archivos.ecommercegt.dto.purchaseDetail;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type Purchase detail response.
+ */
 @Data
 @Builder
 public class PurchaseDetailResponse {

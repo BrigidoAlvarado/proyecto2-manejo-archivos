@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Role type controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/role")
 @RequiredArgsConstructor
@@ -19,6 +22,11 @@ public class RoleTypeController {
 
     private final RoleTypeRepository roleTypeRepository;
 
+    /**
+     * Gets role types.
+     *
+     * @return the role types
+     */
     @GetMapping
     public ResponseEntity<List<String>> getRoleTypes() {
 

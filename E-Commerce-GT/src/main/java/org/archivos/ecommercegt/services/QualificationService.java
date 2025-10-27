@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * The type Qualification service.
+ */
 @Service
 @RequiredArgsConstructor
 public class QualificationService {
@@ -23,6 +26,12 @@ public class QualificationService {
 
     private final UserService userService;
 
+    /**
+     * Save qualification.
+     *
+     * @param request the request
+     * @return the qualification
+     */
     public Qualification save (QualificationRequest request){
 
         final User user = userService.getUser();
@@ -44,6 +53,12 @@ public class QualificationService {
         return qualificationRepository.save(qualification);
     }
 
+    /**
+     * Calculate qualification int.
+     *
+     * @param productId the product id
+     * @return the int
+     */
     public int calculateQualification( int productId ){
         final List<Qualification> qualifications = qualificationRepository
                 .findByProduct( getProductById( productId ) );

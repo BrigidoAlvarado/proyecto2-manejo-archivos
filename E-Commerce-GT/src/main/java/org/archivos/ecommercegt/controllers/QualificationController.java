@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Qualification controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/qualification")
 @RequiredArgsConstructor
@@ -17,6 +20,12 @@ public class QualificationController {
 
     private final QualificationService qualificationService;
 
+    /**
+     * Post qualification response entity.
+     *
+     * @param qualification the qualification
+     * @return the response entity
+     */
     @PostMapping
     public ResponseEntity<?> postQualification(
             @RequestBody QualificationRequest qualification) {

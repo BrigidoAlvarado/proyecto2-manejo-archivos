@@ -14,6 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * The type Product controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/product")
 @RequiredArgsConstructor
@@ -21,13 +24,24 @@ public class ProductController {
 
     private final ProductService productService;
 
-    // Usuario moderador obtiene los no aprobados para aprobarlos
+    /**
+     * Get no approved products response entity.
+     *
+     * @return the response entity
+     */
+// Usuario moderador obtiene los no aprobados para aprobarlos
     @GetMapping("/noApproved")
     public ResponseEntity<List<BasicProduct>> getNoApprovedProducts(){
         return ResponseEntity.ok(productService.findAllNoApproved());
     }
 
-    // Obtener producto por id
+    /**
+     * Get product response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
+// Obtener producto por id
     @GetMapping("/display/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable int id){
        try{
@@ -39,18 +53,35 @@ public class ProductController {
        }
     }
 
+    /**
+     * Get product by id response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping("/user-selling")
     public ResponseEntity<List<BasicProduct>> getProductById(){
         List<BasicProduct> products = productService.getBasicProductsByUser();
         return ResponseEntity.ok(products);
     }
 
+    /**
+     * Get all basic approved products response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping("/approved/available")
     public ResponseEntity<List<BasicCatalogProduct>> getAllBasicApprovedProducts(){
         List<BasicCatalogProduct> products = productService.getAllBasicApprovedProducts();
         return ResponseEntity.ok( products );
     }
 
+    /**
+     * Gets top selling products.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return the top selling products
+     */
     @GetMapping("/top/selling")
     public ResponseEntity<List<MoreSellingProduct>> getTopSellingProducts(
             @RequestParam(required = false) String startDate,
@@ -60,12 +91,23 @@ public class ProductController {
         return ResponseEntity.ok(topSelling);
     }
 
+    /**
+     * Get no approve response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping("/no-approve/revised")
     public ResponseEntity<List<BasicProduct>> getNoApprove(){
         List<BasicProduct> products = productService.findNoApproveAndRevised();
         return ResponseEntity.ok(products);
     }
 
+    /**
+     * Create response entity.
+     *
+     * @param productRequest the product request
+     * @return the response entity
+     */
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<?> create(
             @ModelAttribute ProductRequest productRequest
@@ -90,6 +132,12 @@ public class ProductController {
         }
     }
 
+    /**
+     * Approve product response entity.
+     *
+     * @param approveProductRequest the approve product request
+     * @return the response entity
+     */
     @PatchMapping("/approve")
     public ResponseEntity<?> approveProduct(
             @RequestBody ApproveProductRequest approveProductRequest
@@ -98,6 +146,12 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Update product response entity.
+     *
+     * @param productRequest the product request
+     * @return the response entity
+     */
     @PutMapping(
             value = "/update",
             consumes = {"multipart/form-data"}

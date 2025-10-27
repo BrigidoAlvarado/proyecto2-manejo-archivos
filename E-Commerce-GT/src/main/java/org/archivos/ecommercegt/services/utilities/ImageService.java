@@ -13,14 +13,23 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The type Image service.
+ */
 @Data
 @Service
 public class ImageService {
 
+    /**
+     * The constant IMAGE_PATH.
+     */
     public static final String IMAGE_PATH = "images-server";
 
     private String safeFileName;
 
+    /**
+     * Instantiates a new Image service.
+     */
     public ImageService() {
         File dir = new File(IMAGE_PATH);
         if (!dir.exists()) {
@@ -31,6 +40,12 @@ public class ImageService {
         }
     }
 
+    /**
+     * Gets image url.
+     *
+     * @param file the file
+     * @return the image url
+     */
     public String getImageUrl(MultipartFile file) {
             safeFileName = null;
             if (file.isEmpty()) {
@@ -41,6 +56,11 @@ public class ImageService {
             return IMAGE_PATH + File.separator + safeFileName;
     }
 
+    /**
+     * Save image.
+     *
+     * @param file the file
+     */
     public void saveImage(MultipartFile file) {
         try{
             Path destinationPath = Paths.get(IMAGE_PATH).resolve(safeFileName).normalize().toAbsolutePath();
@@ -50,6 +70,12 @@ public class ImageService {
         }
     }
 
+    /**
+     * Get image byte [ ].
+     *
+     * @param relativePath the relative path
+     * @return the byte [ ]
+     */
     public byte[] getImage(String relativePath) {
         try {
             Path imagePath = Paths.get(relativePath).normalize().toAbsolutePath();
@@ -65,10 +91,21 @@ public class ImageService {
         }
     }
 
+    /**
+     * Gets base 64 image.
+     *
+     * @param relativePath the relative path
+     * @return the base 64 image
+     */
     public String getBase64Image(String relativePath) {
         return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString( getImage(relativePath) );
     }
 
+    /**
+     * Delete image.
+     *
+     * @param relativePath the relative path
+     */
     public void deleteImage(String relativePath) {
         try {
             // Construye la ruta absoluta normalizada
@@ -87,6 +124,11 @@ public class ImageService {
         }
     }
 
+    /**
+     * Validate image.
+     *
+     * @param imageFile the image file
+     */
     public void validateImage(MultipartFile imageFile) {
         if (imageFile == null || imageFile.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se pudo guardar la imagen o no se encontró");

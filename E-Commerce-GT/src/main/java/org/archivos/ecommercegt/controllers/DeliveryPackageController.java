@@ -11,6 +11,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Delivery package controller.
+ */
 @RestController
 @RequestMapping( ApplicationConfig.BASE_URL + "/delivery-package")
 @RequiredArgsConstructor
@@ -18,18 +21,34 @@ public class DeliveryPackageController {
 
     private final DeliveryPackageService deliveryPackageService;
 
+    /**
+     * Get packages in process response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping
     public ResponseEntity<List<DeliveryPackageResponse>> getPackagesInProcess(){
         List<DeliveryPackageResponse> deliveryPackageResponseList = deliveryPackageService.getAllDeliveryPackagesInProcess();
         return ResponseEntity.ok(deliveryPackageResponseList);
     }
 
+    /**
+     * Get no revised response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping("/no-revised")
     public ResponseEntity< List< DeliveryPackageResponse > > getNoRevised(){
         List<DeliveryPackageResponse>  deliveryPackageResponseList = deliveryPackageService.getAllDeliveryPackagesNoRevised();
         return ResponseEntity.ok(deliveryPackageResponseList);
     }
 
+    /**
+     * Deliver package response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @PatchMapping("/deliver/{id}")
     public ResponseEntity<List<DeliveryPackageResponse>> deliverPackage(
             @PathVariable int id
@@ -38,6 +57,12 @@ public class DeliveryPackageController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Patch revised response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @PatchMapping("/revised/{id}")
     ResponseEntity<?> patchRevised(
             @PathVariable int id
@@ -46,6 +71,13 @@ public class DeliveryPackageController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Patch date response entity.
+     *
+     * @param id   the id
+     * @param date the date
+     * @return the response entity
+     */
     @PatchMapping("/date/{id}")
     ResponseEntity<List<DeliveryPackageResponse>> patchDate(
             @PathVariable int id,

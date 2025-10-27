@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+/**
+ * The type Roletype.
+ */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

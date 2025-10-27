@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * The type Product category service.
+ */
 @Service
 @RequiredArgsConstructor
 public class ProductCategoryService {
@@ -20,6 +23,13 @@ public class ProductCategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductCategoryRepository productCategoryRepository;
 
+    /**
+     * Save product categories.
+     *
+     * @param categories the categories
+     * @param product    the product
+     * @throws HttpStatusCodeException the http status code exception
+     */
     public void saveProductCategories(List<String> categories, Product product) throws HttpStatusCodeException {
 
         for (String category : categories) {
@@ -27,6 +37,13 @@ public class ProductCategoryService {
         }
     }
 
+    /**
+     * Save product category.
+     *
+     * @param categoryName the category name
+     * @param product      the product
+     * @throws HttpStatusCodeException the http status code exception
+     */
     public void saveProductCategory(String categoryName, Product product) throws HttpStatusCodeException {
 
         Category category = categoryRepository.findById(categoryName)
@@ -43,6 +60,12 @@ public class ProductCategoryService {
         productCategoryRepository.save(productCategory);
     }
 
+    /**
+     * Delete categories in product.
+     *
+     * @param categories the categories
+     * @param productId  the product id
+     */
     public void deleteCategoriesInProduct(List<Category> categories, int productId) {
         for (Category category : categories) {
             productCategoryRepository.deleteProductCategoriesByCategoryAndProductId( category, productId );

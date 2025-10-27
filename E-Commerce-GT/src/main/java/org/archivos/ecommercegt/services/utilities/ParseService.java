@@ -9,9 +9,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Parse service.
+ */
 @Service
 public class ParseService {
 
+    /**
+     * Parse shopping cart response shopping cart response.
+     *
+     * @param cart the cart
+     * @return the shopping cart response
+     */
     public ShoppingCartResponse parseShoppingCartResponse(ShoppingCart cart){
         final List<PurchaseDetailResponse> purchaseDetailResponses = new ArrayList<>();
 

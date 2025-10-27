@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * The type Credit card controller.
+ */
 @RestController
 @RequestMapping(ApplicationConfig.BASE_URL + "/card")
 @RequiredArgsConstructor
@@ -19,6 +22,11 @@ public class CreditCardController {
 
     private final CreditCardService creditCardService;
 
+    /**
+     * Gets all credit cards by user.
+     *
+     * @return the all credit cards by user
+     */
     @GetMapping
     public ResponseEntity<List<CreditCardResponse>> getAllCreditCardsByUser() {
         List<CreditCardResponse> cards =  creditCardService.findAllByUser();

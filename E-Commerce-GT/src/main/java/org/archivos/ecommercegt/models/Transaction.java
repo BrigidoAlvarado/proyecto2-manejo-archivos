@@ -9,6 +9,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
+/**
+ * The type Transaction.
+ */
 @Getter
 @Setter
 @Entity

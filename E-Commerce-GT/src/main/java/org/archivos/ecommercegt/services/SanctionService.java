@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Sanction service.
+ */
 @Service
 @RequiredArgsConstructor
 public class SanctionService {
@@ -27,6 +30,11 @@ public class SanctionService {
     private final UserService userService;
     private final ProductService productService;
 
+    /**
+     * Sanction and reject product.
+     *
+     * @param sanctionRequest the sanction request
+     */
     @Transactional
     public void sanctionAndRejectProduct(SanctionProductRequest sanctionRequest) {
 
@@ -42,6 +50,11 @@ public class SanctionService {
         sanctionRepository.save(sanction);
     }
 
+    /**
+     * Sanction delivery package.
+     *
+     * @param request the request
+     */
     @Transactional
     public void sanctionDeliveryPackage(SanctionDeliveryPackageRequest request){
 
@@ -62,6 +75,11 @@ public class SanctionService {
         deliveryPackageService.save(deliveryPackage);
     }
 
+    /**
+     * Validate sanction.
+     *
+     * @param user the user
+     */
     public void validateSanction(User user){
         Optional<Sanction> sanction = sanctionRepository
                 .findByUserAndEndAtGreaterThan(
@@ -76,6 +94,12 @@ public class SanctionService {
         }
     }
 
+    /**
+     * Get sanctions by user id list.
+     *
+     * @param userId the user id
+     * @return the list
+     */
     public List<SanctionResponse> getSanctionsByUserId(int userId){
         final List<Sanction> sanctions = sanctionRepository.findByUserId( userId );
         final List<SanctionResponse> sanctionsResponse = new ArrayList<>();

@@ -7,6 +7,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
+/**
+ * The type Product.
+ */
 @Getter
 @Setter
 @Entity

@@ -13,10 +13,27 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The interface User repository.
+ */
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    /**
+     * Find by email optional.
+     *
+     * @param email the email
+     * @return the optional
+     */
     Optional<User> findByEmail(String email);
 
+    /**
+     * Find user by top spent list.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param pageable  the pageable
+     * @return the list
+     */
     @Query("""
            select new org.archivos.ecommercegt.dto.user.UserEarning(
                       wll.user.name,
@@ -32,6 +49,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
            """)
     List<UserEarning> findUserByTopSpent(Instant startDate, Instant endDate, Pageable pageable);
 
+    /**
+     * Find user by products send list.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param pageable  the pageable
+     * @return the list
+     */
     @Query("""
     select new org.archivos.ecommercegt.dto.user.UserProductsSend(
         prod.user.id,
@@ -50,6 +75,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     """)
     List<UserProductsSend> findUserByProductsSend(Instant startDate, Instant endDate, Pageable pageable);
 
+    /**
+     * Find user by packages ordered list.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param pageable  the pageable
+     * @return the list
+     */
     @Query("""
     select new org.archivos.ecommercegt.dto.user.UserPackagesOrdered(
         crt.user.id,
@@ -66,6 +99,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     """)
     List<UserPackagesOrdered> findUserByPackagesOrdered(Instant startDate, Instant endDate, Pageable pageable);
 
+    /**
+     * Find users by a proved products list.
+     *
+     * @param pageable the pageable
+     * @return the list
+     */
     @Query("""
     select new org.archivos.ecommercegt.dto.user.UserProductsApprove(
         u.id,

@@ -6,6 +6,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Mail service.
+ */
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -13,6 +16,13 @@ public class MailService {
     @Autowired
     private final JavaMailSender mailSender;
 
+    /**
+     * Send mail.
+     *
+     * @param to      the to
+     * @param subject the subject
+     * @param text    the text
+     */
     public void sendMail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
