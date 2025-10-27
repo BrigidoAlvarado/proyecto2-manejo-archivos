@@ -26,7 +26,8 @@ public class Cors {
                         .allowedOrigins(
                                 "http://localhost:4200",
                                 "https://manejoarchivosecommercegt.netlify.app",
-                                "https://*.ngrok-free.dev"/*,
+                                "https://*.ngrok-free.dev"
+                                /*,
                                 "https://jade-flinty-dayton.ngrok-free.dev"*/
                                 )
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
