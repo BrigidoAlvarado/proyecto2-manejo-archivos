@@ -7,33 +7,31 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * The type Cors.
+ * Configuración CORS para Spring Boot compatible con Angular + ngrok.
  */
 @Configuration
 public class Cors {
 
-    /**
-     * Cors configurer web mvc configurer.
-     *
-     * @return the web mvc configurer
-     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
+                        // Permite localhost, Netlify y cualquier subdominio de ngrok-free.dev
+                        .allowedOriginPatterns(
                                 "http://localhost:4200",
                                 "https://manejoarchivosecommercegt.netlify.app",
-                                "https://*.ngrok-free.dev"
-                                /*,
-                                "https://jade-flinty-dayton.ngrok-free.dev"*/
-                                )
+                                "https://jade-flinty-dayton.ngrok-free.dev"
+                        )
+                        // Métodos HTTP permitidos
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
+                        // Permite cualquier encabezado, incluyendo Authorization
+                        .allowedHeaders("Authorization", "Content-Type", "Accept")
+                        // Permite enviar cookies y credenciales
                         .allowCredentials(true)
-                        /*.exposedHeaders("Authorization", "Content-Disposition")*/;
+                        // Exponer encabezados importantes si es necesario (opcional)
+                        .exposedHeaders("Authorization", "Content-Disposition");
             }
         };
     }
