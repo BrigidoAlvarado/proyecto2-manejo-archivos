@@ -2,8 +2,10 @@ package org.archivos.ecommercegt.services;
 
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.dto.deliveryPackage.DeliveryPackageResponse;
+import org.archivos.ecommercegt.dto.shoppingCart.ShoppingCartResponse;
 import org.archivos.ecommercegt.models.DeliveryPackage;
 import org.archivos.ecommercegt.models.ShoppingCart;
+import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.repository.DeliveryPackageRepository;
 import org.archivos.ecommercegt.services.utilities.ParseService;
 import org.springframework.http.HttpStatus;
@@ -167,5 +169,47 @@ public class DeliveryPackageService {
         }catch(DateTimeException e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format");
         }
+    }
+
+    /**
+     * Get all by user list.
+     *
+     * @param user the user
+     * @return the list
+     */
+    public List<DeliveryPackageResponse> getAllByUser(User user){
+        final List<DeliveryPackage> packages = deliveryPackageRepository.findByShoppingCartUser( user );
+        final List<DeliveryPackageResponse>  deliveryPackagesResponse = new ArrayList<>();
+
+        for(DeliveryPackage deliveryPackage : packages){
+            deliveryPackagesResponse.add(
+              DeliveryPackageResponse.builder()
+                      .id( deliveryPackage.getId() )
+                      .shoppingCart( shoppingCartTools.parseShoppingCartResponse( deliveryPackage.getShoppingCart()) )
+                      .deliverAt( deliveryPackage.getDeliverAt() )
+                      .userEmail( user.getEmail() )
+                      .userName( user.getName() )
+                      .deliveryDate( deliveryPackage.getDeliveryDate() )
+                      .departureDate( deliveryPackage.getDepartureDate() )
+                      .isDelivered( deliveryPackage.getIsDelivered() ).build()
+            );
+        }
+        return deliveryPackagesResponse;
+    }
+
+    /**
+     * Get package details shopping cart response.
+     *
+     * @param packageId the package id
+     * @return the shopping cart response
+     */
+    public ShoppingCartResponse getPackageDetails(int packageId){
+        final DeliveryPackage deliveryPackage = deliveryPackageRepository.findById(packageId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery package not found")
+                );
+
+        final ShoppingCart shoppingCart = deliveryPackage.getShoppingCart();
+        return shoppingCartTools.parseShoppingCartResponse( deliveryPackage.getShoppingCart() );
     }
 }

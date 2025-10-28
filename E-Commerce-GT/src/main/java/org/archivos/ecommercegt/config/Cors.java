@@ -12,6 +12,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class Cors {
 
+    /**
+     * Cors configurer web mvc configurer.
+     *
+     * @return the web mvc configurer
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -21,7 +26,8 @@ public class Cors {
                         .allowedOriginPatterns(
                                 "http://localhost:4200",
                                 "https://manejoarchivosecommercegt.netlify.app",
-                                "https://jade-flinty-dayton.ngrok-free.dev"
+                                "https://jade-flinty-dayton.ngrok-free.dev",
+                                "https://prismatic-frangipane-c2bb28.netlify.app"
                         )
                         // Métodos HTTP permitidos
                         .allowedMethods("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")

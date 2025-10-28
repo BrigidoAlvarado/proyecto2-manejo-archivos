@@ -5,8 +5,10 @@ import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.card.PayCardRequest;
 import org.archivos.ecommercegt.dto.shoppingCart.ShoppingCartResponse;
 import org.archivos.ecommercegt.services.ShoppingCartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * The type Shopping cart controller.
@@ -39,8 +41,13 @@ public class ShoppingCartController {
     public ResponseEntity<ShoppingCartResponse> getShoppingCartById(
             @PathVariable Integer id
     ) {
-        ShoppingCartResponse shoppingCartResponse = shoppingCartService.getShoppingCartResponseById(id);
-        return ResponseEntity.ok(shoppingCartResponse);
+        try{
+            ShoppingCartResponse shoppingCartResponse = shoppingCartService.getShoppingCartResponseById(id);
+            return ResponseEntity.ok(shoppingCartResponse);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

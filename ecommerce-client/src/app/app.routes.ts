@@ -39,6 +39,9 @@ import {
 import {UpdateProductComponent} from "./components/product/update-product/update-product.component";
 import {RoleGuardService} from "./services/role-guard/role-guard.service";
 import {AppConfig} from "./config/app.constants";
+import {
+  DeliveryPackagesByUserComponent
+} from "./components/delivery-package/delivery-packages-by-user/delivery-packages-by-user.component";
 
 export const routes: Routes = [
   {
@@ -198,6 +201,12 @@ export const routes: Routes = [
   {
     path: 'product/selling',
     component: ProductsCommonSellingComponent,
+    canActivate: [ RoleGuardService ],
+    data: { roles: [AppConfig.ROLES.COMMON ]}
+  },
+  {
+    path: 'delivery-package/user',
+    component: DeliveryPackagesByUserComponent,
     canActivate: [ RoleGuardService ],
     data: { roles: [AppConfig.ROLES.COMMON ]}
   },

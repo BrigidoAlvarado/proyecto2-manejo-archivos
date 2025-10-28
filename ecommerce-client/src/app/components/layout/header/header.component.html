@@ -24,7 +24,7 @@
               Reporte de Usuarios Comun
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" routerLink="user/top/earning">Top 10 con mas ganancias</a></li>
+              <li><a class="dropdown-item" routerLink="user/top/earning">Top 5 con mas ganancias</a></li>
               <li><a class="dropdown-item" routerLink="user/top/products-send">Top 5 con mas productos vendidos</a></li>
               <li><a class="dropdown-item" routerLink="user/top/packages-ordered">Top 10 con mas paquetes pedidos</a></li>
               <li><a class="dropdown-item" routerLink="user/top/products-approve">Top 10 con mas productos en catalogo</a></li>
@@ -44,7 +44,7 @@
 
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.COMMON) {
 
-        <li><a href="/common/home" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a routerLink="/common/home" class="nav-link px-2 link-secondary">Tienda</a></li>
         <li>
           <div class="btn-group">
             <button type="button" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,7 +56,7 @@
             </ul>
           </div>
         </li>
-
+        <li><a routerLink="/delivery-package/user" class="nav-link px-2 link-dark">Paquetes</a></li>
       } @else if (auth.decodeToken()?.role === AppConfig.ROLES.MODERATOR){
 
         <li><a routerLink="moderator/product/approve" class="nav-link px-2 link-secondary">Home</a></li>

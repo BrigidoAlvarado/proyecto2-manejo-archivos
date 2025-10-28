@@ -53,7 +53,6 @@ public class SanctionController {
             sanctionService.sanctionAndRejectProduct(sanctionRequest);
             return ResponseEntity.ok().build();
         }catch(Exception e){
-            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

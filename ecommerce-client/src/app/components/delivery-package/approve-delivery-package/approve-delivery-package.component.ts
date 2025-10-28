@@ -3,12 +3,14 @@ import {DeliveryPackage} from "../../../entities/delivery-package";
 import {DatePipe} from "@angular/common";
 import {DeliveryPackageService} from "../../../services/delivery-package/delivery-package.service";
 import {MessageService} from "../../../services/message.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-approve-delivery-package',
   standalone: true,
   imports: [
-    DatePipe
+    DatePipe,
+    RouterLink
   ],
   templateUrl: './approve-delivery-package.component.html',
   styleUrl: './approve-delivery-package.component.scss'

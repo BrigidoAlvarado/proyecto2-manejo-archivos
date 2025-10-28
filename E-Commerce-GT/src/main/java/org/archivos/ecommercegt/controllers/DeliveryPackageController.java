@@ -3,7 +3,10 @@ package org.archivos.ecommercegt.controllers;
 import lombok.RequiredArgsConstructor;
 import org.archivos.ecommercegt.config.ApplicationConfig;
 import org.archivos.ecommercegt.dto.deliveryPackage.DeliveryPackageResponse;
+import org.archivos.ecommercegt.dto.shoppingCart.ShoppingCartResponse;
+import org.archivos.ecommercegt.models.User;
 import org.archivos.ecommercegt.services.DeliveryPackageService;
+import org.archivos.ecommercegt.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,7 @@ import java.util.List;
 public class DeliveryPackageController {
 
     private final DeliveryPackageService deliveryPackageService;
+    private final UserService userService;
 
     /**
      * Get packages in process response entity.
@@ -33,6 +37,20 @@ public class DeliveryPackageController {
     }
 
     /**
+     * Get package by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ShoppingCartResponse> getPackageById(
+            @PathVariable int id
+    ){
+        final ShoppingCartResponse shoppingCartResponse = deliveryPackageService.getPackageDetails(id);
+        return ResponseEntity.ok(shoppingCartResponse);
+    }
+
+    /**
      * Get no revised response entity.
      *
      * @return the response entity
@@ -41,6 +59,18 @@ public class DeliveryPackageController {
     public ResponseEntity< List< DeliveryPackageResponse > > getNoRevised(){
         List<DeliveryPackageResponse>  deliveryPackageResponseList = deliveryPackageService.getAllDeliveryPackagesNoRevised();
         return ResponseEntity.ok(deliveryPackageResponseList);
+    }
+
+    /**
+     * Get user response entity.
+     *
+     * @return the response entity
+     */
+    @GetMapping("/user")
+    public ResponseEntity<List<DeliveryPackageResponse>> getUser(){
+        User user = userService.getUser();
+        List<DeliveryPackageResponse> deliveryPackageResponses = deliveryPackageService.getAllByUser(user);
+        return ResponseEntity.ok(deliveryPackageResponses);
     }
 
     /**

@@ -1,3 +1,5 @@
+begin;
+
 insert into role (name)
 values ('ADMIN'),
        ('MODERATOR'),
@@ -870,3 +872,5 @@ SELECT setval(
                COALESCE((SELECT MAX(id) FROM product), 1),
                TRUE
        );
+
+commit ;

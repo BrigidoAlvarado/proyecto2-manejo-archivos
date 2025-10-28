@@ -85,4 +85,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
      * @return the list
      */
     List<Product> findByUser(User user);
+
+    /**
+     * Find by is revised false list.
+     *
+     * @return the list
+     */
+    List<Product> findByIsRevisedFalse();
 }

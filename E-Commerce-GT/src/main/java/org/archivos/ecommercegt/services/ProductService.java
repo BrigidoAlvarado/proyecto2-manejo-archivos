@@ -126,7 +126,22 @@ public class ProductService {
      * @return the list
      */
     public List<BasicProduct> findAllNoApproved() {
-        return productRepository.findAllNoApproved();
+        final List<Product> products = productRepository.findByIsRevisedFalse();
+        final List<BasicProduct> basicProducts = new ArrayList<>();
+
+        for (Product product : products) {
+            if ( ! product.isApproved() ){
+                basicProducts.add(
+                        BasicProduct.builder()
+                                .name( product.getName() )
+                                .id( product.getId() )
+                                .isApproved( product.isApproved() )
+                                .user( product.getUser().getEmail() )
+                                .build()
+                );
+            }
+        }
+        return basicProducts;
     }
 
     /**
